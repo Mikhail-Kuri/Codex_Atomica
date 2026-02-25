@@ -8,6 +8,10 @@ public class Guard extends DefensiveSkill {
         super("Guard");
     }
 
+    public Guard(String name) {
+        super(name);
+    }
+
     @Override
     public int reduceDamage(int rawDamage, Character owner) {
         int effectiveVigor = owner.getAttributes().vigor * 2; // Bonus de 5 points

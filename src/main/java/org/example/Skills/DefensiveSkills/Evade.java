@@ -6,7 +6,11 @@ public class Evade extends DefensiveSkill {
     private Random random = new Random();
 
     public Evade() {
-        super("Esquive Réflexe");
+        super("Esquive");
+    }
+
+    public Evade (String name) {
+        super(name);
     }
 
     @Override

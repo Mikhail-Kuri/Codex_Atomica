@@ -5,7 +5,6 @@ import org.example.Skills.DefensiveSkills.Counter;
 import org.example.Skills.OffensiveSkills.BasicAttack;
 import org.example.Skills.DefensiveSkills.DefensiveSkill;
 import org.example.Weapons.Weapon;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -74,11 +73,9 @@ public class Character {
         if (this.isDefending && currentDefense != null) {
             finalDamage = currentDefense.reduceDamage(amount, this);
 
-            // SI C'EST UN CONTRE, ON FRAPPE L'ATTAQUANT
             if (currentDefense instanceof Counter && attacker != null) {
-                // On calcule ici les dégâts de retour (par exemple 50% de Resonance)
                 int reflect = (int)(this.stats.resonance * 10);
-                attacker.takeDamage(reflect, null); // L'attaquant subit le contre
+                attacker.takeDamage(reflect, this);
             }
 
             this.isDefending = false;
