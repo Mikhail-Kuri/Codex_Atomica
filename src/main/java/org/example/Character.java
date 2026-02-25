@@ -1,36 +1,57 @@
 package org.example;
 
-import org.example.Attributes;
 import org.example.Skills.Action;
-import org.example.Skills.BasicAttack;
+import org.example.Skills.OffensiveSkills.BasicAttack;
+import org.example.Skills.DefensiveSkills.DefensiveSkill;
+import org.example.Weapons.Weapon;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
 public class Character {
-    private final String name;
-    private Attributes attributes;
+    private String name;
     private int currentHP;
-    private List<Action> actions;
+    private Attributes stats;
+    private Weapon equippedWeapon;
+    private List<Action> offensiveActions = new ArrayList<>();
+    private DefensiveSkill currentDefense;
+    private boolean isDefending = false;
 
-    public Character(String name, Attributes attributes, int currentHP, List<Action> actions) {
+    public Character(String name, Attributes stats, Weapon startingWeapon) {
         this.name = name;
-        this.attributes = attributes;
-        this.currentHP = currentHP;
-        this.actions = actions;
+        this.stats = stats;
+        this.currentHP = stats.vitality;
+        this.equippedWeapon = startingWeapon;
+        this.offensiveActions.add(new BasicAttack());
     }
 
-    public Character(String arthur, Attributes statsHeros) {
-        this.name = arthur;
-        this.attributes = statsHeros;
-        this.currentHP = statsHeros.vitality;
-        this.actions = new java.util.ArrayList<>();
+    public Character(String name, Attributes stats, DefensiveSkill defensiveSkill) {
+        this.name = name;
+        this.stats = stats;
+        this.currentHP = stats.vitality;
+        this.currentDefense = defensiveSkill;
+        this.equippedWeapon = null;
+        this.offensiveActions.add(new BasicAttack());
+    }
+
+
+
+    public void setWeapon(Weapon newWeapon) {
+        this.equippedWeapon = newWeapon;
+    }
+
+    public Weapon getEquippedWeapon() { return equippedWeapon; }
+
+    public void prepareDefense() {
+        this.isDefending = true;
+        System.out.println(this.name + " se prépare avec : " + this.currentDefense.getName());
     }
 
 
     public void performAction(int actionIndex, Character target) {
-        if (actionIndex >= 0 && actionIndex < actions.size()) {
-            Action selectedAction = actions.get(actionIndex);
+        if (actionIndex >= 0 && actionIndex < offensiveActions.size()) {
+            Action selectedAction = offensiveActions.get(actionIndex);
 
             selectedAction.execute(this, target);
         } else {
@@ -39,16 +60,24 @@ public class Character {
     }
 
     public void takeDamage(int amount) {
-        this.currentHP -= amount;
-        if (this.currentHP < 0) this.currentHP = 0;
-        System.out.println("HP restant : de "+this.name +  " :" + this.currentHP );
+        int finalDamage = amount;
+
+        if (this.isDefending && currentDefense != null) {
+            finalDamage = currentDefense.reduceDamage(amount, this);
+            this.isDefending = false; // On consomme la défense
+        } else {
+            finalDamage = Math.max(0, amount - this.stats.vigor);
+        }
+
+        this.currentHP -= finalDamage;
+        System.out.println(this.name + " reçoit " + finalDamage + " dégâts. HP: " + this.currentHP);
     }
 
-    public Attributes getAttributes() { return attributes; }
+    public Attributes getAttributes() { return stats; }
     public String getName() { return name; }
     public int getCurrentHP() { return currentHP; }
 
-    public Collection<Action> getActions() {
-        return actions;
+    public Collection<Action> getOffensiveActions() {
+        return offensiveActions;
     }
 }

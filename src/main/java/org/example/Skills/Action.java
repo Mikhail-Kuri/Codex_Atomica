@@ -16,5 +16,9 @@ public abstract class Action {
 
     }
 
+    public Action(String attaqueDeBase) {
+
+    }
+
     public abstract void execute(org.example.Character attacker, Character target);
 }
