@@ -1,6 +1,7 @@
 package org.example;
 
 import org.example.Skills.Action;
+import org.example.Skills.DefensiveSkills.Counter;
 import org.example.Skills.OffensiveSkills.BasicAttack;
 import org.example.Skills.DefensiveSkills.DefensiveSkill;
 import org.example.Weapons.Weapon;
@@ -35,6 +36,14 @@ public class Character {
         this.offensiveActions.add(new BasicAttack());
     }
 
+    public Character(String name, Attributes mStats, Weapon weapon, DefensiveSkill defensiveSkill) {
+        this.name = name;
+        this.stats = mStats;
+        this.currentHP = mStats.vitality;
+        this.equippedWeapon = weapon;
+        this.currentDefense = defensiveSkill;
+        this.offensiveActions.add(new BasicAttack());
+    }
 
 
     public void setWeapon(Weapon newWeapon) {
@@ -59,12 +68,20 @@ public class Character {
         }
     }
 
-    public void takeDamage(int amount) {
-        int finalDamage = amount;
+    public void takeDamage(int amount, Character attacker) {
+        int finalDamage;
 
         if (this.isDefending && currentDefense != null) {
             finalDamage = currentDefense.reduceDamage(amount, this);
-            this.isDefending = false; // On consomme la défense
+
+            // SI C'EST UN CONTRE, ON FRAPPE L'ATTAQUANT
+            if (currentDefense instanceof Counter && attacker != null) {
+                // On calcule ici les dégâts de retour (par exemple 50% de Resonance)
+                int reflect = (int)(this.stats.resonance * 10);
+                attacker.takeDamage(reflect, null); // L'attaquant subit le contre
+            }
+
+            this.isDefending = false;
         } else {
             finalDamage = Math.max(0, amount - this.stats.vigor);
         }

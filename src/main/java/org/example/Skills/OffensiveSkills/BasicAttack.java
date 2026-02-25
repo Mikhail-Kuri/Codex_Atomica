@@ -18,7 +18,7 @@ public class BasicAttack extends Action {
 
         System.out.println(attacker.getName() + " utilise " + w.getName() + " (" + w.getDamageType() + ")");
         System.out.println("Dégâts : " + finalDamage + " sur " + target.getName());
-        target.takeDamage(finalDamage);
+        target.takeDamage(finalDamage,attacker);
     }
 }
 

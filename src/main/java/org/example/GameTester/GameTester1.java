@@ -1,6 +1,7 @@
 package org.example.GameTester;
 
 import org.example.Attributes;
+import org.example.Skills.DefensiveSkills.Counter;
 import org.example.Skills.DefensiveSkills.Evade;
 import org.example.Skills.DefensiveSkills.Guard;
 import org.example.Weapons.Weapon;
@@ -54,13 +55,45 @@ public class GameTester1 {
         Attributes scoutStats = new Attributes(80, 4, 15, 5, 8, 1.0f, 10, 0);
         Character scout = new Character("Éclaireur Mutant", scoutStats, new Evade());
 
+        Attributes eStats = new Attributes(50, 2, 2, 2, 2, 2, 0, 0);
+        Weapon sword = new Weapon("Épée en Fer-Rouille", 15, "Slashing");
+        Character enemy = new Character("Gnoll Irradié", eStats, sword);
+
         System.out.println("--- Tentative d'esquive contre une attaque de 40 ---");
         scout.prepareDefense();
-        scout.takeDamage(40);
+
+        enemy.performAction(0, scout);
         System.out.println("========== END OF TEST ==========\n");
     }
 
-    public static void runTestSurvieRadiation() {
+    public static void runTestCounter1() {
+        System.out.println("========== RUNNING: TEST COUNTER (RIPOSTE) ==========");
+
+        Weapon shockGlove = new Weapon("Gant de Choc", 20, "Electric");
+        Weapon basicSword = new Weapon("Épée en Fer-Rouille", 15, "Slashing");
+
+        // 1. Setup du vengeur (Haute Résonance pour un contre puissant)
+        Attributes mStats = new Attributes(100, 5, 8, 10, 10, 2.0f, 5, 0);
+        Character mutant = new Character("Mutant Électrique", mStats,basicSword, new Counter());
+
+        // 2. Setup de l'agresseur (Le Gnoll qui va regretter d'avoir frappé)
+        Attributes gStats = new Attributes(50, 2, 5, 2, 2, 1.0f, 0, 0);
+        Character gnoll = new Character("Gnoll Cobaye", gStats, shockGlove);
+
+        System.out.println("Le Gnoll attaque le Mutant !");
+        int forceDuCoup = 25;
+
+        // --- SCÉNARIO : Le Mutant prépare son contre ---
+        mutant.prepareDefense();
+
+        // Le Gnoll inflige 25, mais le Mutant a le Counter activé
+        gnoll.performAction(0, mutant);
+
+        System.out.println("\nÉtat final après l'échange :");
+        System.out.println(mutant.getName() + " HP : " + mutant.getCurrentHP());
+        System.out.println(gnoll.getName() + " HP : " + gnoll.getCurrentHP());
+
+        System.out.println("========== FIN DU TEST COUNTER ==========\n");
     }
 
 
