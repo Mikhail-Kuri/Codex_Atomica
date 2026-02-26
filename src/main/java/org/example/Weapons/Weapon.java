@@ -1,17 +1,29 @@
 package org.example.Weapons;
 
-public class Weapon {
-    private String name;
-    private int power;
-    private String damageType; // "Slashing", "Crushing", "Radioactive"
+public abstract class Weapon {
 
-    public Weapon(String name, int power, String damageType) {
+    protected String name;
+    protected int basePower;
+    protected DamageType damageType;
+
+    public Weapon(String name, int basePower, DamageType damageType) {
         this.name = name;
-        this.power = power;
+        this.basePower = basePower;
         this.damageType = damageType;
     }
 
-    public int getPower() { return power; }
-    public String getDamageType() { return damageType; }
-    public String getName() { return name; }
+    public String getName() {
+        return name;
+    }
+
+    public DamageType getDamageType() {
+        return damageType;
+    }
+
+    public int getBasePower() {
+        return basePower;
+    }
+
+    // Chaque type d'arme calcule ses dégâts différemment
+    public abstract int calculateDamage();
 }

@@ -4,6 +4,9 @@ import org.example.Attributes;
 import org.example.Skills.DefensiveSkills.Counter;
 import org.example.Skills.DefensiveSkills.Evade;
 import org.example.Skills.DefensiveSkills.Guard;
+import org.example.Weapons.DamageType;
+import org.example.Weapons.MeleeWeapon;
+import org.example.Weapons.RangedWeapon;
 import org.example.Weapons.Weapon;
 import org.example.Character;
 
@@ -15,8 +18,8 @@ public class GameTester1 {
         Attributes pStats = new Attributes(100, 10, 5, 5, 10, 1.5f, 0, 0);
         Attributes eStats = new Attributes(50, 2, 2, 2, 2, 1, 0, 0);
 
-        Weapon sword = new Weapon("Épée en Fer-Rouille", 15, "Slashing");
-        Weapon plasmaRifle = new Weapon("Fusil à Plasma", 40, "Radioactive");
+        Weapon sword = new MeleeWeapon("Épée en Fer-Rouille", 15, DamageType.SLASHING, 100);
+        Weapon plasmaRifle = new RangedWeapon("Fusil à Plasma", 40, DamageType.ENERGY,10);
 
         Character paladin = new Character("Paladin du Noyau", pStats, sword);
         Character enemy = new Character("Gnoll Irradié", eStats, sword);
@@ -35,7 +38,7 @@ public class GameTester1 {
         System.out.println("========== RUNNING: TEST Guard ==========");
         Attributes pStats = new Attributes(100, 2, 5, 5, 10, 1.5f, 0, 0);
         Attributes eStats = new Attributes(50, 2, 2, 2, 2, 2, 0, 0);
-        Weapon sword = new Weapon("Épée en Fer-Rouille", 15, "Slashing");
+        Weapon sword = new MeleeWeapon("Épée en Fer-Rouille", 15, DamageType.SLASHING, 100);
 
         Character paladin = new Character("Paladin du Noyau", pStats, new Guard());
         Character enemy = new Character("Gnoll Irradié", eStats, sword);
@@ -56,7 +59,7 @@ public class GameTester1 {
         Character scout = new Character("Éclaireur Mutant", scoutStats, new Evade());
 
         Attributes eStats = new Attributes(50, 2, 2, 2, 2, 2, 0, 0);
-        Weapon sword = new Weapon("Épée en Fer-Rouille", 15, "Slashing");
+        Weapon sword = new MeleeWeapon("Épée en Fer-Rouille", 15, DamageType.SLASHING, 100);
         Character enemy = new Character("Gnoll Irradié", eStats, sword);
 
         System.out.println("--- Tentative d'esquive contre une attaque de 40 ---");
@@ -69,16 +72,16 @@ public class GameTester1 {
     public static void runTestCounter1() {
         System.out.println("========== RUNNING: TEST COUNTER (RIPOSTE) ==========");
 
-        Weapon shockGlove = new Weapon("Gant de Choc", 20, "Electric");
-        Weapon basicSword = new Weapon("Épée en Fer-Rouille", 15, "Slashing");
+        Weapon sword = new MeleeWeapon("Épée en Fer-Rouille", 15, DamageType.SLASHING, 100);
+        Weapon sword2 = new MeleeWeapon("Épée en Fer-Rouille", 15, DamageType.SLASHING, 100);
 
         // 1. Setup du vengeur (Haute Résonance pour un contre puissant)
         Attributes mStats = new Attributes(100, 5, 8, 10, 10, 2.0f, 5, 0);
-        Character mutant = new Character("Mutant Électrique", mStats,basicSword, new Counter());
+        Character mutant = new Character("Mutant Électrique", mStats,sword, new Counter());
 
         // 2. Setup de l'agresseur (Le Gnoll qui va regretter d'avoir frappé)
         Attributes gStats = new Attributes(50, 2, 5, 2, 2, 1.0f, 0, 0);
-        Character gnoll = new Character("Gnoll Cobaye", gStats, shockGlove);
+        Character gnoll = new Character("Gnoll Cobaye", gStats, sword2);
 
         System.out.println("Le Gnoll attaque le Mutant !");
         int forceDuCoup = 25;

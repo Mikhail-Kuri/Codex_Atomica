@@ -13,7 +13,7 @@ public class BasicAttack extends Action {
     public void execute(Character attacker, Character target) {
         Weapon w = attacker.getEquippedWeapon();
 
-        float rawPower = w.getPower() * attacker.getAttributes().resonance;
+        float rawPower = w.getBasePower() * attacker.getAttributes().resonance;
         int finalDamage = Math.max(0, (int)rawPower - target.getAttributes().vigor);
 
         System.out.println(attacker.getName() + " utilise " + w.getName() + " (" + w.getDamageType() + ")");
