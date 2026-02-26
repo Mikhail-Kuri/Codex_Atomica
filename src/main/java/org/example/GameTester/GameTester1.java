@@ -99,5 +99,27 @@ public class GameTester1 {
         System.out.println("========== FIN DU TEST COUNTER ==========\n");
     }
 
+    public static void runTestMortality() {
+        System.out.println("========== RUNNING: TEST MORTALITY ==========");
+
+        Attributes stats = new Attributes(20, 0, 0, 0, 0, 1, 0, 0); // Très peu de PV
+
+        Weapon sword = new MeleeWeapon("Épée en Fer-Rouille", 25, DamageType.SLASHING, 100);
+
+        Character fragile = new Character("Fragile", stats, null, null);
+        Character bourreau = new Character("Bourreau", stats, sword, null);
+
+        System.out.println("1. Attaque fatale :");
+        bourreau.performAction(0, fragile); // Imaginons que ça fait 25 dégâts
+
+        System.out.println("\n2. Tentative d'attaque sur un mort :");
+        bourreau.performAction(0, fragile);
+
+        System.out.println("\n3. Tentative d'action par un mort :");
+        fragile.performAction(0, bourreau);
+
+        System.out.println("========== END OF TEST ==========\n");
+    }
+
 
 }

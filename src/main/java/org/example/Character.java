@@ -17,6 +17,7 @@ public class Character {
     private List<Action> offensiveActions = new ArrayList<>();
     private DefensiveSkill currentDefense;
     private boolean isDefending = false;
+    private boolean isAlive = true;
 
     public Character(String name, Attributes stats, Weapon startingWeapon) {
         this.name = name;
@@ -58,6 +59,16 @@ public class Character {
 
 
     public void performAction(int actionIndex, Character target) {
+        if (!this.isAlive) {
+            System.out.println("❌ " + this.name + " ne peut pas agir car il est mort.");
+            return;
+        }
+
+        if (target != null && !target.isAlive()) {
+            System.out.println("❌ " + this.name + " essaie d'attaquer un cadavre (" + target.getName() + ").");
+            return;
+        }
+
         if (actionIndex >= 0 && actionIndex < offensiveActions.size()) {
             Action selectedAction = offensiveActions.get(actionIndex);
 
@@ -68,6 +79,11 @@ public class Character {
     }
 
     public void takeDamage(int amount, Character attacker) {
+        if (!isAlive) {
+            System.out.println(this.name + " est déjà hors de combat !");
+            return;
+        }
+
         int finalDamage;
 
         if (this.isDefending && currentDefense != null) {
@@ -84,12 +100,21 @@ public class Character {
         }
 
         this.currentHP -= finalDamage;
-        System.out.println(this.name + " reçoit " + finalDamage + " dégâts. HP: " + this.currentHP);
+        if (this.currentHP <= 0) {
+            this.currentHP = 0;
+            this.isAlive = false;
+            System.out.println("💀 " + this.name + " a succombé à ses blessures !");
+        } else {
+            System.out.println(this.name + " HP restants : " + this.currentHP);
+        }
     }
 
     public Attributes getAttributes() { return stats; }
     public String getName() { return name; }
     public int getCurrentHP() { return currentHP; }
+    public boolean isAlive() {
+        return isAlive;
+    }
 
     public Collection<Action> getOffensiveActions() {
         return offensiveActions;
