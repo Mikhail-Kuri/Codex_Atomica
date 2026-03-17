@@ -10,6 +10,7 @@ public class Main {
 //        GameTester1.testEsquive1();
 //        GameTester1.runTestCounter1();
         GameTester1.runTestMortality();
+        // hello
 
     }
 }
