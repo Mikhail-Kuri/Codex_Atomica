@@ -1,6 +1,6 @@
-package org.example.GameTester;
+package org.example.app.GameTester;
 
-import org.example.Attributes;
+import org.example.core.Attributes;
 import org.example.Skills.DefensiveSkills.Counter;
 import org.example.Skills.DefensiveSkills.Evade;
 import org.example.Skills.DefensiveSkills.Guard;
@@ -8,7 +8,7 @@ import org.example.Weapons.DamageType;
 import org.example.Weapons.MeleeWeapon;
 import org.example.Weapons.RangedWeapon;
 import org.example.Weapons.Weapon;
-import org.example.Character;
+import org.example.core.Character;
 
 public class GameTester1 {
 

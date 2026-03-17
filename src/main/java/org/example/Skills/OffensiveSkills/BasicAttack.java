@@ -1,6 +1,6 @@
 package org.example.Skills.OffensiveSkills;
 
-import org.example.Character;
+import org.example.core.Character;
 import org.example.Skills.Action;
 import org.example.Weapons.Weapon;
 

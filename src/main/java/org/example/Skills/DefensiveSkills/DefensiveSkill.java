@@ -1,6 +1,6 @@
 package org.example.Skills.DefensiveSkills;
 
-import org.example.Character;
+import org.example.core.Character;
 
 public abstract class DefensiveSkill {
     protected String name;

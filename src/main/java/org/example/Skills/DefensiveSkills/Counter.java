@@ -1,7 +1,7 @@
 
 
 package org.example.Skills.DefensiveSkills;
-import org.example.Character;
+import org.example.core.Character;
 
 public class Counter extends DefensiveSkill {
 

@@ -1,4 +1,4 @@
-package org.example;
+package org.example.core;
 
 import org.example.Skills.Action;
 import org.example.Skills.DefensiveSkills.Counter;

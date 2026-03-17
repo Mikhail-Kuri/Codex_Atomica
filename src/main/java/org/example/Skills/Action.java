@@ -1,6 +1,6 @@
 package org.example.Skills;
 
-import org.example.Character;
+import org.example.core.Character;
 
 public abstract class Action {
 
@@ -20,5 +20,5 @@ public abstract class Action {
 
     }
 
-    public abstract void execute(org.example.Character attacker, Character target);
+    public abstract void execute(Character attacker, Character target);
 }
