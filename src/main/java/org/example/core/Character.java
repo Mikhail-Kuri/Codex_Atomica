@@ -19,30 +19,14 @@ public class Character {
     private boolean isDefending = false;
     private boolean isAlive = true;
 
-    public Character(String name, Attributes stats, Weapon startingWeapon) {
+    public Character(String name, Attributes stats, Weapon weapon, DefensiveSkill defense) {
         this.name = name;
         this.stats = stats;
         this.currentHP = stats.vitality;
-        this.equippedWeapon = startingWeapon;
-        this.offensiveActions.add(new BasicAttack());
-    }
-
-    public Character(String name, Attributes stats, DefensiveSkill defensiveSkill) {
-        this.name = name;
-        this.stats = stats;
-        this.currentHP = stats.vitality;
-        this.currentDefense = defensiveSkill;
-        this.equippedWeapon = null;
-        this.offensiveActions.add(new BasicAttack());
-    }
-
-    public Character(String name, Attributes mStats, Weapon weapon, DefensiveSkill defensiveSkill) {
-        this.name = name;
-        this.stats = mStats;
-        this.currentHP = mStats.vitality;
         this.equippedWeapon = weapon;
-        this.currentDefense = defensiveSkill;
-        this.offensiveActions.add(new BasicAttack());
+        this.currentDefense = defense;
+
+        offensiveActions.add(new BasicAttack());
     }
 
 

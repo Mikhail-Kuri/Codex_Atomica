@@ -1,5 +1,6 @@
 package org.example.app.GameTester;
 
+import org.example.Skills.DefensiveSkills.DefensiveSkill;
 import org.example.core.Attributes;
 import org.example.Skills.DefensiveSkills.Counter;
 import org.example.Skills.DefensiveSkills.Evade;
@@ -21,8 +22,8 @@ public class GameTester1 {
         Weapon sword = new MeleeWeapon("Épée en Fer-Rouille", 15, DamageType.SLASHING, 100);
         Weapon plasmaRifle = new RangedWeapon("Fusil à Plasma", 40, DamageType.ENERGY,10);
 
-        Character paladin = new Character("Paladin du Noyau", pStats, sword);
-        Character enemy = new Character("Gnoll Irradié", eStats, sword);
+        Character paladin = new Character("Paladin du Noyau", pStats, sword, null);
+        Character enemy = new Character("Gnoll Irradié", eStats, sword, null);
 
         System.out.println("[Phase A: Combat médiéval]");
         paladin.performAction(0, enemy);
@@ -40,8 +41,8 @@ public class GameTester1 {
         Attributes eStats = new Attributes(50, 2, 2, 2, 2, 2, 0, 0);
         Weapon sword = new MeleeWeapon("Épée en Fer-Rouille", 15, DamageType.SLASHING, 100);
 
-        Character paladin = new Character("Paladin du Noyau", pStats, new Guard());
-        Character enemy = new Character("Gnoll Irradié", eStats, sword);
+        Character paladin = new Character("Paladin du Noyau", pStats,null ,new Guard());
+        Character enemy = new Character("Gnoll Irradié", eStats, sword,null);
 
         System.out.println("[Phase A: Le Paladin se prépare à défendre]");
         paladin.prepareDefense();
@@ -56,11 +57,11 @@ public class GameTester1 {
         // Un Éclaireur avec peu de Vigueur (4) mais beaucoup d'Agilité (15)
         System.out.println("========== RUNNING: TEST Evade ==========");
         Attributes scoutStats = new Attributes(80, 4, 15, 5, 8, 1.0f, 10, 0);
-        Character scout = new Character("Éclaireur Mutant", scoutStats, new Evade());
+        Character scout = new Character("Éclaireur Mutant", scoutStats,null, new Evade());
 
         Attributes eStats = new Attributes(50, 2, 2, 2, 2, 2, 0, 0);
         Weapon sword = new MeleeWeapon("Épée en Fer-Rouille", 15, DamageType.SLASHING, 100);
-        Character enemy = new Character("Gnoll Irradié", eStats, sword);
+        Character enemy = new Character("Gnoll Irradié", eStats, sword, new Evade());
 
         System.out.println("--- Tentative d'esquive contre une attaque de 40 ---");
         scout.prepareDefense();
@@ -81,7 +82,7 @@ public class GameTester1 {
 
         // 2. Setup de l'agresseur (Le Gnoll qui va regretter d'avoir frappé)
         Attributes gStats = new Attributes(50, 2, 5, 2, 2, 1.0f, 0, 0);
-        Character gnoll = new Character("Gnoll Cobaye", gStats, sword2);
+        Character gnoll = new Character("Gnoll Cobaye", gStats, sword2, new Guard());
 
         System.out.println("Le Gnoll attaque le Mutant !");
         int forceDuCoup = 25;
