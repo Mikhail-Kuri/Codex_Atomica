@@ -1,17 +1,18 @@
 package org.example.app.GameTester;
 
-import org.example.Skills.DefensiveSkills.DefensiveSkill;
+import org.example.Weapons.WeaponRange;
 import org.example.core.Attributes;
 import org.example.Skills.DefensiveSkills.Counter;
 import org.example.Skills.DefensiveSkills.Evade;
 import org.example.Skills.DefensiveSkills.Guard;
 import org.example.Weapons.DamageType;
-import org.example.Weapons.MeleeWeapon;
-import org.example.Weapons.RangedWeapon;
 import org.example.Weapons.Weapon;
 import org.example.core.Character;
 
+import java.util.Set;
+
 public class GameTester1 {
+
 
     public static void runTestAttaque1() {
         System.out.println("========== RUNNING: TEST ATTAQUE 1 ==========");
@@ -19,9 +20,22 @@ public class GameTester1 {
         Attributes pStats = new Attributes(100, 10, 5, 5, 10, 1.5f, 0, 0);
         Attributes eStats = new Attributes(50, 2, 2, 2, 2, 1, 0, 0);
 
-        Weapon sword = new MeleeWeapon("Épée en Fer-Rouille", 15, DamageType.SLASHING, 100);
-        Weapon plasmaRifle = new RangedWeapon("Fusil à Plasma", 40, DamageType.ENERGY,10);
+        // 🔹 Création des armes
+        Weapon sword = new Weapon(
+                "Épée en fer",
+                35,
+                Set.of(DamageType.PHYSICAL),
+                WeaponRange.MELEE
+        );
 
+        Weapon plasmaRifle = new Weapon(
+                "Fusil à Plasma",
+                60,
+                Set.of(DamageType.ENERGY),
+                WeaponRange.LONG
+        );
+
+        // 🔹 Création des personnages
         Character paladin = new Character("Paladin du Noyau", pStats, sword, null);
         Character enemy = new Character("Gnoll Irradié", eStats, sword, null);
 
@@ -29,7 +43,10 @@ public class GameTester1 {
         paladin.performAction(0, enemy);
 
         System.out.println("\n--- Le Paladin trouve un Fusil à Plasma ---");
+
+        // 🔹 Changement d'arme dynamique
         paladin.setWeapon(plasmaRifle);
+
         paladin.performAction(0, enemy);
 
         System.out.println("========== END OF TEST ==========\n");
