@@ -10,11 +10,16 @@ public  class Weapon {
     protected WeaponRange range;
     private String modelPath; // Chemin vers le modèle 3D de l'arme
 
-    public Weapon(String name, int basePower, Set<DamageType> damageTypes, WeaponRange range) {
+    public Weapon(String name, int basePower, Set<DamageType> damageTypes, WeaponRange range,String modelPath) {
         this.name = name;
         this.basePower = basePower;
         this.damageTypes = damageTypes;
         this.range = range;
+        if(modelPath == null || modelPath.isEmpty()) {
+            this.modelPath = "models/default_weapon.obj"; // Chemin par défaut
+        } else {
+            this.modelPath = modelPath;
+        }
     }
 
     public String getName() {
@@ -33,5 +38,5 @@ public  class Weapon {
         return range;
     }
 
-    public abstract int calculateDamage();
+//    public abstract int calculateDamage();
 }
