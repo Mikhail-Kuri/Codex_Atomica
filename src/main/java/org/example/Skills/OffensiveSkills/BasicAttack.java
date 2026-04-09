@@ -16,7 +16,6 @@ public class BasicAttack extends Action {
         float rawPower = w.getBasePower() * attacker.getAttributes().resonance;
         int finalDamage = Math.max(0, (int)rawPower - target.getAttributes().vigor);
 
-//        System.out.println(attacker.getName() + " utilise " + w.getName() + " (" + w.getDamageType() + ")");
         System.out.println("Dégâts : " + finalDamage + " sur " + target.getName());
         target.takeDamage(finalDamage,attacker);
     }
