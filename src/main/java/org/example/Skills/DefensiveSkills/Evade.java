@@ -14,18 +14,21 @@ public class Evade extends DefensiveSkill {
     }
 
     @Override
-    public int reduceDamage(int rawDamage, Character owner) {
-        // Logique : Chance de réussite basée sur l'Agilité
-        // Formule : Agility * 4 + Luck (ex: 10 AGI + 5 LUCK = 45% de chance)
-        int dodgeChance = (owner.getAttributes().agility * 4) + owner.getAttributes().luck;
+    public int onDamageTaken(int rawDamage, Character owner, Character attacker) {
+
+        int dodgeChance = Math.min(100,
+                (owner.getAttributes().agility * 4) + owner.getAttributes().luck
+        );
 
         int roll = random.nextInt(101);
 
         if (roll <= dodgeChance) {
-            System.out.println("[ACTION: ESQUIVE] " + owner.getName() + " réalise une pirouette parfaite ! (Roll: " + roll + "/" + dodgeChance + ")");
+            System.out.println("[ACTION: ESQUIVE] " + owner.getName() +
+                    " réalise une pirouette parfaite ! (Roll: " + roll + "/" + dodgeChance + ")");
             return 0;
         } else {
-            System.out.println("[ACTION: ÉCHEC] " + owner.getName() + " tente d'esquiver mais trébuche ! (Roll: " + roll + "/" + dodgeChance + ")");
+            System.out.println("[ACTION: ÉCHEC] " + owner.getName() +
+                    " tente d'esquiver mais échoue ! (Roll: " + roll + "/" + dodgeChance + ")");
             return rawDamage;
         }
     }

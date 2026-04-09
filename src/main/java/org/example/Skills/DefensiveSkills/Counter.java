@@ -14,15 +14,21 @@ public class Counter extends DefensiveSkill {
     }
 
     @Override
-    public int reduceDamage(int rawDamage, Character owner) {
+    public int onDamageTaken(int rawDamage, Character owner, Character attacker) {
 
-        int weaponPower = (owner.getEquippedWeapon() != null) ? owner.getEquippedWeapon().getBasePower() : 5;
+        int weaponPower = (owner.getEquippedWeapon() != null)
+                ? owner.getEquippedWeapon().getBasePower()
+                : 5;
 
-        int counterDamage = (int) (owner.getAttributes().vigor + (weaponPower * owner.getAttributes().resonance));
+        int counterDamage = (int) (
+                owner.getAttributes().vigor +
+                        (weaponPower * owner.getAttributes().resonance)
+        );
 
-        System.out.println("[ACTION: CONTRE] " + owner.getName() + " encaisse et riposte immédiatement !");
-
-        System.out.println("Effet de Contre : Inflige " + counterDamage + " dégâts à l'agresseur !");
+        // 🔥 appliquer le vrai contre
+        if (attacker != null && attacker.isAlive()) {
+            attacker.takeDamage(counterDamage, owner);
+        }
 
         int reducedDamage = Math.max(0, rawDamage - (owner.getAttributes().vigor / 2));
 

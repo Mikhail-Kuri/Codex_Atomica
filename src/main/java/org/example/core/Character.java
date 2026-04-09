@@ -19,30 +19,19 @@ public class Character {
     private boolean isDefending = false;
     private boolean isAlive = true;
 
-    public Character(String name, Attributes stats, Weapon startingWeapon) {
+    public Character(String name, Attributes stats, Weapon weapon, DefensiveSkill defense) {
+        if (weapon == null) throw new IllegalArgumentException("Un personnage doit avoir une arme !");
+        if (defense == null) throw new IllegalArgumentException("Un personnage doit avoir une skill de défense !");
+
         this.name = name;
         this.stats = stats;
         this.currentHP = stats.vitality;
-        this.equippedWeapon = startingWeapon;
-        this.offensiveActions.add(new BasicAttack());
-    }
-
-    public Character(String name, Attributes stats, DefensiveSkill defensiveSkill) {
-        this.name = name;
-        this.stats = stats;
-        this.currentHP = stats.vitality;
-        this.currentDefense = defensiveSkill;
-        this.equippedWeapon = null;
-        this.offensiveActions.add(new BasicAttack());
-    }
-
-    public Character(String name, Attributes mStats, Weapon weapon, DefensiveSkill defensiveSkill) {
-        this.name = name;
-        this.stats = mStats;
-        this.currentHP = mStats.vitality;
         this.equippedWeapon = weapon;
-        this.currentDefense = defensiveSkill;
-        this.offensiveActions.add(new BasicAttack());
+        this.currentDefense = defense;
+
+        // Slot pré-défini pour actions
+        offensiveActions.add(new BasicAttack()); // slot 0
+        // on peut ajouter d'autres actions selon le slot
     }
 
 
@@ -86,20 +75,15 @@ public class Character {
 
         int finalDamage;
 
-        if (this.isDefending && currentDefense != null) {
-            finalDamage = currentDefense.reduceDamage(amount, this);
-
-            if (currentDefense instanceof Counter && attacker != null) {
-                int reflect = (int)(this.stats.resonance * 10);
-                attacker.takeDamage(reflect, this);
-            }
-
-            this.isDefending = false;
+        if (isDefending && currentDefense != null) {
+            finalDamage = currentDefense.onDamageTaken(amount, this, attacker);
+            isDefending = false;
         } else {
             finalDamage = Math.max(0, amount - this.stats.vigor);
         }
 
         this.currentHP -= finalDamage;
+
         if (this.currentHP <= 0) {
             this.currentHP = 0;
             this.isAlive = false;

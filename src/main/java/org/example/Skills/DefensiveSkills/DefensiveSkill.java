@@ -9,7 +9,7 @@ public abstract class DefensiveSkill {
         this.name = name;
     }
 
-    public abstract int reduceDamage(int rawDamage, Character owner);
+    public abstract int onDamageTaken(int rawDamage, Character owner,Character attacker);
 
     public String getName() {
         return name;
