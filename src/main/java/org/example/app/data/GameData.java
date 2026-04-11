@@ -22,6 +22,9 @@ public class GameData {
     public static final Attributes MUTANT_STATS =
             new Attributes(100, 5, 8, 10, 10, 2.0f, 5, 0);
 
+    public static final Attributes FRAGILE_ENEMY_STATS =
+            new Attributes(30, 1, 1, 1, 1, 0.5f, 0, 0);
+
     // =====================
     // WEAPONS
     // =====================
@@ -53,5 +56,9 @@ public class GameData {
 
     public static Character createMutant() {
         return new Character("Mutant Électrique", MUTANT_STATS, RUSTY_SWORD, new Counter());
+    }
+
+    public static Character createFragile() {
+        return new Character("Rat Mutant", FRAGILE_ENEMY_STATS,RUSTY_SWORD, new Evade());
     }
 }

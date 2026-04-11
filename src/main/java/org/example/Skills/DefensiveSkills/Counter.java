@@ -9,7 +9,7 @@ public class Counter extends DefensiveSkill {
         super("Contre");
     }
 
-    public Counter (String name) {
+    public Counter(String name) {
         super(name);
     }
 
@@ -30,8 +30,6 @@ public class Counter extends DefensiveSkill {
             attacker.takeDamage(counterDamage, owner);
         }
 
-        int reducedDamage = Math.max(0, rawDamage - (owner.getAttributes().vigor / 2));
-
-        return reducedDamage;
+        return Math.max(0, rawDamage - (owner.getAttributes().vigor / 2));
     }
 }

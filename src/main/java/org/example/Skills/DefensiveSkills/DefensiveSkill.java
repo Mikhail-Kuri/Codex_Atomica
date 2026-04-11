@@ -1,6 +1,5 @@
 package org.example.Skills.DefensiveSkills;
 
-import org.example.Skills.Action;
 import org.example.core.Character;
 
 public abstract class DefensiveSkill {
@@ -10,7 +9,7 @@ public abstract class DefensiveSkill {
         this.name = name;
     }
 
-    public abstract int onDamageTaken(int rawDamage, Character owner,Character attacker);
+    public abstract int onDamageTaken(int rawDamage, Character owner, Character attacker);
 
     public String getName() {
         return name;

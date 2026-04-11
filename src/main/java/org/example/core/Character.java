@@ -1,8 +1,9 @@
 package org.example.core;
 
-import org.example.Skills.Action;
+import org.example.Skills.Actions.Action;
 import org.example.Skills.DefensiveSkills.DefensiveSkill;
-import org.example.Skills.DefensiveSkills.Guard;
+import org.example.Skills.OffensiveSkills.BasicAttack;
+import org.example.Skills.OffensiveSkills.OffensiveSkill;
 import org.example.Weapons.Weapon;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -13,7 +14,7 @@ public class Character {
     private int currentHP;
     private Attributes stats;
     private Weapon equippedWeapon;
-    private List<Action> offensiveActions = new ArrayList<>();
+    private List<OffensiveSkill> offensiveSkills = new ArrayList<>();
     private DefensiveSkill currentDefense;
     private boolean isDefending = false;
     private boolean isAlive = true;
@@ -28,8 +29,11 @@ public class Character {
         this.equippedWeapon = weapon;
         this.currentDefense = defense;
 
-    }
+        // Ajout de l'attaque de base par défaut
+        this.offensiveSkills.add(new BasicAttack());
 
+
+    }
 
     public void setWeapon(Weapon newWeapon) {
         this.equippedWeapon = newWeapon;
@@ -97,7 +101,14 @@ public class Character {
         return currentDefense;
     }
 
-    public Collection<Action> getOffensiveActions() {
-        return offensiveActions;
+    public Collection<OffensiveSkill> getOffensiveSkills() {
+        return offensiveSkills;
+    }
+
+    public OffensiveSkill getDefaultOffensiveSkill() {
+        return offensiveSkills.stream()
+                .filter(skill -> skill instanceof BasicAttack)
+                .findFirst()
+                .orElse(null);
     }
 }

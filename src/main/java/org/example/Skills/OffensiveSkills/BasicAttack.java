@@ -1,25 +1,30 @@
 package org.example.Skills.OffensiveSkills;
 
-import org.example.Skills.Action;
+import org.example.Skills.Targeting.TargetType;
 import org.example.Weapons.Weapon;
 import org.example.core.Character;
 
 
-public class BasicAttack extends Action {
+public class BasicAttack extends OffensiveSkill {
 
-
-    public BasicAttack(Character source, Character target) {
-        super(source, target);
+    public BasicAttack() {
+        super("Attaque de base", TargetType.ENEMY);
     }
 
+
+
     @Override
-    public void execute() {
+    public void execute(Character source, Character target) {
 
         if (source == null || target == null) return;
         if (!source.isAlive() || !target.isAlive()) return;
 
-        Weapon weapon = source.getEquippedWeapon();
+        if (!isValidTarget(source, target)) {
+            System.out.println("❌ Cible invalide pour " + name);
+            return;
+        }
 
+        Weapon weapon = source.getEquippedWeapon();
         if (weapon == null) return;
 
         float rawPower = weapon.getBasePower() * source.getAttributes().resonance;
@@ -29,6 +34,19 @@ public class BasicAttack extends Action {
                 + " pour " + damage + " dégâts");
 
         target.takeDamage(damage, source);
+    }
+
+    private boolean isValidTarget(Character source, Character target) {
+
+        if (targetType == TargetType.ENEMY) {
+            return source != target;
+        }
+
+        if (targetType == TargetType.SELF) {
+            return source == target;
+        }
+
+        return true;
     }
 }
 

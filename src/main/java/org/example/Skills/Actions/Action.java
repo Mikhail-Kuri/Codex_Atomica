@@ -1,4 +1,4 @@
-package org.example.Skills;
+package org.example.Skills.Actions;
 
 import org.example.core.Character;
 

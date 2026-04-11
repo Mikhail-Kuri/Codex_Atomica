@@ -1,7 +1,7 @@
 package org.example.combat;
 
 
-import org.example.Skills.Action;
+import org.example.Skills.Actions.Action;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +20,6 @@ public class TurnManager {
         for (Action action : plannedActions) {
             action.execute();
         }
-
 
         plannedActions.clear();
 
