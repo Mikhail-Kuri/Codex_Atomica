@@ -1,8 +1,8 @@
 package org.example.core;
 
 import org.example.Skills.Action;
-import org.example.Skills.OffensiveSkills.BasicAttack;
 import org.example.Skills.DefensiveSkills.DefensiveSkill;
+import org.example.Skills.DefensiveSkills.Guard;
 import org.example.Weapons.Weapon;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -39,8 +39,10 @@ public class Character {
 
     public void prepareDefense() {
         this.isDefending = true;
-        System.out.println(this.name + " se prépare avec : " + this.currentDefense.getName());
+
+        System.out.println(name + " se prépare avec " + getCurrentDefense().getName());
     }
+
     public void takeDamage(int amount, Character attacker) {
         if (!isAlive) {
             System.out.println(this.name + " est déjà hors de combat !");
@@ -67,11 +69,32 @@ public class Character {
         }
     }
 
+    public void printStats() {
+        System.out.println("\n===== STATS DE " + name + " =====");
+
+        System.out.println("HP : " + currentHP + "/" + stats.vitality);
+        System.out.println("Alive : " + isAlive);
+
+        System.out.println("Weapon : " +
+                (equippedWeapon != null ? equippedWeapon.getName() : "Aucune"));
+
+        System.out.println("Defense : " +
+                (currentDefense != null ? currentDefense.getName() : "Aucune"));
+
+        System.out.println("Vigor : " + stats.vigor);
+        System.out.println("Resonance : " + stats.resonance);
+
+        System.out.println("================================\n");
+    }
+
     public Attributes getAttributes() { return stats; }
     public String getName() { return name; }
     public int getCurrentHP() { return currentHP; }
     public boolean isAlive() {
         return isAlive;
+    }
+    public DefensiveSkill getCurrentDefense() {
+        return currentDefense;
     }
 
     public Collection<Action> getOffensiveActions() {

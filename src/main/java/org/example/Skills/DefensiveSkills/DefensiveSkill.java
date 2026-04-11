@@ -1,5 +1,6 @@
 package org.example.Skills.DefensiveSkills;
 
+import org.example.Skills.Action;
 import org.example.core.Character;
 
 public abstract class DefensiveSkill {

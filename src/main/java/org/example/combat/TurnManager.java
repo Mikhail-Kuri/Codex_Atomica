@@ -21,7 +21,9 @@ public class TurnManager {
             action.execute();
         }
 
+
         plannedActions.clear();
+
 
         System.out.println("⚔️ === FIN DU TOUR ===\n");
     }
@@ -29,4 +31,5 @@ public class TurnManager {
     public List<Action> getPlannedActions() {
         return plannedActions;
     }
+
 }
