@@ -1,23 +1,52 @@
 package org.example.Skills.OffensiveSkills;
 
-import org.example.core.Character;
-import org.example.Skills.Action;
+import org.example.Skills.Targeting.TargetType;
 import org.example.Weapons.Weapon;
+import org.example.core.Character;
 
-public class BasicAttack extends Action {
+
+public class BasicAttack extends OffensiveSkill {
+
     public BasicAttack() {
-        super("Attaque de Base");
+        super("Attaque de base", TargetType.ENEMY);
     }
 
+
+
     @Override
-    public void execute(Character attacker, Character target) {
-        Weapon w = attacker.getEquippedWeapon();
+    public void execute(Character source, Character target) {
 
-        float rawPower = w.getBasePower() * attacker.getAttributes().resonance;
-        int finalDamage = Math.max(0, (int)rawPower - target.getAttributes().vigor);
+        if (source == null || target == null) return;
+        if (!source.isAlive() || !target.isAlive()) return;
 
-        System.out.println("Dégâts : " + finalDamage + " sur " + target.getName());
-        target.takeDamage(finalDamage,attacker);
+        if (!isValidTarget(source, target)) {
+            System.out.println("❌ Cible invalide pour " + name);
+            return;
+        }
+
+        Weapon weapon = source.getEquippedWeapon();
+        if (weapon == null) return;
+
+        float rawPower = weapon.getBasePower() * source.getAttributes().resonance;
+        int damage = Math.max(0, Math.round(rawPower) - target.getAttributes().vigor);
+
+        System.out.println(source.getName() + " attaque " + target.getName()
+                + " pour " + damage + " dégâts");
+
+        target.takeDamage(damage, source);
+    }
+
+    private boolean isValidTarget(Character source, Character target) {
+
+        if (targetType == TargetType.ENEMY) {
+            return source != target;
+        }
+
+        if (targetType == TargetType.SELF) {
+            return source == target;
+        }
+
+        return true;
     }
 }
 
