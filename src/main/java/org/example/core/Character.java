@@ -28,9 +28,6 @@ public class Character {
         this.equippedWeapon = weapon;
         this.currentDefense = defense;
 
-        // Slot pré-défini pour actions
-        offensiveActions.add(new BasicAttack()); // slot 0
-        // on peut ajouter d'autres actions selon le slot
     }
 
 
@@ -44,28 +41,6 @@ public class Character {
         this.isDefending = true;
         System.out.println(this.name + " se prépare avec : " + this.currentDefense.getName());
     }
-
-
-    public void performAction(int actionIndex, Character target) {
-        if (!this.isAlive) {
-            System.out.println("❌ " + this.name + " ne peut pas agir car il est mort.");
-            return;
-        }
-
-        if (target != null && !target.isAlive()) {
-            System.out.println("❌ " + this.name + " essaie d'attaquer un cadavre (" + target.getName() + ").");
-            return;
-        }
-
-        if (actionIndex >= 0 && actionIndex < offensiveActions.size()) {
-            Action selectedAction = offensiveActions.get(actionIndex);
-
-            selectedAction.execute(this, target);
-        } else {
-            System.out.println(this.name + " ne sait pas quoi faire !");
-        }
-    }
-
     public void takeDamage(int amount, Character attacker) {
         if (!isAlive) {
             System.out.println(this.name + " est déjà hors de combat !");

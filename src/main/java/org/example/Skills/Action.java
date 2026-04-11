@@ -4,21 +4,21 @@ import org.example.core.Character;
 
 public abstract class Action {
 
-    protected String name;
-    protected int basePower;
+    protected Character source;
+    protected Character target;
 
-    public Action(String name, int basePower) {
-        this.name = name;
-        this.basePower = basePower;
+    public Action(Character source, Character target) {
+        this.source = source;
+        this.target = target;
     }
 
-    public Action() {
-
+    public Character getSource() {
+        return source;
     }
 
-    public Action(String attaqueDeBase) {
-
+    public Character getTarget() {
+        return target;
     }
 
-    public abstract void execute(Character attacker, Character target);
+    public abstract void execute();
 }

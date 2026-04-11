@@ -1,23 +1,34 @@
 package org.example.Skills.OffensiveSkills;
 
-import org.example.core.Character;
 import org.example.Skills.Action;
 import org.example.Weapons.Weapon;
+import org.example.core.Character;
+
 
 public class BasicAttack extends Action {
-    public BasicAttack() {
-        super("Attaque de Base");
+
+
+    public BasicAttack(Character source, Character target) {
+        super(source, target);
     }
 
     @Override
-    public void execute(Character attacker, Character target) {
-        Weapon w = attacker.getEquippedWeapon();
+    public void execute() {
 
-        float rawPower = w.getBasePower() * attacker.getAttributes().resonance;
-        int finalDamage = Math.max(0, (int)rawPower - target.getAttributes().vigor);
+        if (source == null || target == null) return;
+        if (!source.isAlive() || !target.isAlive()) return;
 
-        System.out.println("Dégâts : " + finalDamage + " sur " + target.getName());
-        target.takeDamage(finalDamage,attacker);
+        Weapon weapon = source.getEquippedWeapon();
+
+        if (weapon == null) return;
+
+        float rawPower = weapon.getBasePower() * source.getAttributes().resonance;
+        int damage = Math.max(0, Math.round(rawPower) - target.getAttributes().vigor);
+
+        System.out.println(source.getName() + " attaque " + target.getName()
+                + " pour " + damage + " dégâts");
+
+        target.takeDamage(damage, source);
     }
 }
 
