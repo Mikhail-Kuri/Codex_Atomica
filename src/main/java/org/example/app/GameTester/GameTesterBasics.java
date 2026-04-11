@@ -11,7 +11,7 @@ import org.example.core.Character;
 
 import java.util.Set;
 
-public class GameTester1 {
+public class GameTesterBasics {
 
     // 🔹 STATS (immutables)
     private static final Attributes PALADIN_STATS =

@@ -1,0 +1,7 @@
+# Active profile
+spring.profiles.active=dev
+
+# Example DB config
+spring.datasource.url=
+spring.datasource.username=
+spring.datasource.password=
