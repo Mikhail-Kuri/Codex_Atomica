@@ -105,11 +105,6 @@ public class GameTesterActions {
         Character enemy = GameData.createEnemy();
 
         TurnManager tm = new TurnManager();
-
-//        tm.addAction(new BasicAttack(enemy, fragile));
-//        tm.addAction(new BasicAttack(enemy, fragile));
-//        tm.addAction(new BasicAttack(fragile, enemy));
-
         tm.addAction(
                 new OffensiveAction(enemy, fragile, enemy.getDefaultOffensiveSkill())
         );
