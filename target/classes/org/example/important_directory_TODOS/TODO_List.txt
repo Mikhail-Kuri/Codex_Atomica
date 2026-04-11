@@ -1,0 +1,1 @@
+TODO: Établire une base de donné pour stoquer la logique des class
