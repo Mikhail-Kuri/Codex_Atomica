@@ -1,4 +1,10 @@
 import os
+import sys
+
+def check_quit(value):
+    if value.strip().lower() == "q":
+        print("\n👋 Quitter le script...")
+        sys.exit(0)
 
 # ---------------------------
 # 1. TYPE MENU
@@ -9,8 +15,10 @@ print("[x] fix")
 print("[r] refactor")
 print("[d] docs")
 print("[c] chore")
+print("[q] quit")
 
 choice = input("\nType (letter): ").strip().lower()
+check_quit(choice)
 
 types = {
     "f": "feature",
@@ -26,11 +34,13 @@ commit_type = types.get(choice, "chore")
 # 2. DESCRIPTION
 # ---------------------------
 description = input("Description: ").strip()
+check_quit(description)
 
 # ---------------------------
 # 3. PUSH ?
 # ---------------------------
 push_choice = input("Push? (y/n): ").strip().lower()
+check_quit(push_choice)
 
 # ---------------------------
 # 4. MESSAGE
