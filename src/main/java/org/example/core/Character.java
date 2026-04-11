@@ -4,6 +4,7 @@ import org.example.Skills.Actions.Action;
 import org.example.Skills.DefensiveSkills.DefensiveSkill;
 import org.example.Skills.OffensiveSkills.BasicAttack;
 import org.example.Skills.OffensiveSkills.OffensiveSkill;
+import org.example.Skills.OffensiveSkills.SelfAttack;
 import org.example.Weapons.Weapon;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -29,7 +30,6 @@ public class Character {
         this.equippedWeapon = weapon;
         this.currentDefense = defense;
 
-        // Ajout de l'attaque de base par défaut
         this.offensiveSkills.add(new BasicAttack());
 
 
@@ -101,7 +101,7 @@ public class Character {
         return currentDefense;
     }
 
-    public Collection<OffensiveSkill> getOffensiveSkills() {
+    public List<OffensiveSkill> getOffensiveSkills() {
         return offensiveSkills;
     }
 

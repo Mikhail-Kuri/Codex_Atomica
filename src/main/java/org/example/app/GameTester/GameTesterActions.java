@@ -2,6 +2,8 @@ package org.example.app.GameTester;
 
 import org.example.Skills.Actions.DefensiveAction;
 import org.example.Skills.Actions.OffensiveAction;
+import org.example.Skills.OffensiveSkills.OffensiveSkill;
+import org.example.Skills.OffensiveSkills.SelfAttack;
 import org.example.app.data.GameData;
 import org.example.combat.TurnManager;
 import org.example.core.Character;
@@ -44,7 +46,7 @@ public class GameTesterActions {
 
         tm.addAction(new DefensiveAction(paladin, enemy));
         tm.addAction(
-                new OffensiveAction(paladin, enemy, paladin.getDefaultOffensiveSkill())
+                new OffensiveAction(enemy, paladin, enemy.getDefaultOffensiveSkill())
         );
 
         tm.resolveTurn();
@@ -122,6 +124,50 @@ public class GameTesterActions {
         System.out.println("========== END ==========\n");
     }
 
+    public static void runSelfDamageTest() {
+        System.out.println("========== TEST SELF DAMAGE ==========");
+
+        Character mutant = GameData.createMutant();
+
+
+        TurnManager tm = new TurnManager();
+        tm.addAction(
+                new OffensiveAction(mutant, mutant, mutant.getDefaultOffensiveSkill())
+        );
+
+        tm.resolveTurn();
+
+        printStats(List.of(mutant));
+
+        System.out.println("========== END ==========\n");
+    }
+
+    public static void runDamageCheckWithAnyType() {
+        System.out.println("========== TEST SELF DAMAGE ==========");
+
+        Character mutant = GameData.createMutant();
+        mutant.getOffensiveSkills().add(new SelfAttack());
+
+        OffensiveSkill selfAttack = mutant.getOffensiveSkills().stream()
+                .filter(skill -> skill instanceof SelfAttack)
+                .map(skill -> (SelfAttack) skill)
+                .findFirst()
+                .orElse(null);
+
+
+
+        TurnManager tm = new TurnManager();
+        tm.addAction(
+                new OffensiveAction(mutant, mutant,selfAttack)
+        );
+
+        tm.resolveTurn();
+
+        printStats(List.of(mutant));
+
+        System.out.println("========== END ==========\n");
+    }
+
 
     public static void runAllTests() {
         runTestAttaque1();
@@ -129,6 +175,8 @@ public class GameTesterActions {
         testEsquive1();
         runTestCounter1();
         runTestMortality();
+        runSelfDamageTest();
+        runDamageCheckWithAnyType();
     }
 
     public static void main(String[] args) {

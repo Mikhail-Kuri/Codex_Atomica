@@ -11,19 +11,19 @@ public class GameData {
 
 
     public static final Attributes PALADIN_STATS =
-            new Attributes(100, 10, 5, 5, 10, 1.5f, 0, 0);
+            new Attributes(100, 10, 5, 5, 5, 10, 1.5f, 0, 0);
 
     public static final Attributes ENEMY_STATS =
-            new Attributes(50, 1, 2, 2, 2, 1, 0, 0);
+            new Attributes(50, 1, 2,5, 2, 2, 1, 0, 0);
 
     public static final Attributes SCOUT_STATS =
-            new Attributes(80, 4, 15, 5, 8, 1.0f, 10, 0);
+            new Attributes(80, 4, 15, 5,5, 8, 1.0f, 10, 0);
 
     public static final Attributes MUTANT_STATS =
-            new Attributes(100, 5, 8, 10, 10, 2.0f, 5, 0);
+            new Attributes(100, 5, 8, 5,10, 10, 2.0f, 5, 0);
 
     public static final Attributes FRAGILE_ENEMY_STATS =
-            new Attributes(30, 1, 1, 1, 1, 0.5f, 0, 0);
+            new Attributes(30, 1, 1, 5,1, 1, 0.5f, 0, 0);
 
     // =====================
     // WEAPONS

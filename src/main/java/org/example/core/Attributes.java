@@ -5,16 +5,18 @@ public class Attributes {
     public int vitality;
     public int vigor;
     public int agility;
+    public int strength;
     public int intelligence;
     public int willpower;
     public float resonance;
     public int luck;
     public int faith;
 
-    public Attributes(int vitality, int vigor, int agility, int intelligence, int willpower, float resonance, int luck, int faith) {
+    public Attributes(int vitality, int vigor, int agility, int strength, int intelligence, int willpower, float resonance, int luck, int faith) {
         this.vitality = vitality;
         this.vigor = vigor;
         this.agility = agility;
+        this.strength = strength;
         this.intelligence = intelligence;
         this.willpower = willpower;
         this.resonance = resonance;
@@ -42,9 +44,13 @@ public class Attributes {
         return agility;
     }
 
+    public int getStrength() {return strength; }
+
     public void setAgility(int agility) {
         this.agility = agility;
     }
+
+    public void setStrength(int strength) {this.strength = strength;}
 
     public int getIntelligence() {
         return intelligence;
