@@ -13,16 +13,34 @@ public class TurnManager {
     public void addAction(Action action) {
         plannedActions.add(action);
     }
+
     public void resolveTurn() {
 
         System.out.println("\n⚔️ === RESOLUTION DU TOUR ===");
+
+        plannedActions.sort((a, b) -> {
+
+            int priorityCompare = Integer.compare(
+                    b.getPriority(),
+                    a.getPriority()
+            );
+
+            if (priorityCompare != 0) {
+                return priorityCompare;
+            }
+
+
+            return Integer.compare(
+                    b.getSource().rollSpeed(),
+                    a.getSource().rollSpeed()
+            );
+        });
 
         for (Action action : plannedActions) {
             action.execute();
         }
 
         plannedActions.clear();
-
 
         System.out.println("⚔️ === FIN DU TOUR ===\n");
     }

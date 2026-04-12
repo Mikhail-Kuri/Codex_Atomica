@@ -11,8 +11,14 @@ public class Attributes {
     public float resonance;
     public int luck;
     public int faith;
+    public int minSpeed;
+    public int maxSpeed;
 
-    public Attributes(int vitality, int vigor, int agility, int strength, int intelligence, int willpower, float resonance, int luck, int faith) {
+    public Attributes(int vitality, int vigor, int agility,
+                      int strength, int intelligence,
+                      int willpower, float resonance,
+                      int luck, int faith,
+                      int minSpeed, int maxSpeed) {
         this.vitality = vitality;
         this.vigor = vigor;
         this.agility = agility;
@@ -22,6 +28,8 @@ public class Attributes {
         this.resonance = resonance;
         this.luck = luck;
         this.faith = faith;
+        this.minSpeed = minSpeed;
+        this.maxSpeed = maxSpeed;
     }
 
     public int getVitality() {
@@ -44,13 +52,17 @@ public class Attributes {
         return agility;
     }
 
-    public int getStrength() {return strength; }
+    public int getStrength() {
+        return strength;
+    }
 
     public void setAgility(int agility) {
         this.agility = agility;
     }
 
-    public void setStrength(int strength) {this.strength = strength;}
+    public void setStrength(int strength) {
+        this.strength = strength;
+    }
 
     public int getIntelligence() {
         return intelligence;
@@ -90,5 +102,21 @@ public class Attributes {
 
     public void setFaith(int faith) {
         this.faith = faith;
+    }
+
+    public int getMinSpeed() {
+        return minSpeed;
+    }
+
+    public void setMinSpeed(int minSpeed) {
+        this.minSpeed = minSpeed;
+    }
+
+    public int getMaxSpeed() {
+        return maxSpeed;
+    }
+
+    public void setMaxSpeed(int maxSpeed) {
+        this.maxSpeed = maxSpeed;
     }
 }

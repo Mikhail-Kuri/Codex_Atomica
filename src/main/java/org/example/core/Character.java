@@ -6,9 +6,11 @@ import org.example.Skills.OffensiveSkills.BasicAttack;
 import org.example.Skills.OffensiveSkills.OffensiveSkill;
 import org.example.Skills.OffensiveSkills.SelfAttack;
 import org.example.Weapons.Weapon;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class Character {
     private String name;
@@ -39,12 +41,64 @@ public class Character {
         this.equippedWeapon = newWeapon;
     }
 
-    public Weapon getEquippedWeapon() { return equippedWeapon; }
+    public Weapon getEquippedWeapon() {
+        return equippedWeapon;
+    }
 
     public void prepareDefense() {
         this.isDefending = true;
 
         System.out.println(name + " se prépare avec " + getCurrentDefense().getName());
+    }
+
+
+    public Attributes getAttributes() {
+        return stats;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public int getCurrentHP() {
+        return currentHP;
+    }
+
+    public boolean isAlive() {
+        return isAlive;
+    }
+
+    public DefensiveSkill getCurrentDefense() {
+        return currentDefense;
+    }
+
+    public List<OffensiveSkill> getOffensiveSkills() {
+        return offensiveSkills;
+    }
+
+    public OffensiveSkill getDefaultOffensiveSkill() {
+        return offensiveSkills.stream()
+                .filter(skill -> skill instanceof BasicAttack)
+                .findFirst()
+                .orElse(null);
+    }
+
+    public void printStats() {
+        System.out.println("\n===== STATS DE " + name + " =====");
+
+        System.out.println("HP : " + currentHP + "/" + stats.vitality);
+        System.out.println("Alive : " + isAlive);
+
+        System.out.println("Weapon : " +
+                (equippedWeapon != null ? equippedWeapon.getName() : "Aucune"));
+
+        System.out.println("Defense : " +
+                (currentDefense != null ? currentDefense.getName() : "Aucune"));
+
+        System.out.println("Vigor : " + stats.vigor);
+        System.out.println("Resonance : " + stats.resonance);
+
+        System.out.println("================================\n");
     }
 
     public void takeDamage(int amount, Character attacker) {
@@ -73,42 +127,10 @@ public class Character {
         }
     }
 
-    public void printStats() {
-        System.out.println("\n===== STATS DE " + name + " =====");
-
-        System.out.println("HP : " + currentHP + "/" + stats.vitality);
-        System.out.println("Alive : " + isAlive);
-
-        System.out.println("Weapon : " +
-                (equippedWeapon != null ? equippedWeapon.getName() : "Aucune"));
-
-        System.out.println("Defense : " +
-                (currentDefense != null ? currentDefense.getName() : "Aucune"));
-
-        System.out.println("Vigor : " + stats.vigor);
-        System.out.println("Resonance : " + stats.resonance);
-
-        System.out.println("================================\n");
+    public int rollSpeed() {
+        return ThreadLocalRandom.current()
+                .nextInt(stats.minSpeed, stats.maxSpeed + 1);
     }
 
-    public Attributes getAttributes() { return stats; }
-    public String getName() { return name; }
-    public int getCurrentHP() { return currentHP; }
-    public boolean isAlive() {
-        return isAlive;
-    }
-    public DefensiveSkill getCurrentDefense() {
-        return currentDefense;
-    }
 
-    public List<OffensiveSkill> getOffensiveSkills() {
-        return offensiveSkills;
-    }
-
-    public OffensiveSkill getDefaultOffensiveSkill() {
-        return offensiveSkills.stream()
-                .filter(skill -> skill instanceof BasicAttack)
-                .findFirst()
-                .orElse(null);
-    }
 }

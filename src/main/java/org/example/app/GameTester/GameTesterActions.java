@@ -142,7 +142,7 @@ public class GameTesterActions {
         System.out.println("========== END ==========\n");
     }
 
-    public static void runDamageCheckWithAnyType() {
+    public static void runDamageCheckWithSelfType() {
         System.out.println("========== TEST SELF DAMAGE ==========");
 
         Character mutant = GameData.createMutant();
@@ -176,7 +176,7 @@ public class GameTesterActions {
         runTestCounter1();
         runTestMortality();
         runSelfDamageTest();
-        runDamageCheckWithAnyType();
+        runDamageCheckWithSelfType();
     }
 
     public static void main(String[] args) {
