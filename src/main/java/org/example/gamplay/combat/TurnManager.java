@@ -1,4 +1,4 @@
-package org.example.combat;
+package org.example.gamplay.combat;
 
 
 import org.example.Skills.Actions.Action;
