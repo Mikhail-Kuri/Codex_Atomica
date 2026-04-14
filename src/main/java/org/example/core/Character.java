@@ -1,19 +1,23 @@
 package org.example.core;
 
-import org.example.Skills.Action;
-import org.example.Skills.OffensiveSkills.BasicAttack;
+import org.example.Skills.Actions.Action;
 import org.example.Skills.DefensiveSkills.DefensiveSkill;
+import org.example.Skills.OffensiveSkills.BasicAttack;
+import org.example.Skills.OffensiveSkills.OffensiveSkill;
+import org.example.Skills.OffensiveSkills.SelfAttack;
 import org.example.Weapons.Weapon;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class Character {
     private String name;
     private int currentHP;
     private Attributes stats;
     private Weapon equippedWeapon;
-    private List<Action> offensiveActions = new ArrayList<>();
+    private List<OffensiveSkill> offensiveSkills = new ArrayList<>();
     private DefensiveSkill currentDefense;
     private boolean isDefending = false;
     private boolean isAlive = true;
@@ -28,42 +32,73 @@ public class Character {
         this.equippedWeapon = weapon;
         this.currentDefense = defense;
 
-        // Slot pré-défini pour actions
-        offensiveActions.add(new BasicAttack()); // slot 0
-        // on peut ajouter d'autres actions selon le slot
-    }
+        this.offensiveSkills.add(new BasicAttack());
 
+
+    }
 
     public void setWeapon(Weapon newWeapon) {
         this.equippedWeapon = newWeapon;
     }
 
-    public Weapon getEquippedWeapon() { return equippedWeapon; }
+    public Weapon getEquippedWeapon() {
+        return equippedWeapon;
+    }
 
     public void prepareDefense() {
         this.isDefending = true;
-        System.out.println(this.name + " se prépare avec : " + this.currentDefense.getName());
+
+        System.out.println(name + " se prépare avec " + getCurrentDefense().getName());
     }
 
 
-    public void performAction(int actionIndex, Character target) {
-        if (!this.isAlive) {
-            System.out.println("❌ " + this.name + " ne peut pas agir car il est mort.");
-            return;
-        }
+    public Attributes getAttributes() {
+        return stats;
+    }
 
-        if (target != null && !target.isAlive()) {
-            System.out.println("❌ " + this.name + " essaie d'attaquer un cadavre (" + target.getName() + ").");
-            return;
-        }
+    public String getName() {
+        return name;
+    }
 
-        if (actionIndex >= 0 && actionIndex < offensiveActions.size()) {
-            Action selectedAction = offensiveActions.get(actionIndex);
+    public int getCurrentHP() {
+        return currentHP;
+    }
 
-            selectedAction.execute(this, target);
-        } else {
-            System.out.println(this.name + " ne sait pas quoi faire !");
-        }
+    public boolean isAlive() {
+        return isAlive;
+    }
+
+    public DefensiveSkill getCurrentDefense() {
+        return currentDefense;
+    }
+
+    public List<OffensiveSkill> getOffensiveSkills() {
+        return offensiveSkills;
+    }
+
+    public OffensiveSkill getDefaultOffensiveSkill() {
+        return offensiveSkills.stream()
+                .filter(skill -> skill instanceof BasicAttack)
+                .findFirst()
+                .orElse(null);
+    }
+
+    public void printStats() {
+        System.out.println("\n===== STATS DE " + name + " =====");
+
+        System.out.println("HP : " + currentHP + "/" + stats.vitality);
+        System.out.println("Alive : " + isAlive);
+
+        System.out.println("Weapon : " +
+                (equippedWeapon != null ? equippedWeapon.getName() : "Aucune"));
+
+        System.out.println("Defense : " +
+                (currentDefense != null ? currentDefense.getName() : "Aucune"));
+
+        System.out.println("Vigor : " + stats.vigor);
+        System.out.println("Resonance : " + stats.resonance);
+
+        System.out.println("================================\n");
     }
 
     public void takeDamage(int amount, Character attacker) {
@@ -92,14 +127,10 @@ public class Character {
         }
     }
 
-    public Attributes getAttributes() { return stats; }
-    public String getName() { return name; }
-    public int getCurrentHP() { return currentHP; }
-    public boolean isAlive() {
-        return isAlive;
+    public int rollSpeed() {
+        return ThreadLocalRandom.current()
+                .nextInt(stats.minSpeed, stats.maxSpeed + 1);
     }
 
-    public Collection<Action> getOffensiveActions() {
-        return offensiveActions;
-    }
+
 }

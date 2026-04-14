@@ -38,5 +38,4 @@ public  class Weapon {
         return range;
     }
 
-//    public abstract int calculateDamage();
 }

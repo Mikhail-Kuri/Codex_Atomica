@@ -9,7 +9,7 @@ public class Evade extends DefensiveSkill {
         super("Esquive");
     }
 
-    public Evade (String name) {
+    public Evade(String name) {
         super(name);
     }
 

@@ -1,0 +1,160 @@
+package org.example.app.GameTester;
+
+import org.example.Skills.Actions.DefensiveAction;
+import org.example.Skills.Actions.OffensiveAction;
+import org.example.app.data.GameData;
+import org.example.gamplay.combat.TurnManager;
+import org.example.core.Character;
+
+public class GameTesterSpeed {
+
+
+    public static void runTestSpeed() {
+        System.out.println("========== TEST SPEED ==========");
+
+        Character paladin = GameData.createPaladin();
+        Character scout = GameData.createMutant();
+
+
+        TurnManager tm = new TurnManager();
+
+        tm.addAction(
+                new OffensiveAction(paladin, scout, paladin.getDefaultOffensiveSkill())
+        );
+
+        tm.addAction(
+                new OffensiveAction(scout, paladin, scout.getDefaultOffensiveSkill())
+        );
+
+
+        tm.resolveTurn();
+
+        System.out.println("========== END ==========\n");
+
+    }
+
+    public static void runTestSameSpeed() {
+        System.out.println("========== TEST SAME SPEED ==========");
+
+        Character paladin = GameData.createPaladin();
+        Character enemy = GameData.createEnemy();
+
+        paladin.getAttributes().minSpeed = 10;
+        enemy.getAttributes().minSpeed = 10;
+
+
+        TurnManager tm = new TurnManager();
+
+        tm.addAction(
+                new OffensiveAction(paladin, enemy, paladin.getDefaultOffensiveSkill())
+        );
+
+        tm.addAction(
+                new OffensiveAction(enemy, paladin, enemy.getDefaultOffensiveSkill())
+        );
+
+        tm.resolveTurn();
+
+        System.out.println("========== END ==========\n");
+    }
+
+    public static void runTestZeroSpeed() {
+        System.out.println("========== TEST ZERO SPEED ==========");
+
+        Character paladin = GameData.createPaladin();
+        Character enemy = GameData.createEnemy();
+
+        paladin.getAttributes().minSpeed = 0;
+        enemy.getAttributes().minSpeed = 0;
+
+
+        TurnManager tm = new TurnManager();
+
+        tm.addAction(
+                new OffensiveAction(enemy, paladin, enemy.getDefaultOffensiveSkill())
+        );
+
+        tm.addAction(
+                new OffensiveAction(paladin, enemy, paladin.getDefaultOffensiveSkill())
+        );
+
+
+        tm.resolveTurn();
+
+        System.out.println("========== END ==========\n");
+    }
+
+    public static void runTestNegativeSpeed() {
+        System.out.println("========== TEST NEGATIVE SPEED ==========");
+
+        Character paladin = GameData.createPaladin();
+        Character enemy = GameData.createEnemy();
+
+        paladin.getAttributes().minSpeed = -5;
+        enemy.getAttributes().minSpeed = -10;
+
+
+        TurnManager tm = new TurnManager();
+
+        tm.addAction(
+                new OffensiveAction(enemy, paladin, enemy.getDefaultOffensiveSkill())
+        );
+
+        tm.addAction(
+                new OffensiveAction(paladin, enemy, paladin.getDefaultOffensiveSkill())
+        );
+
+        tm.resolveTurn();
+
+        System.out.println("========== END ==========\n");
+
+    }
+
+    public static void runTestSpeedWithDefensive() {
+        System.out.println("========== TEST SPEED WITH DEFENSIVE ACTIONS ==========");
+
+        Character paladin = GameData.createPaladin();
+        Character scout = GameData.createScout();
+
+        TurnManager tm = new TurnManager();
+
+
+        tm.addAction(
+                new OffensiveAction(scout, paladin, scout.getDefaultOffensiveSkill())
+        );
+
+        tm.addAction(new DefensiveAction(paladin, scout));
+
+        tm.resolveTurn();
+
+        System.out.println("========== END ==========\n");
+
+    }
+
+
+    public static void run8SpeedTests() {
+        System.out.println("========== TEST SPEED 8 TIMES ==========\n");
+
+
+        for (int i = 0; i < 8; i++) {
+            runTestSpeed();
+            System.out.println("Test " + (i + 1) + " completed.\n");
+        }
+    }
+
+
+    public static void TestAll() {
+        runTestSpeed();
+        runTestSameSpeed();
+        runTestZeroSpeed();
+        runTestNegativeSpeed();
+        runTestSpeedWithDefensive();
+    }
+
+
+    public static void main(String[] args) {
+        run8SpeedTests();
+    }
+}
+
+
