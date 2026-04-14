@@ -155,10 +155,9 @@ public class GameTesterActions {
                 .orElse(null);
 
 
-
         TurnManager tm = new TurnManager();
         tm.addAction(
-                new OffensiveAction(mutant, mutant,selfAttack)
+                new OffensiveAction(mutant, mutant, selfAttack)
         );
 
         tm.resolveTurn();

@@ -132,14 +132,13 @@ public class GameTesterSpeed {
     }
 
 
-
     public static void run8SpeedTests() {
         System.out.println("========== TEST SPEED 8 TIMES ==========\n");
 
 
-        for ( int i = 0; i < 8; i++) {
+        for (int i = 0; i < 8; i++) {
             runTestSpeed();
-            System.out.println("Test " + (i+1) + " completed.\n");
+            System.out.println("Test " + (i + 1) + " completed.\n");
         }
     }
 
