@@ -6,6 +6,7 @@ import org.example.Skills.OffensiveSkills.BasicAttack;
 import org.example.Skills.OffensiveSkills.OffensiveSkill;
 import org.example.Skills.OffensiveSkills.SelfAttack;
 import org.example.Weapons.Weapon;
+import org.example.gamplay.mental.MentalState;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -19,6 +20,7 @@ public class Character {
     private Weapon equippedWeapon;
     private List<OffensiveSkill> offensiveSkills = new ArrayList<>();
     private DefensiveSkill currentDefense;
+    private MentalState mentalState;
     private boolean isDefending = false;
     private boolean isAlive = true;
 
