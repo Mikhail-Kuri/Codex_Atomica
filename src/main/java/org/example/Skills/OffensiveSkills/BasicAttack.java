@@ -4,6 +4,7 @@ import org.example.Skills.Scaling.ScalingType;
 import org.example.Skills.Targeting.TargetType;
 import org.example.Weapons.Weapon;
 import org.example.core.Character;
+import org.example.gamplay.combat.CombatEvent;
 
 import java.util.List;
 
@@ -33,6 +34,9 @@ public class BasicAttack extends OffensiveSkill {
                 + " pour " + damage + " dégâts");
 
         target.takeDamage(damage, source);
+
+        target.onEvent(CombatEvent.DAMAGE_RECEIVED,source);
+        source.onEvent(CombatEvent.DAMAGE_DEALT,target);
     }
 
 

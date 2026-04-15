@@ -6,6 +6,7 @@ import org.example.Skills.OffensiveSkills.BasicAttack;
 import org.example.Skills.OffensiveSkills.OffensiveSkill;
 import org.example.Skills.OffensiveSkills.SelfAttack;
 import org.example.Weapons.Weapon;
+import org.example.gamplay.combat.CombatEvent;
 import org.example.gamplay.mental.MentalState;
 
 import java.util.ArrayList;
@@ -124,6 +125,9 @@ public class Character {
             this.currentHP = 0;
             this.isAlive = false;
             System.out.println("💀 " + this.name + " a succombé à ses blessures !");
+
+            attacker.onEvent(CombatEvent.ENEMY_DEFEATED, this);
+            this.onEvent(CombatEvent.ALLY_DEFEATED, attacker);
         } else {
             System.out.println(this.name + " HP restants : " + this.currentHP);
         }
@@ -132,6 +136,21 @@ public class Character {
     public int rollSpeed() {
         return ThreadLocalRandom.current()
                 .nextInt(stats.minSpeed, stats.maxSpeed + 1);
+    }
+
+    public void onEvent(CombatEvent event, Character source) {
+
+        int delta = 0;
+
+        switch (event) {
+
+            case DAMAGE_RECEIVED -> delta = -2;
+            case DAMAGE_DEALT -> delta = +1;
+            case ENEMY_DEFEATED -> delta = +3;
+            case ALLY_DEFEATED -> delta = -5;
+        }
+
+        mentalState.change(delta);
     }
 
 
