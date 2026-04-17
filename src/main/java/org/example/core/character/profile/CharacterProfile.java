@@ -1,22 +1,24 @@
 package org.example.core.character.profile;
-import org.example.gameplay.combat.CombatEvent;
-import org.example.gameplay.mental.MentalState;
+//import org.example.gameplay.combat.CombatEvent;
+//import org.example.gameplay.mental.MentalState;
+import org.example.gameplay.mental.MentalStateType;
 
 public class CharacterProfile {
 
     private String name;
-    private MentalState mentalState;
+    private MentalStateType mentalStateType;
 
-    public CharacterProfile (String name, MentalState mentalState) {
+    public CharacterProfile (String name, MentalStateType mentalStateType) {
         this.name = name;
-        this.mentalState = mentalState;
+        this.mentalStateType = mentalStateType;
     }
 
-    public void onEvent(CombatEvent event, Character source) {
+    /*public void onEvent(CombatEvent event, Character source) {
         if (mentalState != null) {
             mentalState.onEvent(event, null, source);
         }
-    }
+    } */
+    
 
     public String getName() {
         return name;
@@ -26,11 +28,11 @@ public class CharacterProfile {
         this.name = name;
     }
 
-    public MentalState getMentalState() {
-        return mentalState;
+    public MentalStateType getMentalState() {
+        return mentalStateType;
     }
 
-    public void setMentalState(MentalState mentalState) {
-        this.mentalState = mentalState;
+    public void setMentalStateType(MentalStateType mentalStateType) {
+        this.mentalStateType = mentalStateType;
     }
 }
