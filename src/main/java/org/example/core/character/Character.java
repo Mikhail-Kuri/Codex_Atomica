@@ -9,7 +9,6 @@ import org.example.core.character.arsenal.CharacterEquipment;
 import org.example.core.character.arsenal.CharacterSkills;
 import org.example.core.character.profile.CharacterProfile;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 

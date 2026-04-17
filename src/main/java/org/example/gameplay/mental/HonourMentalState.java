@@ -1,6 +1,6 @@
-package org.example.gamplay.mental;
+package org.example.gameplay.mental;
 
-import org.example.gamplay.combat.CombatEvent;
+import org.example.gameplay.combat.CombatEvent;
 
 public class HonourMentalState implements MentalState {
 

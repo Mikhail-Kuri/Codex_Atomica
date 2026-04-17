@@ -1,4 +1,4 @@
-package org.example.gamplay.combat;
+package org.example.gameplay.combat;
 
 public enum CombatEvent {
     DAMAGE_DEALT,

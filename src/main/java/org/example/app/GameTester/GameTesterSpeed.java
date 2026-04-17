@@ -3,8 +3,8 @@ package org.example.app.GameTester;
 import org.example.Skills.Actions.DefensiveAction;
 import org.example.Skills.Actions.OffensiveAction;
 import org.example.app.data.GameData;
-import org.example.gamplay.combat.TurnManager;
 import org.example.core.character.Character;
+import org.example.gameplay.combat.TurnManager;
 
 public class GameTesterSpeed {
 

@@ -1,8 +1,6 @@
 package org.example.core.character.profile;
-
-import org.example.core.Attributes;
-import org.example.gamplay.combat.CombatEvent;
-import org.example.gamplay.mental.MentalState;
+import org.example.gameplay.combat.CombatEvent;
+import org.example.gameplay.mental.MentalState;
 
 public class CharacterProfile {
 

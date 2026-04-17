@@ -1,8 +1,8 @@
-package org.example.gamplay.mental;
+package org.example.gameplay.mental;
 
-import org.example.gamplay.combat.CombatEvent;
+import org.example.gameplay.combat.CombatEvent;
 
-public class FaithMentalState implements MentalState {
+public class CalmMentalState implements MentalState {
 
     private int value;
 
@@ -13,11 +13,11 @@ public class FaithMentalState implements MentalState {
         switch (event) {
             case DAMAGE_DEALT -> delta = +1;
             case DAMAGE_RECEIVED -> delta = -1;
-            case ALLY_DEFEATED -> delta = -4;
             case ENEMY_DEFEATED -> delta = +2;
+            case ALLY_DEFEATED -> delta = -2;
         }
 
         value += delta;
-        System.out.println(" (Foi): " + value);
+        System.out.println(" (Calme): " + value);
     }
 }
