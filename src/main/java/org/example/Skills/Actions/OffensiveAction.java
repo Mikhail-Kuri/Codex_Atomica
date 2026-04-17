@@ -1,7 +1,7 @@
 package org.example.Skills.Actions;
 
 import org.example.Skills.OffensiveSkills.OffensiveSkill;
-import org.example.core.Character;
+import org.example.core.character.Character;
 
 public class OffensiveAction extends Action {
 
@@ -19,6 +19,7 @@ public class OffensiveAction extends Action {
             return;
         }
         skill.execute(source, target);
+
     }
 }
 

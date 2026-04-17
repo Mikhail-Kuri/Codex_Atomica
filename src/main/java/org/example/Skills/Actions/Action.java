@@ -1,6 +1,6 @@
 package org.example.Skills.Actions;
 
-import org.example.core.Character;
+import org.example.core.character.Character;
 
 public abstract class Action {
 

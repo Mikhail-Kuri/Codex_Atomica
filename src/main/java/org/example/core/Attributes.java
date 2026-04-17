@@ -32,6 +32,15 @@ public class Attributes {
         this.maxSpeed = maxSpeed;
     }
 
+    public void setSpeed(int min, int max) {
+        if (min > max) {
+            throw new IllegalArgumentException("minSpeed cannot be > maxSpeed");
+        }
+
+        this.minSpeed = min;
+        this.maxSpeed = max;
+    }
+
     public int getVitality() {
         return vitality;
     }

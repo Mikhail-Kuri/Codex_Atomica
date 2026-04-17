@@ -2,9 +2,7 @@ package org.example.Skills.OffensiveSkills;
 
 import org.example.Skills.Scaling.ScalingType;
 import org.example.Skills.Targeting.TargetType;
-import org.example.Weapons.Weapon;
-import org.example.core.Character;
-import org.example.gamplay.combat.CombatEvent;
+import org.example.core.character.Character;
 
 import java.util.List;
 
@@ -14,7 +12,6 @@ public class BasicAttack extends OffensiveSkill {
     public BasicAttack() {
         super("Attaque de base", TargetType.ENEMY, List.of(ScalingType.STRENGTH, ScalingType.WEAPON));
     }
-
 
 
     @Override
@@ -35,8 +32,6 @@ public class BasicAttack extends OffensiveSkill {
 
         target.takeDamage(damage, source);
 
-        target.onEvent(CombatEvent.DAMAGE_RECEIVED,source);
-        source.onEvent(CombatEvent.DAMAGE_DEALT,target);
     }
 
 

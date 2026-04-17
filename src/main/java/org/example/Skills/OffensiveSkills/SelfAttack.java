@@ -4,7 +4,7 @@ package org.example.Skills.OffensiveSkills;
 import org.example.Skills.Scaling.ScalingType;
 import org.example.Skills.Targeting.TargetType;
 import org.example.Weapons.Weapon;
-import org.example.core.Character;
+import org.example.core.character.Character;
 
 import java.util.List;
 

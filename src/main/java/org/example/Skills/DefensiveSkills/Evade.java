@@ -1,5 +1,5 @@
 package org.example.Skills.DefensiveSkills;
-import org.example.core.Character;
+import org.example.core.character.Character;
 import java.util.Random;
 
 public class Evade extends DefensiveSkill {

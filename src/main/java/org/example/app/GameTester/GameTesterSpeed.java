@@ -4,7 +4,7 @@ import org.example.Skills.Actions.DefensiveAction;
 import org.example.Skills.Actions.OffensiveAction;
 import org.example.app.data.GameData;
 import org.example.gamplay.combat.TurnManager;
-import org.example.core.Character;
+import org.example.core.character.Character;
 
 public class GameTesterSpeed {
 
@@ -39,9 +39,8 @@ public class GameTesterSpeed {
         Character paladin = GameData.createPaladin();
         Character enemy = GameData.createEnemy();
 
-        paladin.getAttributes().minSpeed = 10;
-        enemy.getAttributes().minSpeed = 10;
-
+        paladin.getAttributes().setSpeed(10, 15);
+        enemy.getAttributes().setSpeed(10, 15);
 
         TurnManager tm = new TurnManager();
 
@@ -67,7 +66,6 @@ public class GameTesterSpeed {
         paladin.getAttributes().minSpeed = 0;
         enemy.getAttributes().minSpeed = 0;
 
-
         TurnManager tm = new TurnManager();
 
         tm.addAction(
@@ -77,7 +75,6 @@ public class GameTesterSpeed {
         tm.addAction(
                 new OffensiveAction(paladin, enemy, paladin.getDefaultOffensiveSkill())
         );
-
 
         tm.resolveTurn();
 
@@ -92,7 +89,6 @@ public class GameTesterSpeed {
 
         paladin.getAttributes().minSpeed = -5;
         enemy.getAttributes().minSpeed = -10;
-
 
         TurnManager tm = new TurnManager();
 
@@ -118,7 +114,6 @@ public class GameTesterSpeed {
 
         TurnManager tm = new TurnManager();
 
-
         tm.addAction(
                 new OffensiveAction(scout, paladin, scout.getDefaultOffensiveSkill())
         );
@@ -135,7 +130,6 @@ public class GameTesterSpeed {
     public static void run8SpeedTests() {
         System.out.println("========== TEST SPEED 8 TIMES ==========\n");
 
-
         for (int i = 0; i < 8; i++) {
             runTestSpeed();
             System.out.println("Test " + (i + 1) + " completed.\n");
@@ -149,11 +143,12 @@ public class GameTesterSpeed {
         runTestZeroSpeed();
         runTestNegativeSpeed();
         runTestSpeedWithDefensive();
+        run8SpeedTests();
     }
 
 
     public static void main(String[] args) {
-        run8SpeedTests();
+        runTestSameSpeed();
     }
 }
 

@@ -6,7 +6,7 @@ import org.example.Skills.OffensiveSkills.OffensiveSkill;
 import org.example.Skills.OffensiveSkills.SelfAttack;
 import org.example.app.data.GameData;
 import org.example.gamplay.combat.TurnManager;
-import org.example.core.Character;
+import org.example.core.character.Character;
 
 import java.util.List;
 
@@ -146,7 +146,6 @@ public class GameTesterActions {
         System.out.println("========== TEST SELF DAMAGE ==========");
 
         Character mutant = GameData.createMutant();
-        mutant.getOffensiveSkills().add(new SelfAttack());
 
         OffensiveSkill selfAttack = mutant.getOffensiveSkills().stream()
                 .filter(skill -> skill instanceof SelfAttack)

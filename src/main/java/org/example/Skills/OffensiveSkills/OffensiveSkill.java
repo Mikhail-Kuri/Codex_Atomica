@@ -2,7 +2,7 @@ package org.example.Skills.OffensiveSkills;
 
 import org.example.Skills.Scaling.ScalingType;
 import org.example.Skills.Targeting.TargetType;
-import org.example.core.Character;
+import org.example.core.character.Character;
 
 import java.util.List;
 
@@ -28,6 +28,8 @@ public abstract class OffensiveSkill {
             case SELF -> source == target;
 
             case ANY -> true;
+
+            // ALLY case is not implemented yet, as it requires a party system to determine allies
 
             default -> false;
         };
