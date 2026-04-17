@@ -19,7 +19,6 @@ public class CharacterProfile {
         }
     } */
     
-
     public String getName() {
         return name;
     }

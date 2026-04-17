@@ -62,8 +62,6 @@ public class GameData {
     public static final MentalStateType rageStateType = MentalStateType.RAGE;
     public static final MentalStateType calmStateType = MentalStateType.CALM;
 
-    
-
     // =====================
     // Character Profiles
     // =====================
@@ -115,7 +113,6 @@ public class GameData {
     public static final CharacterEquipment paladinEquipment = new CharacterEquipment(SWORD);
     public static final CharacterEquipment enemyEquipment = new CharacterEquipment(RUSTY_SWORD);
     public static final CharacterEquipment scoutEquipment = new CharacterEquipment(RUSTY_SWORD);
-
 
     // =====================
     // FACTORY METHODS
