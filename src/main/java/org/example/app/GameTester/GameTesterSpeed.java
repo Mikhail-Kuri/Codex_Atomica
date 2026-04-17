@@ -63,8 +63,8 @@ public class GameTesterSpeed {
         Character paladin = GameData.createPaladin();
         Character enemy = GameData.createEnemy();
 
-        paladin.getAttributes().minSpeed = 0;
-        enemy.getAttributes().minSpeed = 0;
+        paladin.getAttributes().setSpeed(0,0);
+        enemy.getAttributes().setSpeed(0, 0);
 
         TurnManager tm = new TurnManager();
 
@@ -87,8 +87,8 @@ public class GameTesterSpeed {
         Character paladin = GameData.createPaladin();
         Character enemy = GameData.createEnemy();
 
-        paladin.getAttributes().minSpeed = -5;
-        enemy.getAttributes().minSpeed = -10;
+        paladin.getAttributes().setSpeed(-15, -10);
+        enemy.getAttributes().setSpeed(-8,-5);
 
         TurnManager tm = new TurnManager();
 
@@ -148,7 +148,7 @@ public class GameTesterSpeed {
 
 
     public static void main(String[] args) {
-        runTestSameSpeed();
+        runTestSpeedWithDefensive();
     }
 }
 

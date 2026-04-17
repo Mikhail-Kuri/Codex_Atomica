@@ -56,15 +56,23 @@ public class GameData {
     public static final MentalState rage = new RageMentalState();
     public static final MentalState calm = new CalmMentalState();
 
+    public static final MentalStateType faithStateType = MentalStateType.FAITH;
+    public static final MentalStateType corruptionStateType = MentalStateType.CORRUPTION;
+    public static final MentalStateType HonourhStateType = MentalStateType.HONOUR;
+    public static final MentalStateType rageStateType = MentalStateType.RAGE;
+    public static final MentalStateType calmStateType = MentalStateType.CALM;
+
+    
+
     // =====================
     // Character Profiles
     // =====================
 
-    public static final CharacterProfile paladinProfile = new CharacterProfile("Paladin du Noyau", faithState);
-    public static final CharacterProfile enemyProfile = new CharacterProfile("Gnoll Irradié", corruption);
-    public static final CharacterProfile scoutProfile = new CharacterProfile("Éclaireur Mutant", calm);
-    public static final CharacterProfile mutantProfile = new CharacterProfile("Mutant Électrique", faithState);
-    public static final CharacterProfile fragileEnemyProfile = new CharacterProfile("Rat Mutant", faithState);
+    public static final CharacterProfile paladinProfile = new CharacterProfile("Paladin du Noyau", faithStateType);
+    public static final CharacterProfile enemyProfile = new CharacterProfile("Gnoll Irradié", corruptionStateType);
+    public static final CharacterProfile scoutProfile = new CharacterProfile("Éclaireur Mutant", calmStateType);
+    public static final CharacterProfile mutantProfile = new CharacterProfile("Mutant Électrique", faithStateType);
+    public static final CharacterProfile fragileEnemyProfile = new CharacterProfile("Rat Mutant", faithStateType);
 
     // =====================
     // Offensive Skills

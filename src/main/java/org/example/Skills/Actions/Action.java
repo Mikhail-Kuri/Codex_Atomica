@@ -6,7 +6,7 @@ public abstract class Action {
 
     protected Character source;
     protected Character target;
-    protected int priority;
+    
 
     public Action(Character source, Character target) {
         this.source = source;
@@ -21,9 +21,7 @@ public abstract class Action {
         return target;
     }
 
-    public int getPriority() {
-        return priority;
-    }
+    public abstract int getPriority();
 
 
     public abstract void execute();

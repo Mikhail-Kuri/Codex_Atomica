@@ -6,6 +6,7 @@ import org.example.core.character.Character;
 public class OffensiveAction extends Action {
 
     private final OffensiveSkill skill;
+    protected final int priority = 1;
 
     public OffensiveAction(Character source, Character target, OffensiveSkill skill) {
         super(source, target);
@@ -21,6 +22,12 @@ public class OffensiveAction extends Action {
         skill.execute(source, target);
 
     }
+
+      public int getPriority() {
+        return priority;
+    }
+
+
 }
 
 
