@@ -4,32 +4,57 @@ import org.example.Skills.DefensiveSkills.DefensiveSkill;
 import org.example.Skills.OffensiveSkills.BasicAttack;
 import org.example.Skills.OffensiveSkills.OffensiveSkill;
 import org.example.Weapons.Weapon;
-import org.example.core.Attributes;
-import org.example.core.character.arsenal.CharacterEquipment;
-import org.example.core.character.arsenal.CharacterSkills;
-import org.example.core.character.profile.CharacterProfile;
+import org.example.core.character.Attributes.CharacterAttributes;
+import org.example.core.character.Attributes.CharacterProfile;
+import org.example.core.character.Attributes.CharacterState;
+import org.example.core.character.Attributes.arsenal.CharacterEquipment;
+import org.example.core.character.Attributes.arsenal.CharacterSkills;
+import org.example.gameplay.mental.MentalState;
 
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class Character {
+    private CharacterState state;
     private int currentHP;
     private CharacterProfile profile;
-    private Attributes stats;
+    private CharacterAttributes stats;
     private CharacterEquipment equipment;
     private CharacterSkills skills;
     private boolean isDefending = false;
     private boolean isAlive = true;
 
-    public Character(CharacterProfile profile, Attributes stats, CharacterEquipment equipment, CharacterSkills skills) {
+
+
+    public Character(CharacterProfile profile,
+                     CharacterAttributes stats,
+                     CharacterEquipment equipment,
+                     CharacterSkills skills
+    ) {
         this.profile = profile;
         this.stats = stats;
         this.currentHP = stats.vitality;
         this.equipment = equipment;
         this.skills = skills;
     }
+    public Character(CharacterState state,
+                     CharacterProfile profile,
+                     CharacterAttributes stats,
+                     CharacterEquipment equipment,
+                     CharacterSkills skills
+    ) {
+        this.state = state;
+        this.profile = profile;
+        this.stats = stats;
+        this.equipment = equipment;
+        this.skills = skills;
 
-    public void setWeapon(Weapon newWeapon) {;
+        this.state.initFromStats(stats);
+
+    }
+
+
+    public void setWeapon(Weapon newWeapon) {
         this.equipment.equipWeapon(newWeapon);
     }
 
@@ -42,7 +67,7 @@ public class Character {
         System.out.println(getName() + " se prépare avec " + getCurrentDefense().getName());
     }
 
-    public Attributes getAttributes() {
+    public CharacterAttributes getAttributes() {
         return stats;
     }
 
@@ -58,12 +83,61 @@ public class Character {
         return isAlive;
     }
 
+
+    public void setCurrentHP(int currentHP) {
+        this.currentHP = currentHP;
+    }
+
+    public CharacterProfile getProfile() {
+        return profile;
+    }
+
+    public void setProfile(CharacterProfile profile) {
+        this.profile = profile;
+    }
+
+    public CharacterAttributes getStats() {
+        return stats;
+    }
+
+    public void setStats(CharacterAttributes stats) {
+        this.stats = stats;
+    }
+
+    public CharacterEquipment getEquipment() {
+        return equipment;
+    }
+
+    public void setEquipment(CharacterEquipment equipment) {
+        this.equipment = equipment;
+    }
+
+    public CharacterSkills getSkills() {
+        return skills;
+    }
+
+    public void setSkills(CharacterSkills skills) {
+        this.skills = skills;
+    }
+
+    public boolean isDefending() {
+        return isDefending;
+    }
+
+    public void setDefending(boolean defending) {
+        isDefending = defending;
+    }
+
+    public void setAlive(boolean alive) {
+        isAlive = alive;
+    }
+
     public DefensiveSkill getCurrentDefense() {
         return this.skills.getCurrentDefense();
     }
 
     public List<OffensiveSkill> getOffensiveSkills() {
-       return this.skills.getOffensiveSkills();
+        return this.skills.getOffensiveSkills();
     }
 
     public OffensiveSkill getDefaultOffensiveSkill() {
@@ -130,7 +204,6 @@ public class Character {
 
         return ThreadLocalRandom.current().nextInt(min, max + 1);
     }
-
 
 
 }

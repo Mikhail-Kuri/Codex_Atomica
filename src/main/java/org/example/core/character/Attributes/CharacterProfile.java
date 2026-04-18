@@ -1,4 +1,4 @@
-package org.example.core.character.profile;
+package org.example.core.character.Attributes;
 //import org.example.gameplay.combat.CombatEvent;
 //import org.example.gameplay.mental.MentalState;
 import org.example.gameplay.mental.MentalStateType;

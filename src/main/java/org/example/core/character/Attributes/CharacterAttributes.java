@@ -1,6 +1,6 @@
-package org.example.core;
+package org.example.core.character.Attributes;
 
-public class Attributes {
+public class CharacterAttributes {
 
     public int vitality;
     public int vigor;
@@ -10,15 +10,15 @@ public class Attributes {
     public int willpower;
     public float resonance;
     public int luck;
-    public int faith;
     public int minSpeed;
     public int maxSpeed;
 
-    public Attributes(int vitality, int vigor, int agility,
-                      int strength, int intelligence,
-                      int willpower, float resonance,
-                      int luck, int faith,
-                      int minSpeed, int maxSpeed) {
+    public CharacterAttributes(int vitality, int vigor, int agility,
+                               int strength, int intelligence,
+                               int willpower, float resonance,
+                               int luck,
+                               int minSpeed, int maxSpeed) {
+
         this.vitality = vitality;
         this.vigor = vigor;
         this.agility = agility;
@@ -27,7 +27,6 @@ public class Attributes {
         this.willpower = willpower;
         this.resonance = resonance;
         this.luck = luck;
-        this.faith = faith;
         this.minSpeed = minSpeed;
         this.maxSpeed = maxSpeed;
     }
@@ -103,14 +102,6 @@ public class Attributes {
 
     public void setLuck(int luck) {
         this.luck = luck;
-    }
-
-    public int getFaith() {
-        return faith;
-    }
-
-    public void setFaith(int faith) {
-        this.faith = faith;
     }
 
     public int getMinSpeed() {

@@ -1,9 +1,8 @@
-package org.example.core.character.arsenal;
+package org.example.core.character.Attributes.arsenal;
 
 import org.example.Skills.DefensiveSkills.DefensiveSkill;
 import org.example.Skills.OffensiveSkills.OffensiveSkill;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class CharacterSkills {

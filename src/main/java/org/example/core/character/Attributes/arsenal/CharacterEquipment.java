@@ -1,4 +1,4 @@
-package org.example.core.character.arsenal;
+package org.example.core.character.Attributes.arsenal;
 
 import org.example.Weapons.Weapon;
 

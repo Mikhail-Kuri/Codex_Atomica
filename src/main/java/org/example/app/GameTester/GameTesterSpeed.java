@@ -137,7 +137,7 @@ public class GameTesterSpeed {
     }
 
 
-    public static void TestAll() {
+    public static void runAllTests() {
         runTestSpeed();
         runTestSameSpeed();
         runTestZeroSpeed();
@@ -148,7 +148,7 @@ public class GameTesterSpeed {
 
 
     public static void main(String[] args) {
-        runTestSpeedWithDefensive();
+        runAllTests();
     }
 }
 
