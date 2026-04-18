@@ -13,15 +13,34 @@ public abstract class OffensiveSkill {
     protected TargetType targetType;
     protected List<ScalingType> scalingTypes;
 
-    public OffensiveSkill(String name, TargetType targetType, List<ScalingType>  scalingTypes) {
+    public OffensiveSkill(String name, TargetType targetType, List<ScalingType> scalingTypes) {
         this.name = name;
         this.targetType = targetType;
         this.scalingTypes = scalingTypes;
     }
 
-    protected boolean isValidTarget(Character source, Character target) {
+    public void resolve(Character source, Character target) {
+        if (source == null || target == null) return;
+        if (!source.isAlive() || !target.isAlive()) return;
 
-        return !switch (targetType) {
+        if (!isValidTarget(source, target)) {
+            System.out.println("❌ Cible invalide pour " + name);
+            return;
+        }
+
+        int damage = calculateDamage(source, target);
+        //int sanity = calculateSanityDamage(source, target);
+        int sanity = 0; // Placeholder for sanity damage calculation
+        applyEffects(source, target, damage, sanity);
+    }
+
+    protected void applyEffects(Character source, Character target, int damage, int sanityDamage) {
+        target.takeDamage(damage, source);
+//        target.takeSanityDamage(sanityDamage, source);
+    }
+
+    protected boolean isValidTarget(Character source, Character target) {
+        return switch (targetType) {
 
             case ENEMY -> source != target;
 
@@ -48,8 +67,11 @@ public abstract class OffensiveSkill {
                 case VITALITY -> raw += source.getAttributes().vitality * 1.5f;
             }
         }
-
         return Math.max(0, Math.round(raw) - target.getAttributes().vigor);
+    }
+
+    public String getName() {
+        return name;
     }
 
     public abstract void execute(Character source, Character target);

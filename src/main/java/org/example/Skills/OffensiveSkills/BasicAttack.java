@@ -16,22 +16,7 @@ public class BasicAttack extends OffensiveSkill {
 
     @Override
     public void execute(Character source, Character target) {
-
-        if (source == null || target == null) return;
-        if (!source.isAlive() || !target.isAlive()) return;
-
-        if (isValidTarget(source, target)) {
-            System.out.println("❌ Cible invalide pour " + name);
-            return;
-        }
-
-        int damage = calculateDamage(source, target);
-
-        System.out.println(source.getName() + " attaque " + target.getName()
-                + " pour " + damage + " dégâts");
-
-        target.takeDamage(damage, source);
-
+        resolve(source, target);
     }
 
 

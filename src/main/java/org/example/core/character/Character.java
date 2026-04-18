@@ -180,6 +180,8 @@ public class Character {
             finalDamage = Math.max(0, amount - this.stats.vigor);
         }
 
+        System.out.println(this.getName() + " subit " + finalDamage + " dégâts de la part de " + attacker.getName());
+
         this.currentHP -= finalDamage;
 
         if (this.currentHP <= 0) {

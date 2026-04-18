@@ -125,7 +125,7 @@ public class GameTesterActions {
     }
 
     public static void runSelfDamageTest() {
-        System.out.println("========== TEST SELF DAMAGE ==========");
+        System.out.println("========== TEST SELF DAMAGE 1==========");
 
         Character mutant = GameData.createMutant();
 
@@ -143,9 +143,10 @@ public class GameTesterActions {
     }
 
     public static void runDamageCheckWithSelfType() {
-        System.out.println("========== TEST SELF DAMAGE ==========");
+        System.out.println("========== TEST SELF DAMAGE 2 ==========");
 
         Character mutant = GameData.createMutant();
+        mutant.getAttributes().setVigor(0);
 
         OffensiveSkill selfAttack = mutant.getOffensiveSkills().stream()
                 .filter(skill -> skill instanceof SelfAttack)
@@ -153,8 +154,8 @@ public class GameTesterActions {
                 .findFirst()
                 .orElse(null);
 
-
         TurnManager tm = new TurnManager();
+
         tm.addAction(
                 new OffensiveAction(mutant, mutant, selfAttack)
         );
@@ -178,7 +179,8 @@ public class GameTesterActions {
     }
 
     public static void main(String[] args) {
-        runAllTests();
+        runDamageCheckWithSelfType();
+        runSelfDamageTest();
     }
 
     public static void printStats(List<Character> characters) {
