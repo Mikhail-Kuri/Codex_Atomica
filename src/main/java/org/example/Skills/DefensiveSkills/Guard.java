@@ -1,6 +1,9 @@
 package org.example.Skills.DefensiveSkills;
 
 import org.example.core.character.Character;
+import org.example.gameplay.combat.CombatEvent;
+
+import java.util.List;
 
 public class Guard extends DefensiveSkill {
 
@@ -25,4 +28,10 @@ public class Guard extends DefensiveSkill {
 
         return finalDamage;
     }
+
+    @Override
+    public List<CombatEvent> execute(Character source, Character target) {
+        return resolve(source, target);
+    }
+
 }

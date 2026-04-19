@@ -3,6 +3,7 @@ package org.example.Skills.OffensiveSkills;
 import org.example.Skills.Scaling.ScalingType;
 import org.example.Skills.Targeting.TargetType;
 import org.example.core.character.Character;
+import org.example.gameplay.combat.CombatEvent;
 
 import java.util.List;
 
@@ -15,8 +16,8 @@ public class BasicAttack extends OffensiveSkill {
 
 
     @Override
-    public void execute(Character source, Character target) {
-        resolve(source, target);
+    public List<CombatEvent> execute(Character source, Character target) {
+        return resolve(source, target);
     }
 
 

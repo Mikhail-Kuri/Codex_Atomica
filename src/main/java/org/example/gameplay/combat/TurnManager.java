@@ -22,7 +22,15 @@ public class TurnManager {
 
         System.out.println("\n⚔️ === RESOLUTION DU TOUR ===");
 
-        // 1. Cache des speeds (UNE SEULE fois)
+        Map<Character, Integer> speedCache = buildSpeedCache();
+        sortActions(speedCache);
+        executeActions();
+        cleanup();
+
+        System.out.println("⚔️ === FIN DU TOUR ===\n");
+    }
+
+    private Map<Character, Integer> buildSpeedCache() {
         Map<Character, Integer> speedCache = new HashMap<>();
 
         for (Action action : plannedActions) {
@@ -30,7 +38,11 @@ public class TurnManager {
             speedCache.putIfAbsent(source, source.rollSpeed());
         }
 
-        // 2. Tri propre (priority -> speed)
+        return speedCache;
+    }
+
+    private void sortActions(Map<Character, Integer> speedCache) {
+
         plannedActions.sort((a, b) -> {
 
             int priorityCompare = Integer.compare(
@@ -38,26 +50,60 @@ public class TurnManager {
                     a.getPriority()
             );
 
-            if (priorityCompare != 0) {
-                return priorityCompare;
-            }
+            if (priorityCompare != 0) return priorityCompare;
 
             int speedA = speedCache.get(a.getSource());
             int speedB = speedCache.get(b.getSource());
 
             return Integer.compare(speedB, speedA);
         });
-
-        // 3. Execution
-        for (Action action : plannedActions) {
-            action.execute();
-        }
-
-        // 4. Cleanup
-        plannedActions.clear();
-
-        System.out.println("⚔️ === FIN DU TOUR ===\n");
     }
+
+    private void cleanup() {
+        plannedActions.clear();
+    }
+
+
+    private void executeActions() {
+        for (Action action : plannedActions) {
+            List<CombatEvent> events = action.execute();
+            processEvents(events, action.getSource(), action.getTarget());
+        }
+    }
+
+    private void processEvents(List<CombatEvent> events, Character source, Character target) {
+
+        for (CombatEvent event : events) {
+
+            switch (event.getType()) {
+
+                case DAMAGE_DEALT -> {
+                    // optionnel: logs côté source
+                }
+
+                case DAMAGE_RECEIVED -> {
+                    target.takeDamage(event.getValue(), source);
+                    target.getMentalState()
+                            .onEvent(event.getType(), target, source);
+                }
+
+                case ENEMY_DEFEATED -> {
+                    target.die();
+                    target.getMentalState()
+                            .onEvent(event.getType(), target, source);
+                }
+
+                case DEFENSE_PREPARED -> {
+                    // futur: buffs, shields, etc.
+                }
+
+                default -> {
+                    // events non gérés
+                }
+            }
+        }
+    }
+
 
     public List<Action> getPlannedActions() {
         return plannedActions;

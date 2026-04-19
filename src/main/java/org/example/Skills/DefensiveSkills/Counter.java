@@ -1,7 +1,11 @@
 
 
 package org.example.Skills.DefensiveSkills;
+
 import org.example.core.character.Character;
+import org.example.gameplay.combat.CombatEvent;
+
+import java.util.List;
 
 public class Counter extends DefensiveSkill {
 
@@ -31,5 +35,10 @@ public class Counter extends DefensiveSkill {
         }
 
         return Math.max(0, rawDamage - (owner.getAttributes().vigor / 2));
+    }
+
+    @Override
+    public List<CombatEvent> execute(Character source, Character target) {
+        return resolve(source, target);
     }
 }

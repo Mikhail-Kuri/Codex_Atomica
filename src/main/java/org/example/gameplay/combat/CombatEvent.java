@@ -1,13 +1,23 @@
 package org.example.gameplay.combat;
+import org.example.core.character.Character;
 
-public enum CombatEvent {
-    DAMAGE_DEALT,
-    DAMAGE_RECEIVED,
-    DEFENSE_PREPARED,
-    ATTACK_MISSED,
-    ATTACK_BLOCKED,
-    ENEMY_DEFEATED,
-    ALLY_DEFEATED,
-    TURN_STARTED,
-    TURN_ENDED,
+
+public class CombatEvent {
+
+    private final CombatEventType type;
+    private final Character source;
+    private final Character target;
+    private final int value; // dégâts, heal, sanity, etc.
+
+    public CombatEvent(CombatEventType type, Character source, Character target, int value) {
+        this.type = type;
+        this.source = source;
+        this.target = target;
+        this.value = value;
+    }
+
+    public CombatEventType getType() { return type; }
+    public Character getSource() { return source; }
+    public Character getTarget() { return target; }
+    public int getValue() { return value; }
 }

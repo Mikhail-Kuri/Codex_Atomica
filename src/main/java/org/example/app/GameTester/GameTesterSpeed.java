@@ -118,7 +118,7 @@ public class GameTesterSpeed {
                 new OffensiveAction(scout, paladin, scout.getDefaultOffensiveSkill())
         );
 
-        tm.addAction(new DefensiveAction(paladin, scout));
+        tm.addAction(new DefensiveAction(paladin, scout, paladin.getCurrentDefense()));
 
         tm.resolveTurn();
 
@@ -148,7 +148,7 @@ public class GameTesterSpeed {
 
 
     public static void main(String[] args) {
-        runAllTests();
+        runTestSameSpeed();
     }
 }
 

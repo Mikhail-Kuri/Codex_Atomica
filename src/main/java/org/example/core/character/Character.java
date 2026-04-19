@@ -6,6 +6,7 @@ import org.example.Skills.OffensiveSkills.OffensiveSkill;
 import org.example.Weapons.Weapon;
 import org.example.core.character.Attributes.*;
 import org.example.core.character.Attributes.arsenal.*;
+import org.example.gameplay.mental.MentalState;
 
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
@@ -18,18 +19,20 @@ public class Character {
     private final CharacterEquipment equipment;
     private final CharacterSkills skills;
 
-    public Character(CharacterState state,
-                     CharacterProfile profile,
-                     CharacterAttributes stats,
-                     CharacterEquipment equipment,
-                     CharacterSkills skills) {
+    public Character(
+            CharacterProfile profile,
+            CharacterAttributes stats,
+            CharacterEquipment equipment,
+            CharacterSkills skills) {
 
-        this.state = state;
+        this.state = new CharacterState();
         this.profile = profile;
         this.stats = stats;
         this.equipment = equipment;
         this.skills = skills;
-        this.state.initFromStats(stats);
+
+        this.state.init(stats,profile);
+
     }
 
     // =====================
@@ -165,5 +168,15 @@ public class Character {
         System.out.println("Resonance : " + stats.resonance);
 
         System.out.println("================================\n");
+    }
+
+    public MentalState getMentalState() {
+        return state.getMentalState();
+    }
+
+    public void die() {
+        state.setAlive(false);
+        state.setCurrentHP(0);
+        System.out.println("💀 " + getName() + " est mort.");
     }
 }

@@ -1,13 +1,14 @@
 package org.example.gameplay.mental;
 
-import org.example.gameplay.combat.CombatEvent;
+import org.example.gameplay.combat.CombatEventType;
+import org.example.core.character.Character;
 
 public class RageMentalState implements MentalState {
 
     private int value;
 
     @Override
-    public void onEvent(CombatEvent event, Character self, Character source) {
+    public void onEvent(CombatEventType event, Character self, Character source) {
         int delta = 0;
 
         switch (event) {

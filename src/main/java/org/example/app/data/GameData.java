@@ -124,31 +124,28 @@ public class GameData {
     // Character States
     // =====================
 
-    public static final CharacterState STATE = new CharacterState();
-    public static final CharacterState STATE1 = new CharacterState();
-    public static final CharacterState STATE2 = new CharacterState();
 
     // =====================
     // FACTORY METHODS
     // =====================
 
     public static Character createPaladin() {
-        return new Character(STATE,paladinProfile, PALADIN_STATS, paladinEquipment, paladinSkills);
+        return new Character(paladinProfile, PALADIN_STATS, paladinEquipment, paladinSkills);
     }
 
     public static Character createEnemy() {
-        return new Character(STATE1,enemyProfile, ENEMY_STATS, enemyEquipment, enemySkills);
+        return new Character(enemyProfile, ENEMY_STATS, enemyEquipment, enemySkills);
     }
 
     public static Character createScout() {
-        return new Character(STATE,scoutProfile, SCOUT_STATS, scoutEquipment, scoutSkills);
+        return new Character(scoutProfile, SCOUT_STATS, scoutEquipment, scoutSkills);
     }
 
     public static Character createMutant() {
-        return new Character(STATE1,mutantProfile, MUTANT_STATS, paladinEquipment, mutantSkills);
+        return new Character(mutantProfile, MUTANT_STATS, paladinEquipment, mutantSkills);
     }
 
     public static Character createFragile() {
-        return new Character(STATE2,fragileEnemyProfile, FRAGILE_ENEMY_STATS, enemyEquipment, fagileEnemySkills);
+        return new Character(fragileEnemyProfile, FRAGILE_ENEMY_STATS, enemyEquipment, fagileEnemySkills);
     }
 }

@@ -10,6 +10,8 @@ import org.example.gameplay.combat.TurnManager;
 
 import java.util.List;
 
+import static org.example.app.GameTester.PrintStuff.printStats;
+
 
 public class GameTesterActions {
 
@@ -44,7 +46,7 @@ public class GameTesterActions {
 
         TurnManager tm = new TurnManager();
 
-        tm.addAction(new DefensiveAction(paladin, enemy));
+        tm.addAction(new DefensiveAction(paladin, enemy, paladin.getCurrentDefense()));
         tm.addAction(
                 new OffensiveAction(enemy, paladin, enemy.getDefaultOffensiveSkill())
         );
@@ -65,7 +67,7 @@ public class GameTesterActions {
 
         TurnManager tm = new TurnManager();
 
-        tm.addAction(new DefensiveAction(scout, enemy));
+        tm.addAction(new DefensiveAction(scout, enemy, enemy.getCurrentDefense()));
         tm.addAction(
                 new OffensiveAction(enemy, scout, enemy.getDefaultOffensiveSkill())
         );
@@ -85,7 +87,7 @@ public class GameTesterActions {
         Character enemy = GameData.createEnemy();
         TurnManager tm = new TurnManager();
 
-        tm.addAction(new DefensiveAction(mutant, enemy));
+        tm.addAction(new DefensiveAction(mutant, enemy, enemy.getCurrentDefense()));
         tm.addAction(
                 new OffensiveAction(enemy, mutant, enemy.getDefaultOffensiveSkill())
         );
@@ -179,14 +181,10 @@ public class GameTesterActions {
     }
 
     public static void main(String[] args) {
-        runTestAttaque1();
+        runAllTests();
     }
 
-    public static void printStats(List<Character> characters) {
-        for (Character character : characters) {
-            character.printStats();
-        }
-    }
+
 
 }
 

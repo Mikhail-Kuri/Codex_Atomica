@@ -2,6 +2,10 @@ package org.example.Skills.Actions;
 
 import org.example.Skills.OffensiveSkills.OffensiveSkill;
 import org.example.core.character.Character;
+import org.example.gameplay.combat.CombatEvent;
+import org.example.gameplay.combat.CombatEventType;
+
+import java.util.List;
 
 public class OffensiveAction extends Action {
 
@@ -14,16 +18,17 @@ public class OffensiveAction extends Action {
     }
 
     @Override
-    public void execute() {
-        if (source == null || target == null){
-            System.out.println("Source ou cible est null. Action annulée.");
-            return;
-        }
-        skill.execute(source, target);
+    public List<CombatEvent> execute() {
 
+        if (source == null || target == null) {
+            System.out.println("Source ou cible est null. Action annulée.");
+            return List.of();
+        }
+
+        return skill.execute(source, target);
     }
 
-      public int getPriority() {
+    public int getPriority() {
         return priority;
     }
 

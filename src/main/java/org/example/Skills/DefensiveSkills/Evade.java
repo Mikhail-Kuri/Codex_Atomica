@@ -1,5 +1,9 @@
 package org.example.Skills.DefensiveSkills;
+
 import org.example.core.character.Character;
+import org.example.gameplay.combat.CombatEvent;
+
+import java.util.List;
 import java.util.Random;
 
 public class Evade extends DefensiveSkill {
@@ -31,5 +35,11 @@ public class Evade extends DefensiveSkill {
                     " tente d'esquiver mais échoue ! (Roll: " + roll + "/" + dodgeChance + ")");
             return rawDamage;
         }
+    }
+
+
+    @Override
+    public List<CombatEvent> execute(Character source, Character target) {
+        return resolve(source, target);
     }
 }

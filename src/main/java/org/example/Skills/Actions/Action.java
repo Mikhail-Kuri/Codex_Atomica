@@ -1,6 +1,10 @@
 package org.example.Skills.Actions;
 
 import org.example.core.character.Character;
+import org.example.gameplay.combat.CombatEvent;
+import org.example.gameplay.combat.CombatEventType;
+
+import java.util.List;
 
 public abstract class Action {
 
@@ -24,5 +28,5 @@ public abstract class Action {
     public abstract int getPriority();
 
 
-    public abstract void execute();
-}
+    public abstract List<CombatEvent> execute();
+    }

@@ -1,20 +1,27 @@
 package org.example.core.character.Attributes;
 
+import org.example.gameplay.mental.MentalState;
+import org.example.gameplay.mental.MentalStateType;
+
 public class CharacterState {
 
     private int currentHP;
     private int currentSanity;
     private boolean isDefending;
     private boolean isAlive;
+    private MentalState mentalState;
 
 
     public CharacterState() {
         this.isDefending = false;
         this.isAlive = true;
+        this.currentSanity = 0;
     }
 
-    public void initFromStats(CharacterAttributes stats) {
+    public void init(CharacterAttributes stats, CharacterProfile profile) {
         this.currentHP = stats.getVitality();
+        MentalStateType mentalState = profile.getMentalState();
+        this.mentalState = mentalState.create();
     }
 
     public int getCurrentHP() {
@@ -56,6 +63,10 @@ public class CharacterState {
 
     public void setAlive(boolean alive) {
         isAlive = alive;
+    }
+
+    public MentalState getMentalState() {
+        return mentalState;
     }
 }
 
