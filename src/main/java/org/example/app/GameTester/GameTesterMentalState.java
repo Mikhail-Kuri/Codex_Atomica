@@ -12,7 +12,7 @@ public class GameTesterMentalState {
         Character enemy = GameData.createEnemy();
 
         TurnManager tm = new TurnManager();
-        System.out.println(paladin.getProfile().getMentalState().getClass());
+//        System.out.println(paladin.get().getMentalState().getClass());
     }
 
 

@@ -179,8 +179,7 @@ public class GameTesterActions {
     }
 
     public static void main(String[] args) {
-        runDamageCheckWithSelfType();
-        runSelfDamageTest();
+        runTestAttaque1();
     }
 
     public static void printStats(List<Character> characters) {

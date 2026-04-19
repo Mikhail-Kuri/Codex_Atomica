@@ -4,154 +4,156 @@ import org.example.Skills.DefensiveSkills.DefensiveSkill;
 import org.example.Skills.OffensiveSkills.BasicAttack;
 import org.example.Skills.OffensiveSkills.OffensiveSkill;
 import org.example.Weapons.Weapon;
-import org.example.core.character.Attributes.CharacterAttributes;
-import org.example.core.character.Attributes.CharacterProfile;
-import org.example.core.character.Attributes.CharacterState;
-import org.example.core.character.Attributes.arsenal.CharacterEquipment;
-import org.example.core.character.Attributes.arsenal.CharacterSkills;
-import org.example.gameplay.mental.MentalState;
+import org.example.core.character.Attributes.*;
+import org.example.core.character.Attributes.arsenal.*;
 
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class Character {
-    private CharacterState state;
-    private int currentHP;
-    private CharacterProfile profile;
-    private CharacterAttributes stats;
-    private CharacterEquipment equipment;
-    private CharacterSkills skills;
-    private boolean isDefending = false;
-    private boolean isAlive = true;
 
+    private final CharacterState state;
+    private final CharacterProfile profile;
+    private final CharacterAttributes stats;
+    private final CharacterEquipment equipment;
+    private final CharacterSkills skills;
 
-
-    public Character(CharacterProfile profile,
-                     CharacterAttributes stats,
-                     CharacterEquipment equipment,
-                     CharacterSkills skills
-    ) {
-        this.profile = profile;
-        this.stats = stats;
-        this.currentHP = stats.vitality;
-        this.equipment = equipment;
-        this.skills = skills;
-    }
     public Character(CharacterState state,
                      CharacterProfile profile,
                      CharacterAttributes stats,
                      CharacterEquipment equipment,
-                     CharacterSkills skills
-    ) {
+                     CharacterSkills skills) {
+
         this.state = state;
         this.profile = profile;
         this.stats = stats;
         this.equipment = equipment;
         this.skills = skills;
-
         this.state.initFromStats(stats);
-
     }
 
+    // =====================
+    // BASIC INFO
+    // =====================
 
-    public void setWeapon(Weapon newWeapon) {
-        this.equipment.equipWeapon(newWeapon);
+    public String getName() {
+        return profile.getName();
     }
 
-    public Weapon getEquippedWeapon() {
-        return this.equipment.getEquippedWeapon();
+    public boolean isAlive() {
+        return state.isAlive();
     }
 
-    public void prepareDefense() {
-        this.isDefending = true;
-        System.out.println(getName() + " se prépare avec " + getCurrentDefense().getName());
+    public int getCurrentHP() {
+        return state.getCurrentHP();
     }
 
     public CharacterAttributes getAttributes() {
         return stats;
     }
 
-    public String getName() {
-        return this.profile.getName();
+    public Weapon getEquippedWeapon() {
+        return equipment.getEquippedWeapon();
     }
 
-    public int getCurrentHP() {
-        return currentHP;
+    // =====================
+    // COMBAT
+    // =====================
+
+    public void takeDamage(int amount, Character attacker) {
+
+        if (!isAlive()) {
+            System.out.println(getName() + " est déjà hors de combat !");
+            return;
+        }
+
+        int finalDamage = computeFinalDamage(amount, attacker);
+
+        System.out.println(getName() + " subit " + finalDamage +
+                " dégâts de la part de " + attacker.getName());
+
+        state.reduceHP(finalDamage);
+
+        if (!isAlive()) {
+            System.out.println("💀 " + getName() + " a succombé à ses blessures !");
+        } else {
+            System.out.println(getName() + " HP restants : " + getCurrentHP());
+        }
     }
 
-    public boolean isAlive() {
-        return isAlive;
+    private int computeFinalDamage(int amount, Character attacker) {
+
+        if (state.isDefending() && getCurrentDefense() != null) {
+            int dmg = getCurrentDefense().onDamageTaken(amount, this, attacker);
+            state.setDefending(false);
+            return dmg;
+        }
+
+        return Math.max(0, amount - stats.vigor);
     }
 
+    // =====================
+    // DEFENSE
+    // =====================
 
-    public void setCurrentHP(int currentHP) {
-        this.currentHP = currentHP;
-    }
-
-    public CharacterProfile getProfile() {
-        return profile;
-    }
-
-    public void setProfile(CharacterProfile profile) {
-        this.profile = profile;
-    }
-
-    public CharacterAttributes getStats() {
-        return stats;
-    }
-
-    public void setStats(CharacterAttributes stats) {
-        this.stats = stats;
-    }
-
-    public CharacterEquipment getEquipment() {
-        return equipment;
-    }
-
-    public void setEquipment(CharacterEquipment equipment) {
-        this.equipment = equipment;
-    }
-
-    public CharacterSkills getSkills() {
-        return skills;
-    }
-
-    public void setSkills(CharacterSkills skills) {
-        this.skills = skills;
+    public void prepareDefense() {
+        state.setDefending(true);
+        System.out.println(getName() + " se prépare avec " + getCurrentDefense().getName());
     }
 
     public boolean isDefending() {
-        return isDefending;
-    }
-
-    public void setDefending(boolean defending) {
-        isDefending = defending;
-    }
-
-    public void setAlive(boolean alive) {
-        isAlive = alive;
+        return state.isDefending();
     }
 
     public DefensiveSkill getCurrentDefense() {
-        return this.skills.getCurrentDefense();
+        return skills.getCurrentDefense();
     }
 
+    // =====================
+    // SKILLS
+    // =====================
+
     public List<OffensiveSkill> getOffensiveSkills() {
-        return this.skills.getOffensiveSkills();
+        return skills.getOffensiveSkills();
     }
 
     public OffensiveSkill getDefaultOffensiveSkill() {
-        return getOffensiveSkills().stream()
+        return skills.getOffensiveSkills().stream()
                 .filter(skill -> skill instanceof BasicAttack)
                 .findFirst()
                 .orElse(null);
     }
 
+    // =====================
+    // EQUIPMENT
+    // =====================
+
+    public void setWeapon(Weapon weapon) {
+        equipment.equipWeapon(weapon);
+    }
+
+    // =====================
+    // UTILS
+    // =====================
+
+    public int rollSpeed() {
+        int min = stats.minSpeed;
+        int max = stats.maxSpeed;
+
+        if (min > max) {
+            throw new IllegalStateException("Invalid speed: min > max");
+        }
+
+        return (min == max)
+                ? min
+                : ThreadLocalRandom.current().nextInt(min, max + 1);
+    }
+
     public void printStats() {
         System.out.println("\n===== STATS DE " + getName() + " =====");
 
-        System.out.println("HP : " + currentHP + "/" + stats.vitality);
-        System.out.println("Alive : " + isAlive);
+        System.out.println("HP : " + getCurrentHP() + "/" + stats.vitality);
+        System.out.println("Alive : " + isAlive());
 
         System.out.println("Weapon : " +
                 (getEquippedWeapon() != null ? getEquippedWeapon().getName() : "Aucune"));
@@ -164,48 +166,4 @@ public class Character {
 
         System.out.println("================================\n");
     }
-
-    public void takeDamage(int amount, Character attacker) {
-        if (!isAlive) {
-            System.out.println(this.getName() + " est déjà hors de combat !");
-            return;
-        }
-
-        int finalDamage;
-
-        if (isDefending && getCurrentDefense() != null) {
-            finalDamage = getCurrentDefense().onDamageTaken(amount, this, attacker);
-            isDefending = false;
-        } else {
-            finalDamage = Math.max(0, amount - this.stats.vigor);
-        }
-
-        System.out.println(this.getName() + " subit " + finalDamage + " dégâts de la part de " + attacker.getName());
-
-        this.currentHP -= finalDamage;
-
-        if (this.currentHP <= 0) {
-            this.currentHP = 0;
-            this.isAlive = false;
-            System.out.println("💀 " + this.getName() + " a succombé à ses blessures !");
-        } else {
-            System.out.println(this.getName() + " HP restants : " + this.currentHP);
-        }
-    }
-
-    public int rollSpeed() {
-
-        int min = stats.minSpeed;
-        int max = stats.maxSpeed;
-
-        if (min > max) {
-            throw new IllegalStateException("Invalid speed: min > max");
-        }
-
-        if (min == max) return min;
-
-        return ThreadLocalRandom.current().nextInt(min, max + 1);
-    }
-
-
 }

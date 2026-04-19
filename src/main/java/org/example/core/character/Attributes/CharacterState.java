@@ -25,6 +25,15 @@ public class CharacterState {
         this.currentHP = currentHP;
     }
 
+    public void reduceHP(int amount) {
+        currentHP -= amount;
+
+        if (currentHP <= 0) {
+            currentHP = 0;
+            isAlive = false;
+        }
+    }
+
     public int getCurrentSanity() {
         return currentSanity;
     }
