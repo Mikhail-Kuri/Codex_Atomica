@@ -78,7 +78,7 @@ public class Character {
         state.reduceHP(finalDamage);
 
         if (!isAlive()) {
-            System.out.println("💀 " + getName() + " a succombé à ses blessures !");
+            die();
         } else {
             System.out.println(getName() + " HP restants : " + getCurrentHP());
         }

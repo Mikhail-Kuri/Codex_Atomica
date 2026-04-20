@@ -3,10 +3,8 @@ package org.example.gameplay.combat;
 
 import org.example.Skills.Actions.Action;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+
 import org.example.core.character.Character;
 
 
@@ -73,32 +71,46 @@ public class TurnManager {
 
     private void processEvents(List<CombatEvent> events, Character source, Character target) {
 
-        for (CombatEvent event : events) {
+        Queue<CombatEvent> eventQueue = new LinkedList<>(events);
+
+        while (!eventQueue.isEmpty()) {
+
+            CombatEvent event = eventQueue.poll();
 
             switch (event.getType()) {
 
-                case DAMAGE_DEALT -> {
-                    // optionnel: logs côté source
+                case DAMAGE_DEALT, ENEMY_DEFEATED -> {
+                    source.getMentalState()
+                            .onEvent(event.getType(), source, target);
                 }
 
                 case DAMAGE_RECEIVED -> {
+                    boolean wasAlive = target.isAlive();
+
                     target.takeDamage(event.getValue(), source);
+
+                    boolean isAlive = target.isAlive();
+
                     target.getMentalState()
                             .onEvent(event.getType(), target, source);
+
+                    if (wasAlive && !isAlive) {
+                        eventQueue.add(
+                                new CombatEvent(CombatEventType.ALLY_DEFEATED, target, source, 0)
+                        );
+                        eventQueue.add(
+                                new CombatEvent(CombatEventType.ENEMY_DEFEATED, source, target, 0)
+                        );
+                    }
                 }
 
-                case ENEMY_DEFEATED -> {
-                    target.die();
-                    target.getMentalState()
-                            .onEvent(event.getType(), target, source);
+                case ALLY_DEFEATED -> {
+                   // retrun alertToAllies(target, event);
+
                 }
 
                 case DEFENSE_PREPARED -> {
-                    // futur: buffs, shields, etc.
-                }
-
-                default -> {
-                    // events non gérés
+                    // futur
                 }
             }
         }

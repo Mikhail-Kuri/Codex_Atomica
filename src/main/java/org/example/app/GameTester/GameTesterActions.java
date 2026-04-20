@@ -35,6 +35,34 @@ public class GameTesterActions {
 
         System.out.println("========== END ==========\n");
     }
+    public static void runTestAttaque2(){
+        System.out.println("========== TEST ATTAQUE ==========");
+
+        Character paladin = GameData.createPaladin();
+        Character enemy = GameData.createEnemy();
+
+        TurnManager tm = new TurnManager();
+
+        tm.addAction(
+                new OffensiveAction(enemy, paladin, enemy.getDefaultOffensiveSkill())
+        );
+
+        tm.addAction(
+                new OffensiveAction(enemy, paladin, enemy.getDefaultOffensiveSkill())
+        );
+
+        tm.addAction(
+                new OffensiveAction(paladin, enemy, paladin.getDefaultOffensiveSkill())
+        );
+
+        tm.resolveTurn();
+
+        printStats(List.of(paladin, enemy));
+
+        System.out.println("========== END ==========\n");
+
+    }
+
 
     public static void runTestGarde1() {
         System.out.println("========== TEST GUARD ==========");
@@ -181,7 +209,7 @@ public class GameTesterActions {
     }
 
     public static void main(String[] args) {
-        runAllTests();
+        runTestAttaque2();
     }
 
 

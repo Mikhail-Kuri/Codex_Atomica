@@ -4,14 +4,17 @@ import org.example.Skills.Scaling.ScalingType;
 import org.example.Skills.Targeting.TargetType;
 import org.example.core.character.Character;
 import org.example.gameplay.combat.CombatEvent;
+import org.example.gameplay.combat.CombatEventType;
 
 import java.util.List;
 
 
 public class BasicAttack extends OffensiveSkill {
+    List<CombatEventType> combatEventTypesList;
 
     public BasicAttack() {
         super("Attaque de base", TargetType.ENEMY, List.of(ScalingType.STRENGTH, ScalingType.WEAPON));
+        this.combatEventTypesList = List.of(CombatEventType.DAMAGE_DEALT, CombatEventType.DAMAGE_RECEIVED);
     }
 
 

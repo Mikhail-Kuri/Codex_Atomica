@@ -23,7 +23,6 @@ public abstract class OffensiveSkill {
     }
 
     public List<CombatEvent> resolve(Character source, Character target) {
-        System.out.println("I was here");
         List<CombatEvent> events = new ArrayList<>();
 
         if (source == null || target == null) return events;
