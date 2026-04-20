@@ -39,7 +39,7 @@ public class Evade extends DefensiveSkill {
 
 
     @Override
-    public List<CombatEvent> execute(Character source, Character target) {
-        return resolve(source, target);
+    public List<CombatEvent> execute(Character source) {
+        return resolve(source);
     }
 }

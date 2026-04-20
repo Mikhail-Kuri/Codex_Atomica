@@ -3,6 +3,8 @@ package org.example.gameplay.mental;
 import org.example.gameplay.combat.CombatEventType;
 import org.example.core.character.Character;
 
+import static org.example.app.GameTester.PrintStuff.printMentalStateEvent;
+
 public class RageMentalState implements MentalState {
 
     private int value;
@@ -16,9 +18,10 @@ public class RageMentalState implements MentalState {
             case DAMAGE_RECEIVED -> delta = +4;
             case ALLY_DEFEATED -> delta = +1;
             case ENEMY_DEFEATED -> delta = +2;
+            case DEFENSE_PREPARED -> delta = -4;
         }
 
         value += delta;
-        System.out.println(" (Rage): " + value);
+        printMentalStateEvent(event, self, source, delta, value);
     }
 }

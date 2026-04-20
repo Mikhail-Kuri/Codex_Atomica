@@ -100,8 +100,8 @@ public class Character {
     // =====================
 
     public void prepareDefense() {
+        System.out.println(getName() + " se prépare à défendre !");
         state.setDefending(true);
-        System.out.println(getName() + " se prépare avec " + getCurrentDefense().getName());
     }
 
     public boolean isDefending() {

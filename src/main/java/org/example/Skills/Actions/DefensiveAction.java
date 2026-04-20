@@ -22,7 +22,7 @@ public class DefensiveAction extends Action {
     public List<CombatEvent> execute() {
 
         source.prepareDefense();
-        return skill.execute(source, target);
+        return skill.execute(source);
     }
 
     public int getPriority() {

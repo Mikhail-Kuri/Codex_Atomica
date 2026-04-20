@@ -3,6 +3,8 @@ package org.example.gameplay.mental;
 import org.example.gameplay.combat.CombatEventType;
 import org.example.core.character.Character;
 
+import static org.example.app.GameTester.PrintStuff.printMentalStateEvent;
+
 
 public class HonourMentalState implements MentalState {
 
@@ -17,9 +19,10 @@ public class HonourMentalState implements MentalState {
             case DAMAGE_RECEIVED -> delta = -3;
             case ALLY_DEFEATED -> delta = -2;
             case ENEMY_DEFEATED -> delta = +5;
+            case DEFENSE_PREPARED -> delta = -1;
         }
 
         value += delta;
-        System.out.println(" (Honneur): " + value);
+        printMentalStateEvent(event, self, source, delta,value);
     }
 }

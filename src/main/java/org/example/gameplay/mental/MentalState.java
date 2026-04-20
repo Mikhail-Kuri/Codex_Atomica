@@ -6,4 +6,5 @@ import org.example.core.character.Character;
 public interface MentalState {
 
     void onEvent(CombatEventType event, Character self, Character source);
+
 }

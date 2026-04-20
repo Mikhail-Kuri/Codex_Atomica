@@ -41,6 +41,8 @@ public class GameTesterActions {
         Character paladin = GameData.createPaladin();
         Character enemy = GameData.createEnemy();
 
+        paladin.getAttributes().setSpeed(0,0);
+
         TurnManager tm = new TurnManager();
 
         tm.addAction(
@@ -115,7 +117,7 @@ public class GameTesterActions {
         Character enemy = GameData.createEnemy();
         TurnManager tm = new TurnManager();
 
-        tm.addAction(new DefensiveAction(mutant, enemy, enemy.getCurrentDefense()));
+        tm.addAction(new DefensiveAction(mutant, enemy, mutant.getCurrentDefense()));
         tm.addAction(
                 new OffensiveAction(enemy, mutant, enemy.getDefaultOffensiveSkill())
         );
@@ -200,6 +202,7 @@ public class GameTesterActions {
 
     public static void runAllTests() {
         runTestAttaque1();
+        runTestAttaque2();
         runTestGarde1();
         testEsquive1();
         runTestCounter1();
@@ -209,7 +212,7 @@ public class GameTesterActions {
     }
 
     public static void main(String[] args) {
-        runTestAttaque2();
+        runTestCounter1();
     }
 
 

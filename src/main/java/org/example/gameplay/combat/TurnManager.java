@@ -91,9 +91,6 @@ public class TurnManager {
 
                     boolean isAlive = target.isAlive();
 
-                    target.getMentalState()
-                            .onEvent(event.getType(), target, source);
-
                     if (wasAlive && !isAlive) {
                         eventQueue.add(
                                 new CombatEvent(CombatEventType.ALLY_DEFEATED, target, source, 0)
@@ -101,6 +98,9 @@ public class TurnManager {
                         eventQueue.add(
                                 new CombatEvent(CombatEventType.ENEMY_DEFEATED, source, target, 0)
                         );
+                    }else{
+                        target.getMentalState()
+                                .onEvent(event.getType(), target, source);
                     }
                 }
 
@@ -111,6 +111,8 @@ public class TurnManager {
 
                 case DEFENSE_PREPARED -> {
                     // futur
+                    source.getMentalState()
+                            .onEvent(event.getType(), source, target);
                 }
             }
         }

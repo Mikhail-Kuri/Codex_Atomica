@@ -16,9 +16,7 @@ public abstract class DefensiveSkill {
 
     public abstract int onDamageTaken(int rawDamage, Character owner, Character attacker);
 
-    public abstract List<CombatEvent> execute(Character source, Character target);
-
-    public List<CombatEvent> resolve(Character source, Character target) {
+    public List<CombatEvent> resolve(Character source) {
 
         List<CombatEvent> events = new ArrayList<>();
 
@@ -32,11 +30,12 @@ public abstract class DefensiveSkill {
 //
 //        int damage = calculateDamage(source, target);
 
-        events.add(new CombatEvent(CombatEventType.DAMAGE_DEALT, source, target, 0));
-        events.add(new CombatEvent(CombatEventType.DAMAGE_RECEIVED, target, source, 0));
+        events.add(new CombatEvent(CombatEventType.DEFENSE_PREPARED, source, source, 0));
 
         return events;
     }
+
+    public abstract List<CombatEvent> execute(Character source);
 
 
     public String getName() {

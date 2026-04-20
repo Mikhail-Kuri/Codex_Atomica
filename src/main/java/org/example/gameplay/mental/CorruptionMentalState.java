@@ -3,6 +3,8 @@ package org.example.gameplay.mental;
 import org.example.gameplay.combat.CombatEventType;
 import org.example.core.character.Character;
 
+import static org.example.app.GameTester.PrintStuff.printMentalStateEvent;
+
 
 public class CorruptionMentalState implements MentalState {
 
@@ -17,9 +19,10 @@ public class CorruptionMentalState implements MentalState {
             case DAMAGE_RECEIVED -> delta = +2;
             case ALLY_DEFEATED -> delta = +3;
             case ENEMY_DEFEATED -> delta = -1;
+            case DEFENSE_PREPARED -> delta = -1;
         }
 
         value += delta;
-        System.out.println(" (Corruption): " + value);
+        printMentalStateEvent(event, self, source, delta,value);
     }
 }
