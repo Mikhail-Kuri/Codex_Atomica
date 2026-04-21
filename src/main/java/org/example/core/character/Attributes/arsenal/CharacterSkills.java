@@ -25,5 +25,9 @@ public class CharacterSkills {
         return currentDefense;
     }
 
+    public void setCurrentDefense(DefensiveSkill defensiveSkill){
+        this.currentDefense = defensiveSkill;
+    }
+
 
 }

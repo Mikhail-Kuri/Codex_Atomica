@@ -2,6 +2,7 @@ package org.example.app.GameTester;
 
 import org.example.Skills.Actions.DefensiveAction;
 import org.example.Skills.Actions.OffensiveAction;
+import org.example.Skills.DefensiveSkills.Counter;
 import org.example.Skills.OffensiveSkills.OffensiveSkill;
 import org.example.Skills.OffensiveSkills.SelfAttack;
 import org.example.app.data.GameData;
@@ -65,6 +66,33 @@ public class GameTesterActions {
 
         System.out.println("========== END ==========\n");
 
+    }
+
+    public static void runTestAttaque3(){
+
+        System.out.println("========== TEST ATTAQUE 3 ==========");
+
+         Character paladin = GameData.createPaladin();
+         paladin.setCurrentDefense(new Counter());
+         Character enemy = GameData.createMutant();
+         
+
+
+        TurnManager tm = new TurnManager(new CombatEngine(new EventSystem()));
+
+                tm.addAction(
+                        new DefensiveAction(paladin, enemy, paladin.getCurrentDefense())
+        );
+
+                tm.addAction(
+                        new OffensiveAction(enemy, paladin, enemy.getDefaultOffensiveSkill())
+        );
+
+        tm.resolveTurn();
+
+        printStats(List.of(paladin, enemy));
+
+        System.out.println("========== END ==========\n");
     }
 
 
@@ -216,7 +244,7 @@ public class GameTesterActions {
     }
 
     public static void main(String[] args) {
-        runTestAttaque1();
+        runTestAttaque3();
     }
 
 

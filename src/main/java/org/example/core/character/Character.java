@@ -112,6 +112,10 @@ public class Character {
         return skills.getCurrentDefense();
     }
 
+    public void setCurrentDefense(DefensiveSkill defensiveSkill){
+        this.skills.setCurrentDefense(defensiveSkill);
+    }
+
     // =====================
     // SKILLS
     // =====================

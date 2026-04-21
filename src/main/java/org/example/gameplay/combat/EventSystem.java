@@ -128,7 +128,9 @@ public class EventSystem {
     // ---------------- COUNTER ----------------
 
     private boolean isCounter(Character defender, boolean alreadyTriggered) {
-        return defender.getCurrentDefense() instanceof Counter && !alreadyTriggered;
+        return defender.getCurrentDefense() instanceof Counter
+            && defender.getState().getPendingCounterDamage() > 0
+            && !alreadyTriggered;
     }
 
     private void triggerCounter(Queue<CombatEvent> queue,
@@ -136,6 +138,9 @@ public class EventSystem {
                                 Character defender) {
 
         int dmg = defender.getState().getPendingCounterDamage();
+        
+        defender.getState().setPendingCounterDamage(0);
+
 
         queue.add(new CombatEvent(
                 CombatEventType.DAMAGE_DEALT,
