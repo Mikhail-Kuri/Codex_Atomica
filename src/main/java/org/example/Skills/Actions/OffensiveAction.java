@@ -32,6 +32,11 @@ public class OffensiveAction extends Action {
         return priority;
     }
 
+    @Override
+    public boolean isDefenseAction(){
+        return false;
+    }
+
 
 }
 

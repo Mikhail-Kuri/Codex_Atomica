@@ -28,4 +28,9 @@ public class DefensiveAction extends Action {
     public int getPriority() {
         return priority;
     }
+
+    @Override
+    public boolean isDefenseAction(){
+        return true;
+    }
 }

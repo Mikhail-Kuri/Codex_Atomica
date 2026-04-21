@@ -84,9 +84,11 @@ public class GameTesterActions {
                         new DefensiveAction(paladin, enemy, paladin.getCurrentDefense())
         );
 
+        
                 tm.addAction(
                         new OffensiveAction(enemy, paladin, enemy.getDefaultOffensiveSkill())
         );
+
 
         tm.resolveTurn();
 

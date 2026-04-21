@@ -25,6 +25,10 @@ public abstract class Action {
         return target;
     }
 
+    public abstract boolean isDefenseAction();
+
+    
+
     public abstract int getPriority();
 
 

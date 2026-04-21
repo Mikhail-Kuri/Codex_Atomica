@@ -17,6 +17,22 @@ public class TurnManager {
     }
 
     public void addAction(Action action) {
+
+        Character source = action.getSource();
+
+        boolean alreadyDefending =
+                source.isDefending() ||
+                plannedActions.stream()
+                        .anyMatch(a ->
+                                a.getSource().equals(source)
+                                        && a.isDefenseAction()
+                        );
+
+        if (action.isDefenseAction() && alreadyDefending) {
+            System.out.println(source.getName() + " défend déjà !");
+            return;
+        }
+
         plannedActions.add(action);
     }
 
