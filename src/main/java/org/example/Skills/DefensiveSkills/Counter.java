@@ -29,10 +29,8 @@ public class Counter extends DefensiveSkill {
                         (weaponPower * owner.getAttributes().resonance)
         );
 
-        // 🔥 appliquer le vrai contre
-        if (attacker != null && attacker.isAlive()) {
-            attacker.takeDamage(counterDamage, owner);
-        }
+
+        owner.getState().setPendingCounterDamage(counterDamage);
 
         return Math.max(0, rawDamage - (owner.getAttributes().vigor / 2));
     }

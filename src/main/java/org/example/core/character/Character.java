@@ -170,6 +170,10 @@ public class Character {
         System.out.println("================================\n");
     }
 
+    public CharacterState getState() {
+        return state;
+    }
+
     public MentalState getMentalState() {
         return state.getMentalState();
     }

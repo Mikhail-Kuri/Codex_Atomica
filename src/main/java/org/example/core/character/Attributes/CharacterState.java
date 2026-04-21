@@ -10,6 +10,7 @@ public class CharacterState {
     private boolean isDefending;
     private boolean isAlive;
     private MentalState mentalState;
+    private int pendingCounterDamage = 0;
 
 
     public CharacterState() {
@@ -67,6 +68,18 @@ public class CharacterState {
 
     public MentalState getMentalState() {
         return mentalState;
+    }
+
+    public int getPendingCounterDamage() {
+        return pendingCounterDamage;
+    }
+
+    public void setPendingCounterDamage(int damage) {
+        this.pendingCounterDamage = damage;
+    }
+
+    public void clearPendingCounterDamage() {
+        this.pendingCounterDamage = 0;
     }
 }
 
