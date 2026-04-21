@@ -246,7 +246,7 @@ public class GameTesterActions {
     }
 
     public static void main(String[] args) {
-        runTestAttaque3();
+        runAllTests();
     }
 
 
