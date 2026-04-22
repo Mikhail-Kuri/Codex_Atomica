@@ -7,8 +7,6 @@ import org.example.Skills.OffensiveSkills.OffensiveSkill;
 import org.example.Skills.OffensiveSkills.SelfAttack;
 import org.example.app.data.GameData;
 import org.example.core.character.Character;
-import org.example.gameplay.combat.CombatEngine;
-import org.example.gameplay.combat.EventSystem;
 import org.example.gameplay.combat.TurnManager;
 
 import java.util.List;

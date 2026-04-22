@@ -44,10 +44,9 @@ public abstract class OffensiveSkill {
 
         int damage = calculateDamage(source, target);
 
-        System.out.println(combatEventTypesList);
-
-        events.add(new CombatEvent(CombatEventType.DAMAGE_DEALT, source, target, damage));
-        events.add(new CombatEvent(CombatEventType.DAMAGE_RECEIVED, target, source, damage));
+        for (CombatEventType type : combatEventTypesList) {
+            events.add(type.create(source, target, damage));
+        }
 
         return events;
     }
