@@ -11,9 +11,16 @@ public class TurnManager {
 
     private final List<Action> plannedActions = new ArrayList<>();
     private final CombatEngine combatEngine;
+    private final ActionOrderResolver resolver;
 
-    public TurnManager(CombatEngine combatEngine) {
+    public TurnManager(CombatEngine combatEngine, ActionOrderResolver resolver) {
         this.combatEngine = combatEngine;
+        this.resolver = resolver;
+    }
+
+    public TurnManager(){
+        this.combatEngine = new CombatEngine(new EventSystem());
+        this.resolver = new ActionOrderResolver();
     }
 
     public void addAction(Action action) {
@@ -22,11 +29,11 @@ public class TurnManager {
 
         boolean alreadyDefending =
                 source.isDefending() ||
-                plannedActions.stream()
-                        .anyMatch(a ->
-                                a.getSource().equals(source)
-                                        && a.isDefenseAction()
-                        );
+                        plannedActions.stream()
+                                .anyMatch(a ->
+                                        a.getSource().equals(source)
+                                                && a.isDefenseAction()
+                                );
 
         if (action.isDefenseAction() && alreadyDefending) {
             System.out.println(source.getName() + " défend déjà !");
@@ -40,48 +47,14 @@ public class TurnManager {
 
         System.out.println("\n⚔️ === RESOLUTION DU TOUR ===");
 
-        Map<Character, Integer> speedCache = buildSpeedCache();
-        sortActions(speedCache);
+        List<Action> ordered = resolver.sort(plannedActions);
 
-        for (Action action : plannedActions) {
+        for (Action action : ordered) {
             combatEngine.execute(action);
         }
 
         plannedActions.clear();
 
         System.out.println("⚔️ === FIN DU TOUR ===\n");
-    }
-
-    private Map<Character, Integer> buildSpeedCache() {
-        Map<Character, Integer> speedCache = new HashMap<>();
-
-        for (Action action : plannedActions) {
-            Character source = action.getSource();
-            speedCache.putIfAbsent(source, source.rollSpeed());
-        }
-
-        return speedCache;
-    }
-
-    private void sortActions(Map<Character, Integer> speedCache) {
-
-        plannedActions.sort((a, b) -> {
-
-            int priorityCompare = Integer.compare(
-                    b.getPriority(),
-                    a.getPriority()
-            );
-
-            if (priorityCompare != 0) return priorityCompare;
-
-            return Integer.compare(
-                    speedCache.get(b.getSource()),
-                    speedCache.get(a.getSource())
-            );
-        });
-    }
-
-    public List<Action> getPlannedActions() {
-        return plannedActions;
     }
 }

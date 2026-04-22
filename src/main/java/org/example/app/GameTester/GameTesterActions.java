@@ -26,7 +26,7 @@ public class GameTesterActions {
         Character paladin = GameData.createPaladin();
         Character enemy = GameData.createEnemy();
 
-        TurnManager tm = new TurnManager(new CombatEngine(new EventSystem()));
+        TurnManager tm = new TurnManager();
 
         tm.addAction(
                 new OffensiveAction(paladin, enemy, paladin.getDefaultOffensiveSkill())
@@ -46,7 +46,7 @@ public class GameTesterActions {
 
         paladin.getAttributes().setSpeed(0,0);
 
-        TurnManager tm = new TurnManager(new CombatEngine(new EventSystem()));
+        TurnManager tm = new TurnManager();
 
         tm.addAction(
                 new OffensiveAction(enemy, paladin, enemy.getDefaultOffensiveSkill())
@@ -78,7 +78,7 @@ public class GameTesterActions {
          
 
 
-        TurnManager tm = new TurnManager(new CombatEngine(new EventSystem()));
+        TurnManager tm = new TurnManager();
 
                 tm.addAction(
                         new DefensiveAction(paladin, enemy, paladin.getCurrentDefense())
@@ -106,7 +106,7 @@ public class GameTesterActions {
 
         printStats(List.of(paladin, enemy));
 
-        TurnManager tm = new TurnManager(new CombatEngine(new EventSystem()));
+        TurnManager tm = new TurnManager();
 
         tm.addAction(new DefensiveAction(paladin, enemy, paladin.getCurrentDefense()));
         tm.addAction(
@@ -127,7 +127,7 @@ public class GameTesterActions {
         Character scout = GameData.createScout();
         Character enemy = GameData.createEnemy();
 
-        TurnManager tm = new TurnManager(new CombatEngine(new EventSystem()));
+        TurnManager tm = new TurnManager();
 
         tm.addAction(new DefensiveAction(scout, enemy, enemy.getCurrentDefense()));
         tm.addAction(
@@ -147,7 +147,7 @@ public class GameTesterActions {
 
         Character mutant = GameData.createMutant();
         Character enemy = GameData.createEnemy();
-        TurnManager tm = new TurnManager(new CombatEngine(new EventSystem()));
+        TurnManager tm = new TurnManager();
 
         tm.addAction(new DefensiveAction(mutant, enemy, mutant.getCurrentDefense()));
         tm.addAction(
@@ -170,7 +170,7 @@ public class GameTesterActions {
         Character fragile = GameData.createFragile();
         Character enemy = GameData.createEnemy();
 
-        TurnManager tm = new TurnManager(new CombatEngine(new EventSystem()));
+        TurnManager tm = new TurnManager();
 
         tm.addAction(
                 new OffensiveAction(enemy, fragile, enemy.getDefaultOffensiveSkill())
@@ -195,7 +195,7 @@ public class GameTesterActions {
         Character mutant = GameData.createMutant();
 
 
-        TurnManager tm = new TurnManager(new CombatEngine(new EventSystem()));
+        TurnManager tm = new TurnManager();
 
         tm.addAction(
                 new OffensiveAction(mutant, mutant, mutant.getDefaultOffensiveSkill())
@@ -220,7 +220,7 @@ public class GameTesterActions {
                 .findFirst()
                 .orElse(null);
 
-        TurnManager tm = new TurnManager(new CombatEngine(new EventSystem()));
+        TurnManager tm = new TurnManager();
 
         tm.addAction(
                 new OffensiveAction(mutant, mutant, selfAttack)
