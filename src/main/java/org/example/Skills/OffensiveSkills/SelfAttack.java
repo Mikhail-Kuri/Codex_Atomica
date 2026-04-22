@@ -14,7 +14,10 @@ import java.util.List;
 public class SelfAttack extends OffensiveSkill {
 
     public SelfAttack() {
-        super("Attaque de base de soi", TargetType.SELF, List.of(ScalingType.STRENGTH));
+        super(
+                "Attaque de base de soi",
+                TargetType.SELF, List.of(ScalingType.STRENGTH),
+                List.of(CombatEventType.DAMAGE_DEALT, CombatEventType.DAMAGE_RECEIVED));
     }
 
 
@@ -22,11 +25,5 @@ public class SelfAttack extends OffensiveSkill {
     public List<CombatEvent> execute(Character source, Character target, List<CombatEventType> combatEventTypesList) {
         return resolve(source, target, List.of(CombatEventType.DAMAGE_DEALT, CombatEventType.DAMAGE_RECEIVED));
     }
-
-    @Override
-    public List<CombatEventType> getCombatEventTypesList() {
-        return List.of();
-    }
-
 }
 

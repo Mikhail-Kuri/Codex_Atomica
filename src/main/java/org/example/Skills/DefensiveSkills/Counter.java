@@ -9,9 +9,11 @@ import org.example.gameplay.combat.CombatEventType;
 import java.util.List;
 
 public class Counter extends DefensiveSkill {
+    List<CombatEventType> combatEventTypesList;
 
     public Counter() {
         super("Contre");
+        this.combatEventTypesList = List.of(CombatEventType.DEFENSE_PREPARED);
     }
 
     public Counter(String name) {
@@ -43,7 +45,7 @@ public class Counter extends DefensiveSkill {
 
     @Override
     public List<CombatEventType> getCombatEventTypesList() {
-        return List.of();
+        return combatEventTypesList;
     }
 
 }

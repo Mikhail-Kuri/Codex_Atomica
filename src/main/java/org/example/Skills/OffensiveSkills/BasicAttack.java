@@ -10,28 +10,19 @@ import java.util.List;
 
 
 public class BasicAttack extends OffensiveSkill {
-    List<CombatEventType> combatEventTypesList;
-
     public BasicAttack() {
-        super("Attaque de base", TargetType.ENEMY, List.of(ScalingType.STRENGTH, ScalingType.WEAPON));
-        this.combatEventTypesList = List.of(CombatEventType.DAMAGE_DEALT, CombatEventType.DAMAGE_RECEIVED);
-    }
-
-
-    @Override
-    public List<CombatEvent> execute(Character source, Character target,List<CombatEventType> combatEventTypesList) {
-        return resolve(source, target,combatEventTypesList);
+        super(
+                "Attaque de base",
+                TargetType.ENEMY,
+                List.of(ScalingType.STRENGTH, ScalingType.WEAPON),
+                List.of(CombatEventType.DAMAGE_DEALT, CombatEventType.DAMAGE_RECEIVED)
+        );
     }
 
     @Override
-    public List<CombatEventType> getCombatEventTypesList() {
-        return combatEventTypesList;
+    public List<CombatEvent> execute(Character source, Character target, List<CombatEventType> combatEventTypesList) {
+        return resolve(source, target, combatEventTypesList);
     }
-//    @Override
-//    public void test() {
-//        System.out.println(this.get);
-//    }
-
 
 }
 

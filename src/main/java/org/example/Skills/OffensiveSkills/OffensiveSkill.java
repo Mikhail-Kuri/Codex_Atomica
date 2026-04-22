@@ -18,17 +18,16 @@ public abstract class OffensiveSkill {
     protected TargetType targetType;
     protected List<ScalingType> scalingTypes;
     protected List<DamageScaling> scalings;
+    protected List<CombatEventType> combatEventTypesList;
 
-    public OffensiveSkill(String name, TargetType targetType, List<ScalingType> scalingTypes) {
+    public OffensiveSkill(String name, TargetType targetType, List<ScalingType> scalingTypes, List<CombatEventType> combatEventTypesList) {
         this.name = name;
         this.targetType = targetType;
         this.scalingTypes = scalingTypes;
-
         this.scalings = scalingTypes.stream()
                 .map(this::toScaling)
                 .toList();
-
-        System.out.println("✅ OffensiveSkill '" + name + "' created with target type " + targetType + " and scalings: " + scalingTypes);
+        this.combatEventTypesList = combatEventTypesList;
     }
 
     public List<CombatEvent> resolve(Character source, Character target,List<CombatEventType> combatEventTypesList) {
@@ -49,11 +48,6 @@ public abstract class OffensiveSkill {
         }
 
         return events;
-    }
-
-    protected void applyEffects(Character source, Character target, int damage, int sanityDamage) {
-        target.takeDamage(damage, source);
-//        target.takeSanityDamage(sanityDamage, source);
     }
 
     protected boolean isValidTarget(Character source, Character target) {
@@ -92,8 +86,7 @@ public abstract class OffensiveSkill {
 
     public abstract List<CombatEvent> execute(Character source, Character target,List<CombatEventType> combatEventTypesList);
 
-    public abstract List<CombatEventType> getCombatEventTypesList();
-
-
-//    public abstract void test();
+    public List<CombatEventType> getCombatEventTypesList(){
+        return combatEventTypesList;
+    }
 }
