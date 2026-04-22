@@ -27,6 +27,18 @@ public enum ScalingType {
         public float compute(Character source, Character target) {
             return source.getAttributes().vitality * 1.5f;
         }
+    },
+
+    VIGOR {
+        public float compute(Character source, Character target) {
+            return source.getAttributes().vigor * 1.5f;
+        }
+    },
+
+    AGILITY {
+        public float compute(Character source, Character target) {
+            return source.getAttributes().agility * 1.5f;
+        }
     };
 
     public abstract float compute(Character source, Character target);

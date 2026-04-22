@@ -20,7 +20,11 @@ public abstract class OffensiveSkill {
     protected List<DamageScaling> scalings;
     protected List<CombatEventType> combatEventTypesList;
 
-    public OffensiveSkill(String name, TargetType targetType, List<ScalingType> scalingTypes, List<CombatEventType> combatEventTypesList) {
+    public OffensiveSkill(String name,
+                          TargetType targetType,
+                          List<ScalingType> scalingTypes,
+                          List<CombatEventType> combatEventTypesList
+    ) {
         this.name = name;
         this.targetType = targetType;
         this.scalingTypes = scalingTypes;

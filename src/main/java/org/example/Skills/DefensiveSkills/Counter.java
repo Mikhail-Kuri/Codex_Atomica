@@ -2,6 +2,8 @@
 
 package org.example.Skills.DefensiveSkills;
 
+import org.example.Skills.Scaling.ScalingType;
+import org.example.Skills.Targeting.TargetType;
 import org.example.core.character.Character;
 import org.example.gameplay.combat.CombatEvent;
 import org.example.gameplay.combat.CombatEventType;
@@ -9,15 +11,14 @@ import org.example.gameplay.combat.CombatEventType;
 import java.util.List;
 
 public class Counter extends DefensiveSkill {
-    List<CombatEventType> combatEventTypesList;
 
     public Counter() {
-        super("Contre");
-        this.combatEventTypesList = List.of(CombatEventType.DEFENSE_PREPARED);
-    }
+        super("Contre",
+                TargetType.SELF,
+                List.of(ScalingType.VIGOR),
+                List.of(CombatEventType.DEFENSE_PREPARED)
+        );
 
-    public Counter(String name) {
-        super(name);
     }
 
     @Override
@@ -39,13 +40,8 @@ public class Counter extends DefensiveSkill {
     }
 
     @Override
-    public List<CombatEvent> execute(Character source) {
-        return resolve(source);
-    }
-
-    @Override
-    public List<CombatEventType> getCombatEventTypesList() {
-        return combatEventTypesList;
+    public List<CombatEvent> execute(Character source,List<CombatEventType> combatEventTypesList) {
+        return resolve(source, combatEventTypesList);
     }
 
 }

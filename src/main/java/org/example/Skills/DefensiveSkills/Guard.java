@@ -1,5 +1,7 @@
 package org.example.Skills.DefensiveSkills;
 
+import org.example.Skills.Scaling.ScalingType;
+import org.example.Skills.Targeting.TargetType;
 import org.example.core.character.Character;
 import org.example.gameplay.combat.CombatEvent;
 import org.example.gameplay.combat.CombatEventType;
@@ -9,11 +11,11 @@ import java.util.List;
 public class Guard extends DefensiveSkill {
 
     public Guard() {
-        super("Guard");
-    }
-
-    public Guard(String name) {
-        super(name);
+        super(
+                "Guard",
+                TargetType.SELF,
+                List.of(ScalingType.VIGOR),
+                List.of(CombatEventType.DEFENSE_PREPARED));
     }
 
     @Override
@@ -31,8 +33,8 @@ public class Guard extends DefensiveSkill {
     }
 
     @Override
-    public List<CombatEvent> execute(Character source) {
-        return resolve(source);
+    public List<CombatEvent> execute(Character source, List<CombatEventType> combatEventTypesList) {
+        return resolve(source, combatEventTypesList);
     }
 
     @Override

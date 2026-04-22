@@ -1,5 +1,7 @@
 package org.example.Skills.DefensiveSkills;
 
+import org.example.Skills.Scaling.ScalingType;
+import org.example.Skills.Targeting.TargetType;
 import org.example.core.character.Character;
 import org.example.gameplay.combat.CombatEvent;
 import org.example.gameplay.combat.CombatEventType;
@@ -11,12 +13,13 @@ public class Evade extends DefensiveSkill {
     private Random random = new Random();
 
     public Evade() {
-        super("Esquive");
+        super(
+                "Esquive",
+                TargetType.SELF,
+                List.of(ScalingType.AGILITY),
+                List.of(CombatEventType.DEFENSE_PREPARED));
     }
 
-    public Evade(String name) {
-        super(name);
-    }
 
     @Override
     public int onDamageTaken(int rawDamage, Character owner, Character attacker) {
@@ -40,8 +43,8 @@ public class Evade extends DefensiveSkill {
 
 
     @Override
-    public List<CombatEvent> execute(Character source) {
-        return resolve(source);
+    public List<CombatEvent> execute(Character source, List<CombatEventType> combatEventTypesList) {
+        return resolve(source, combatEventTypesList);
     }
 
     @Override

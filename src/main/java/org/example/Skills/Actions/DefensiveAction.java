@@ -23,7 +23,7 @@ public class DefensiveAction extends Action {
     public List<CombatEvent> execute() {
 
         source.prepareDefense();
-        return skill.execute(source);
+        return skill.execute(source,skill.getCombatEventTypesList());
     }
 
     @Override
