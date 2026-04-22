@@ -24,9 +24,15 @@ public class OffensiveAction extends Action {
             System.out.println("Source ou cible est null. Action annulée.");
             return List.of();
         }
-
-        return skill.execute(source, target);
+        System.out.println();
+        return skill.execute(source, target,skill.getCombatEventTypesList());
     }
+
+    @Override
+    public List<CombatEventType> getCombatEventTypesList() {
+        return skill.getCombatEventTypesList();
+    }
+
 
     public int getPriority() {
         return priority;

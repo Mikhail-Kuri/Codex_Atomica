@@ -33,4 +33,6 @@ public abstract class Action {
 
 
     public abstract List<CombatEvent> execute();
+
+    public abstract List<CombatEventType> getCombatEventTypesList();
     }

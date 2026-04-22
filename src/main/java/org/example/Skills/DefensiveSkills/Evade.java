@@ -2,6 +2,7 @@ package org.example.Skills.DefensiveSkills;
 
 import org.example.core.character.Character;
 import org.example.gameplay.combat.CombatEvent;
+import org.example.gameplay.combat.CombatEventType;
 
 import java.util.List;
 import java.util.Random;
@@ -41,5 +42,10 @@ public class Evade extends DefensiveSkill {
     @Override
     public List<CombatEvent> execute(Character source) {
         return resolve(source);
+    }
+
+    @Override
+    public List<CombatEventType> getCombatEventTypesList() {
+        return List.of();
     }
 }

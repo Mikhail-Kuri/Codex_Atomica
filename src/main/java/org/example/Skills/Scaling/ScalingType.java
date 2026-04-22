@@ -1,8 +1,33 @@
 package org.example.Skills.Scaling;
+import org.example.core.character.Character;
 
 public enum ScalingType {
-    WEAPON,
-    STRENGTH,
-    INTELLIGENCE,
-    VITALITY
+
+    WEAPON {
+        public float compute(Character source, Character target) {
+            return source.getEquippedWeapon() != null
+                    ? source.getEquippedWeapon().getBasePower() * source.getAttributes().resonance
+                    : 0;
+        }
+    },
+
+    STRENGTH {
+        public float compute(Character source, Character target) {
+            return source.getAttributes().strength * 1.5f;
+        }
+    },
+
+    INTELLIGENCE {
+        public float compute(Character source, Character target) {
+            return source.getAttributes().intelligence * 1.5f;
+        }
+    },
+
+    VITALITY {
+        public float compute(Character source, Character target) {
+            return source.getAttributes().vitality * 1.5f;
+        }
+    };
+
+    public abstract float compute(Character source, Character target);
 }

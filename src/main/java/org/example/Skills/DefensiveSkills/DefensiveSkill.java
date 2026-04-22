@@ -37,6 +37,8 @@ public abstract class DefensiveSkill {
 
     public abstract List<CombatEvent> execute(Character source);
 
+    public abstract List<CombatEventType> getCombatEventTypesList();
+
 
     public String getName() {
         return name;

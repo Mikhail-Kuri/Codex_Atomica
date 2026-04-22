@@ -4,6 +4,7 @@ import org.example.Skills.DefensiveSkills.DefensiveSkill;
 import org.example.Skills.OffensiveSkills.OffensiveSkill;
 import org.example.core.character.Character;
 import org.example.gameplay.combat.CombatEvent;
+import org.example.gameplay.combat.CombatEventType;
 
 import java.util.List;
 
@@ -23,6 +24,11 @@ public class DefensiveAction extends Action {
 
         source.prepareDefense();
         return skill.execute(source);
+    }
+
+    @Override
+    public List<CombatEventType> getCombatEventTypesList() {
+        return skill.getCombatEventTypesList();
     }
 
     public int getPriority() {

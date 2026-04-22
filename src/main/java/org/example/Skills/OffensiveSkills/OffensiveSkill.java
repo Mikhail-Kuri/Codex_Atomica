@@ -1,5 +1,7 @@
 package org.example.Skills.OffensiveSkills;
 
+import org.example.Skills.Scaling.AttributeScaling;
+import org.example.Skills.Scaling.DamageScaling;
 import org.example.Skills.Scaling.ScalingType;
 import org.example.Skills.Targeting.TargetType;
 import org.example.core.character.Character;
@@ -15,14 +17,21 @@ public abstract class OffensiveSkill {
     protected String name;
     protected TargetType targetType;
     protected List<ScalingType> scalingTypes;
+    protected List<DamageScaling> scalings;
 
     public OffensiveSkill(String name, TargetType targetType, List<ScalingType> scalingTypes) {
         this.name = name;
         this.targetType = targetType;
         this.scalingTypes = scalingTypes;
+
+        this.scalings = scalingTypes.stream()
+                .map(this::toScaling)
+                .toList();
+
+        System.out.println("✅ OffensiveSkill '" + name + "' created with target type " + targetType + " and scalings: " + scalingTypes);
     }
 
-    public List<CombatEvent> resolve(Character source, Character target) {
+    public List<CombatEvent> resolve(Character source, Character target,List<CombatEventType> combatEventTypesList) {
         List<CombatEvent> events = new ArrayList<>();
 
         if (source == null || target == null) return events;
@@ -34,6 +43,8 @@ public abstract class OffensiveSkill {
         }
 
         int damage = calculateDamage(source, target);
+
+        System.out.println(combatEventTypesList);
 
         events.add(new CombatEvent(CombatEventType.DAMAGE_DEALT, source, target, damage));
         events.add(new CombatEvent(CombatEventType.DAMAGE_RECEIVED, target, source, damage));
@@ -64,22 +75,26 @@ public abstract class OffensiveSkill {
     protected int calculateDamage(Character source, Character target) {
 
         float raw = 0;
-        for (ScalingType scaling : scalingTypes) {
-            switch (scaling) {
-                case WEAPON -> raw += source.getEquippedWeapon() != null
-                        ? source.getEquippedWeapon().getBasePower() * source.getAttributes().resonance
-                        : 0;
-                case STRENGTH -> raw += source.getAttributes().strength * 1.5f;
-                case INTELLIGENCE -> raw += source.getAttributes().intelligence * 1.5f;
-                case VITALITY -> raw += source.getAttributes().vitality * 1.5f;
-            }
+
+        for (DamageScaling scaling : scalings) {
+            raw += scaling.compute(source, target);
         }
+
         return Math.max(0, Math.round(raw) - target.getAttributes().vigor);
+    }
+
+    private DamageScaling toScaling(ScalingType type) {
+        return new AttributeScaling(type, 1.0f);
     }
 
     public String getName() {
         return name;
     }
 
-    public abstract List<CombatEvent> execute(Character source, Character target);
+    public abstract List<CombatEvent> execute(Character source, Character target,List<CombatEventType> combatEventTypesList);
+
+    public abstract List<CombatEventType> getCombatEventTypesList();
+
+
+//    public abstract void test();
 }

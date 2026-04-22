@@ -6,6 +6,7 @@ import org.example.Skills.Targeting.TargetType;
 import org.example.Weapons.Weapon;
 import org.example.core.character.Character;
 import org.example.gameplay.combat.CombatEvent;
+import org.example.gameplay.combat.CombatEventType;
 
 import java.util.List;
 
@@ -18,8 +19,13 @@ public class SelfAttack extends OffensiveSkill {
 
 
     @Override
-    public List<CombatEvent> execute(Character source, Character target) {
-        return resolve(source, target);
+    public List<CombatEvent> execute(Character source, Character target, List<CombatEventType> combatEventTypesList) {
+        return resolve(source, target, List.of(CombatEventType.DAMAGE_DEALT, CombatEventType.DAMAGE_RECEIVED));
+    }
+
+    @Override
+    public List<CombatEventType> getCombatEventTypesList() {
+        return List.of();
     }
 
 }
