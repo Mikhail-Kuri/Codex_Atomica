@@ -19,7 +19,6 @@ public abstract class AbstractMentalState implements MentalState {
     public double getDamageMultiplier() {
 
         float n = normalize(); // [-1, 1]
-        System.out.println("aaaaaaaaaaa");
         return 1.0 + (n * 0.4);
     }
 
