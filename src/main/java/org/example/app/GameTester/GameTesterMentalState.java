@@ -71,12 +71,14 @@ public class GameTesterMentalState {
         Character enemy = GameData.createEnemy();
 
         paladin.getState().setCurrentHP(10000000);
+        enemy.getState().setCurrentHP(10000000);
 
         TurnManager tm = new TurnManager();
 
         // ===== TOUR 1 =====
         for (int i = 0; i < 20; i++) {
-            tm.addAction(new OffensiveAction(enemy, paladin, enemy.getDefaultOffensiveSkill()) );
+            //tm.addAction(new OffensiveAction(enemy, paladin, enemy.getDefaultOffensiveSkill()) );
+           tm.addAction(new OffensiveAction(paladin, enemy, paladin.getDefaultOffensiveSkill()) );
         }
         tm.resolveCurrentTurn();
 
