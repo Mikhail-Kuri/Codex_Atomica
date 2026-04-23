@@ -25,9 +25,10 @@ public class Guard extends DefensiveSkill {
 
         int finalDamage = Math.max(0, rawDamage - effectiveVigor);
 
-        System.out.println("[ACTION: GARDE] " + owner.getName() + " s'ancre au sol !");
-        System.out.println("Vigueur effective : " + effectiveVigor +
-                " | Dégâts absorbés : " + (rawDamage - finalDamage));
+        int mentalScaling = calculateMentalScaling(owner, finalDamage);
+
+        finalDamage = Math.max(0, mentalScaling);
+
 
         return finalDamage;
     }

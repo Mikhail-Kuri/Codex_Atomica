@@ -6,23 +6,23 @@ import org.example.core.character.Character;
 import static org.example.app.GameTester.PrintStuff.printMentalStateEvent;
 
 
-public class CorruptionMentalState implements MentalState {
-
-    private int value;
+public class CorruptionMentalState extends AbstractMentalState {
 
     @Override
     public void onEvent(CombatEventType event, Character self, Character source) {
-        int delta = 0;
 
-        switch (event) {
-            case DAMAGE_DEALT -> delta = +1;
-            case DAMAGE_RECEIVED -> delta = +2;
-            case ALLY_DEFEATED -> delta = +3;
-            case ENEMY_DEFEATED -> delta = -1;
-            case DEFENSE_PREPARED -> delta = -1;
-        }
+        int delta = switch (event) {
+            case DAMAGE_DEALT -> 2;
+            case DAMAGE_RECEIVED -> 3;
+            case ALLY_DEFEATED -> 3;
+            case ENEMY_DEFEATED -> -1;
+            case DEFENSE_PREPARED -> -1;
+            default -> 1;
+        };
 
         value += delta;
-        printMentalStateEvent(event, self, source, delta,value);
+
+        clamp();
+        printMentalStateEvent(event, self, source, delta, value);
     }
 }

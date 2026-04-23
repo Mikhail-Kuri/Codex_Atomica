@@ -1,6 +1,7 @@
 package org.example.Skills.OffensiveSkills;
 
 import org.example.Skills.Scaling.AttributeScaling;
+import org.example.Skills.Scaling.DamageContext;
 import org.example.Skills.Scaling.DamageScaling;
 import org.example.Skills.Scaling.ScalingType;
 import org.example.Skills.Targeting.TargetType;
@@ -34,7 +35,7 @@ public abstract class OffensiveSkill {
         this.combatEventTypesList = combatEventTypesList;
     }
 
-    public List<CombatEvent> resolve(Character source, Character target,List<CombatEventType> combatEventTypesList) {
+    public List<CombatEvent> resolve(Character source, Character target, List<CombatEventType> combatEventTypesList) {
         List<CombatEvent> events = new ArrayList<>();
 
         if (source == null || target == null) return events;
@@ -77,7 +78,25 @@ public abstract class OffensiveSkill {
             raw += scaling.compute(source, target);
         }
 
-        return Math.max(0, Math.round(raw) - target.getAttributes().vigor);
+        DamageContext context = new DamageContext();
+        context.baseDamage = raw;
+        context.source = source;
+        context.target = target;
+
+        float modified = applyMental(context);
+
+        System.out.println("💥 " + name + " inflige " + modified + " dégâts bruts à " + target.getName());
+
+        return Math.max(0,
+                Math.round(modified) - target.getAttributes().vigor
+        );
+    }
+
+    private float applyMental(DamageContext ctx) {
+        return (float) (
+                ctx.baseDamage *
+                        ctx.source.getMentalState().getDamageMultiplier()
+        );
     }
 
     private DamageScaling toScaling(ScalingType type) {
@@ -88,9 +107,9 @@ public abstract class OffensiveSkill {
         return name;
     }
 
-    public abstract List<CombatEvent> execute(Character source, Character target,List<CombatEventType> combatEventTypesList);
+    public abstract List<CombatEvent> execute(Character source, Character target, List<CombatEventType> combatEventTypesList);
 
-    public List<CombatEventType> getCombatEventTypesList(){
+    public List<CombatEventType> getCombatEventTypesList() {
         return combatEventTypesList;
     }
 }

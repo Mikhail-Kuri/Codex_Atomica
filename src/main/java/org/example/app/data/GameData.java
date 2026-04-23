@@ -117,7 +117,7 @@ public class GameData {
     // =====================
 
     public static final CharacterEquipment paladinEquipment = new CharacterEquipment(SWORD);
-    public static final CharacterEquipment enemyEquipment = new CharacterEquipment(RUSTY_SWORD);
+    public static final CharacterEquipment enemyEquipment = new CharacterEquipment(SWORD);
     public static final CharacterEquipment scoutEquipment = new CharacterEquipment(RUSTY_SWORD);
 
     // =====================

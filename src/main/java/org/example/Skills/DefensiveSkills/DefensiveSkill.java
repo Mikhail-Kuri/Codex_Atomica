@@ -39,6 +39,11 @@ public abstract class DefensiveSkill {
         return events;
     }
 
+    public int calculateMentalScaling(Character owner, int dmg) {
+
+        return (int) (dmg * owner.getMentalState().getIncomingDamageMultiplier());
+    }
+
     public abstract List<CombatEvent> execute(Character source, List<CombatEventType> combatEventTypesList);
 
     public List<CombatEventType> getCombatEventTypesList() {
@@ -48,6 +53,4 @@ public abstract class DefensiveSkill {
     public String getName() {
         return name;
     }
-
-
 }

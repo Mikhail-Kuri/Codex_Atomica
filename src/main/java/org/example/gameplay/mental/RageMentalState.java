@@ -5,7 +5,7 @@ import org.example.core.character.Character;
 
 import static org.example.app.GameTester.PrintStuff.printMentalStateEvent;
 
-public class RageMentalState implements MentalState {
+public class RageMentalState extends AbstractMentalState {
 
     private int value;
 

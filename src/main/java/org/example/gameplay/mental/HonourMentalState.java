@@ -6,7 +6,7 @@ import org.example.core.character.Character;
 import static org.example.app.GameTester.PrintStuff.printMentalStateEvent;
 
 
-public class HonourMentalState implements MentalState {
+public class HonourMentalState extends AbstractMentalState{
 
     private int value;
 
@@ -23,6 +23,6 @@ public class HonourMentalState implements MentalState {
         }
 
         value += delta;
-        printMentalStateEvent(event, self, source, delta,value);
+        printMentalStateEvent(event, self, source, delta, value);
     }
 }

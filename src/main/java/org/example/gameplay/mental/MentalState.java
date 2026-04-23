@@ -7,4 +7,8 @@ public interface MentalState {
 
     void onEvent(CombatEventType event, Character self, Character source);
 
+    double getDamageMultiplier();
+
+    double getIncomingDamageMultiplier();
+
 }
