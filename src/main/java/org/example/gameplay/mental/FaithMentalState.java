@@ -22,6 +22,7 @@ public class FaithMentalState extends AbstractMentalState {
         }
 
         value += delta;
+        clamp();
         printMentalStateEvent(event, self, source, delta,value);
     }
 }

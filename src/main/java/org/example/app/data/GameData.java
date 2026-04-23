@@ -23,7 +23,7 @@ public class GameData {
             new CharacterAttributes(100, 10, 5, 5, 5, 10, 1.5f, 0, 3, 6);
 
     public static final CharacterAttributes ENEMY_STATS =
-            new CharacterAttributes(50, 1, 2, 5, 2, 2, 1, 0, 3, 5);
+            new CharacterAttributes(50, 0, 2, 5, 2, 2, 1, 0, 3, 5);
 
     public static final CharacterAttributes SCOUT_STATS =
             new CharacterAttributes(80, 4, 15, 5, 5, 8, 1.0f, 10, 7, 10);

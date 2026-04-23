@@ -64,8 +64,28 @@ public class GameTesterMentalState {
         printStats(List.of(paladin, enemy));
     }
 
+    
+    public static void runTestMentalState3() {
+
+        Character paladin = GameData.createPaladin();
+        Character enemy = GameData.createEnemy();
+
+        paladin.getState().setCurrentHP(10000000);
+
+        TurnManager tm = new TurnManager();
+
+        // ===== TOUR 1 =====
+        for (int i = 0; i < 20; i++) {
+            tm.addAction(new OffensiveAction(enemy, paladin, enemy.getDefaultOffensiveSkill()) );
+        }
+        tm.resolveCurrentTurn();
+
+        printStats(List.of(paladin, enemy));
+    }
+
+
 
     public static void main(String[] args) {
-        runTestMentalState2();
+        runTestMentalState3();
     }
 }

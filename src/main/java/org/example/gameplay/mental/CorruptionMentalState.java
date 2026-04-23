@@ -13,7 +13,7 @@ public class CorruptionMentalState extends AbstractMentalState {
 
         int delta = switch (event) {
             case DAMAGE_DEALT -> 2;
-            case DAMAGE_RECEIVED -> 3;
+            case DAMAGE_RECEIVED -> 1;
             case ALLY_DEFEATED -> 3;
             case ENEMY_DEFEATED -> -1;
             case DEFENSE_PREPARED -> -1;
