@@ -9,14 +9,18 @@ public class CalmMentalState extends AbstractMentalState {
     @Override
     public void onEvent(CombatEventType event, Character self, Character source) {
 
-        switch (event) {
-            case DAMAGE_DEALT -> value += 1;
-            case DAMAGE_RECEIVED -> value -= 1;
-            case ENEMY_DEFEATED -> value += 2;
-            case ALLY_DEFEATED -> value -= 2;
-            case DEFENSE_PREPARED -> value += 3;
-        }
+        int delta = switch (event) {
+            case DAMAGE_DEALT -> 2;
+            case DAMAGE_RECEIVED -> 1;
+            case ALLY_DEFEATED -> 3;
+            case ENEMY_DEFEATED -> -1;
+            case DEFENSE_PREPARED -> -1;
+            default -> 1;
+        };
+
+        value += delta;
 
         clamp();
+        printMentalStateEvent(event, self, source, delta, value);
     }
 }
