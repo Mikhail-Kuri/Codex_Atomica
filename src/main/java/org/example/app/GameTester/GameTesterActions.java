@@ -30,7 +30,7 @@ public class GameTesterActions {
                 new OffensiveAction(paladin, enemy, paladin.getDefaultOffensiveSkill())
         );
 
-        tm.resolveTurn();
+        tm.resolveCurrentTurn();
 
         printStats(List.of(paladin, enemy));
 
@@ -58,7 +58,7 @@ public class GameTesterActions {
                 new OffensiveAction(paladin, enemy, paladin.getDefaultOffensiveSkill())
         );
 
-        tm.resolveTurn();
+        tm.resolveCurrentTurn();
 
         printStats(List.of(paladin, enemy));
 
@@ -88,7 +88,7 @@ public class GameTesterActions {
         );
 
 
-        tm.resolveTurn();
+        tm.resolveCurrentTurn();
 
         printStats(List.of(paladin, enemy));
 
@@ -111,7 +111,7 @@ public class GameTesterActions {
                 new OffensiveAction(enemy, paladin, enemy.getDefaultOffensiveSkill())
         );
 
-        tm.resolveTurn();
+        tm.resolveCurrentTurn();
 
         printStats(List.of(paladin, enemy));
 
@@ -132,7 +132,7 @@ public class GameTesterActions {
                 new OffensiveAction(enemy, scout, enemy.getDefaultOffensiveSkill())
         );
 
-        tm.resolveTurn();
+        tm.resolveCurrentTurn();
 
         printStats(List.of(scout, enemy));
 
@@ -152,7 +152,7 @@ public class GameTesterActions {
                 new OffensiveAction(enemy, mutant, enemy.getDefaultOffensiveSkill())
         );
 
-        tm.resolveTurn();
+        tm.resolveCurrentTurn();
 
         printStats(List.of(mutant, enemy));
 
@@ -181,7 +181,7 @@ public class GameTesterActions {
                 new OffensiveAction(fragile, enemy, fragile.getDefaultOffensiveSkill())
         );
 
-        tm.resolveTurn();
+        tm.resolveCurrentTurn();
 
 
         System.out.println("========== END ==========\n");
@@ -199,7 +199,7 @@ public class GameTesterActions {
                 new OffensiveAction(mutant, mutant, mutant.getDefaultOffensiveSkill())
         );
 
-        tm.resolveTurn();
+        tm.resolveCurrentTurn();
 
         printStats(List.of(mutant));
 
@@ -224,7 +224,7 @@ public class GameTesterActions {
                 new OffensiveAction(mutant, mutant, selfAttack)
         );
 
-        tm.resolveTurn();
+        tm.resolveCurrentTurn();
 
         printStats(List.of(mutant));
 

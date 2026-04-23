@@ -30,7 +30,7 @@ public class GameTesterSpeed {
         );
 
 
-        tm.resolveTurn();
+        tm.resolveCurrentTurn();
 
         System.out.println("========== END ==========\n");
 
@@ -56,7 +56,7 @@ public class GameTesterSpeed {
                 new OffensiveAction(enemy, paladin, enemy.getDefaultOffensiveSkill())
         );
 
-        tm.resolveTurn();
+        tm.resolveCurrentTurn();
 
         System.out.println("========== END ==========\n");
     }
@@ -81,7 +81,7 @@ public class GameTesterSpeed {
                 new OffensiveAction(paladin, enemy, paladin.getDefaultOffensiveSkill())
         );
 
-        tm.resolveTurn();
+        tm.resolveCurrentTurn();
 
         System.out.println("========== END ==========\n");
     }
@@ -106,7 +106,7 @@ public class GameTesterSpeed {
                 new OffensiveAction(paladin, enemy, paladin.getDefaultOffensiveSkill())
         );
 
-        tm.resolveTurn();
+        tm.resolveCurrentTurn();
 
         System.out.println("========== END ==========\n");
 
@@ -127,7 +127,7 @@ public class GameTesterSpeed {
 
         tm.addAction(new DefensiveAction(paladin, scout, paladin.getCurrentDefense()));
 
-        tm.resolveTurn();
+        tm.resolveCurrentTurn();
 
         System.out.println("========== END ==========\n");
 

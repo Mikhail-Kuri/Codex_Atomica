@@ -3,8 +3,6 @@ package org.example.app.GameTester;
 import org.example.Skills.Actions.OffensiveAction;
 import org.example.app.data.GameData;
 import org.example.core.character.Character;
-import org.example.gameplay.combat.CombatEngine;
-import org.example.gameplay.combat.EventSystem;
 import org.example.gameplay.combat.TurnManager;
 import java.util.List;
 import static org.example.app.GameTester.PrintStuff.printStats;
@@ -24,7 +22,7 @@ public class GameTesterMentalState {
                 new OffensiveAction(enemy, paladin, enemy.getDefaultOffensiveSkill())
         );
 
-        tm.resolveTurn();
+        tm.resolveCurrentTurn();
 
         printStats(List.of(paladin, enemy));
 
