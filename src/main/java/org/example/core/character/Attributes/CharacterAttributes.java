@@ -1,5 +1,10 @@
 package org.example.core.character.Attributes;
 
+import org.example.Skills.Scaling.DamageType;
+
+import java.util.HashMap;
+import java.util.Map;
+
 public class CharacterAttributes {
 
     public int vitality;
@@ -12,12 +17,15 @@ public class CharacterAttributes {
     public int luck;
     public int minSpeed;
     public int maxSpeed;
+    private Map<DamageType, Float> resistances = new HashMap<>();
+
 
     public CharacterAttributes(int vitality, int vigor, int agility,
                                int strength, int intelligence,
                                int willpower, float resonance,
                                int luck,
-                               int minSpeed, int maxSpeed) {
+                               int minSpeed, int maxSpeed,
+                               Map<DamageType, Float> resistances) {
 
         this.vitality = vitality;
         this.vigor = vigor;
@@ -29,6 +37,7 @@ public class CharacterAttributes {
         this.luck = luck;
         this.minSpeed = minSpeed;
         this.maxSpeed = maxSpeed;
+        this.resistances = resistances;
     }
 
     public void setSpeed(int min, int max) {
@@ -118,5 +127,13 @@ public class CharacterAttributes {
 
     public void setMaxSpeed(int maxSpeed) {
         this.maxSpeed = maxSpeed;
+    }
+
+    public float getResistance(DamageType type) {
+        return resistances.getOrDefault(type, 1.0f);
+    }
+
+    public void setResistance(DamageType type, float value) {
+        resistances.put(type, value);
     }
 }

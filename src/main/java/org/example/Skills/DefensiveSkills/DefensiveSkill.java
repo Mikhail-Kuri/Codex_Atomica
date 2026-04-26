@@ -1,5 +1,6 @@
 package org.example.Skills.DefensiveSkills;
 
+import org.example.Skills.Scaling.DamageType;
 import org.example.Skills.Scaling.ScalingType;
 import org.example.Skills.Targeting.TargetType;
 import org.example.core.character.Character;
@@ -9,6 +10,7 @@ import org.example.gameplay.combat.CombatEventType;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 public abstract class DefensiveSkill {
     protected String name;
@@ -34,7 +36,7 @@ public abstract class DefensiveSkill {
         List<CombatEvent> events = new ArrayList<>();
 
         for (CombatEventType type : combatEventTypesList) {
-            events.add(CombatEventFactory.create(type, source, source, 0));
+            events.add(CombatEventFactory.create(type, source, source, Set.of(DamageType.NULL),0));
         }
 
         return events;

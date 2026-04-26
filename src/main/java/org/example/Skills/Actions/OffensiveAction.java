@@ -24,8 +24,13 @@ public class OffensiveAction extends Action {
             System.out.println("Source ou cible est null. Action annulée.");
             return List.of();
         }
-        System.out.println();
+        System.out.println("aaaaaaaaaa");
+        source.setCurrentlyUsedOffensiveSkill(skill);
         return skill.execute(source, target);
+    }
+
+    public void setCurrentlyUsedOffensiveSkill(){
+        source.setCurrentlyUsedOffensiveSkill(this.skill);
     }
 
     @Override

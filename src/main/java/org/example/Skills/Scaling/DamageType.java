@@ -1,0 +1,30 @@
+package org.example.Skills.Scaling;
+
+public enum DamageType {
+    PHYSICAL,
+    SLASHING,
+    CRUSHING,
+    PIERCING,
+    RADIATION,
+    ENERGY,
+    ARCANE,
+    FIRE,
+    VOID,
+    BLEEDING,
+    POISON,
+    PSYCHIC,
+    EXPLOSIVE,
+    ELECTRIC,
+    FROST,
+    SHOCK,
+    HOLY,
+    UNHOLY,
+    NECROTIC,
+    PSIONIC,
+    SONIC,
+    GRAVITY,
+    TIME,
+    CHAOS,
+    PURE,
+    NULL
+}
