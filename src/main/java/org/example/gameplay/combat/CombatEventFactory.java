@@ -16,6 +16,9 @@ public class CombatEventFactory {
             case DAMAGE_RECEIVED ->
                     new CombatEvent(type, target, source, value);
 
+            case SELF_DAMAGE ->
+                    new CombatEvent(type, source, source, value);
+
             case DEFENSE_PREPARED ->
                     new CombatEvent(type, source, source, 0);
 

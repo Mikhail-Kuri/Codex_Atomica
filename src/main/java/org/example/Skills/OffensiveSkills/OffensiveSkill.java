@@ -86,7 +86,6 @@ public abstract class OffensiveSkill {
 
         float modified = applyMental(context);
 
-        System.out.println("💥 " + name + " inflige " + modified + " dégâts bruts à " + target.getName());
 
         return Math.max(0,
                 Math.round(modified) - target.getAttributes().vigor

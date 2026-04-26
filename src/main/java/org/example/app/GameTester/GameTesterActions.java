@@ -36,13 +36,14 @@ public class GameTesterActions {
 
         System.out.println("========== END ==========\n");
     }
-    public static void runTestAttaque2(){
+
+    public static void runTestAttaque2() {
         System.out.println("========== TEST ATTAQUE ==========");
 
         Character paladin = GameData.createPaladin();
         Character enemy = GameData.createEnemy();
 
-        paladin.getAttributes().setSpeed(0,0);
+        paladin.getAttributes().setSpeed(0, 0);
 
         TurnManager tm = new TurnManager();
 
@@ -66,25 +67,24 @@ public class GameTesterActions {
 
     }
 
-    public static void runTestAttaque3(){
+    public static void runTestAttaque3() {
 
         System.out.println("========== TEST ATTAQUE 3 ==========");
 
-         Character paladin = GameData.createPaladin();
-         paladin.setCurrentDefense(new Counter());
-         Character enemy = GameData.createMutant();
-         
+        Character paladin = GameData.createPaladin();
+        paladin.setCurrentDefense(new Counter());
+        Character enemy = GameData.createMutant();
 
 
         TurnManager tm = new TurnManager();
 
-                tm.addAction(
-                        new DefensiveAction(paladin, enemy, paladin.getCurrentDefense())
+        tm.addAction(
+                new DefensiveAction(paladin, enemy, paladin.getCurrentDefense())
         );
 
-        
-                tm.addAction(
-                        new OffensiveAction(enemy, paladin, enemy.getDefaultOffensiveSkill())
+
+        tm.addAction(
+                new OffensiveAction(enemy, paladin, enemy.getDefaultOffensiveSkill())
         );
 
 
@@ -210,18 +210,34 @@ public class GameTesterActions {
         System.out.println("========== TEST SELF DAMAGE 2 ==========");
 
         Character mutant = GameData.createMutant();
-        mutant.getAttributes().setVigor(0);
+        Character paladin = GameData.createPaladin();
 
-        OffensiveSkill selfAttack = mutant.getOffensiveSkills().stream()
-                .filter(skill -> skill instanceof SelfAttack)
-                .map(skill -> (SelfAttack) skill)
-                .findFirst()
-                .orElse(null);
+
 
         TurnManager tm = new TurnManager();
 
         tm.addAction(
-                new OffensiveAction(mutant, mutant, selfAttack)
+                new OffensiveAction(mutant, paladin, getOFFensiveSkillByName(mutant,"Attaque de base de soi"))
+        );
+
+        tm.resolveCurrentTurn();
+
+        printStats(List.of(mutant,paladin));
+
+        System.out.println("========== END ==========\n");
+    }
+
+    public static void runRadStrikeTest() {
+        System.out.println("========== TEST RAD STRIKE ==========");
+
+
+        Character paladin = GameData.createPaladin();
+        Character mutant = GameData.createMutant();
+
+        TurnManager tm = new TurnManager();
+
+        tm.addAction(
+                new OffensiveAction(paladin, mutant, getOFFensiveSkillByName(paladin, "Radiation Strike"))
         );
 
         tm.resolveCurrentTurn();
@@ -243,12 +259,21 @@ public class GameTesterActions {
         runDamageCheckWithSelfType();
     }
 
+    public static OffensiveSkill getOFFensiveSkillByName(Character character, String name) {
+        return character.getOffensiveSkills().stream()
+                .filter(skill -> skill.getName().equals(name))
+                .findFirst()
+                .orElse(null);
+    }
+
     public static void main(String[] args) {
-        runTestGarde1();
+        runDamageCheckWithSelfType();
     }
 
 
-
 }
+
+
+
 
 

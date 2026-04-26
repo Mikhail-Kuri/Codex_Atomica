@@ -43,9 +43,9 @@ public class EventSystem {
 
         return switch (event.getType()) {
 
-            case DAMAGE_DEALT -> handleDamageDealt(event);
+            case DAMAGE_DEALT -> handleDamageDealt(event, queue);
 
-            case DAMAGE_RECEIVED -> handleDamageReceived(event, queue, counterTriggered, dead);
+            case DAMAGE_RECEIVED, SELF_DAMAGE -> handleDamageReceived(event, queue, counterTriggered, dead);
 
             case ENEMY_DEFEATED -> handleEnemyDefeated(event);
 
@@ -90,10 +90,26 @@ public class EventSystem {
         return counterTriggered;
     }
 
-    private boolean handleDamageDealt(CombatEvent event) {
-        event.getSource()
-                .getMentalState()
-                .onEvent(event.getType(), event.getSource(), event.getTarget());
+    private boolean handleDamageDealt(CombatEvent event,
+                                      Queue<CombatEvent> queue) {
+
+        Character attacker = event.getSource();
+        Character defender = event.getTarget();
+        int damage = event.getValue();
+
+
+        // 🧠 mental state trigger (attacker side)
+        attacker.getMentalState()
+                .onEvent(event.getType(), attacker, defender);
+
+        // 🔁 CREATE the actual damage event
+        queue.add(new CombatEvent(
+                CombatEventType.DAMAGE_RECEIVED,
+                defender,   // now becomes "source" (the one receiving)
+                attacker,   // attacker becomes target
+                damage
+        ));
+
         return false;
     }
 
@@ -182,4 +198,5 @@ public class EventSystem {
     private boolean isDead(Character c, Set<Character> dead) {
         return dead.contains(c) || c.getCurrentHP() <= 0;
     }
+
 }

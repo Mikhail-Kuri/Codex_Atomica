@@ -2,6 +2,7 @@ package org.example.app.data;
 
 import org.example.Skills.OffensiveSkills.BasicAttack;
 import org.example.Skills.OffensiveSkills.OffensiveSkill;
+import org.example.Skills.OffensiveSkills.RadiationStrike;
 import org.example.Skills.OffensiveSkills.SelfAttack;
 import org.example.core.character.Attributes.CharacterAttributes;
 import org.example.Weapons.*;
@@ -20,19 +21,19 @@ public class GameData {
 
 
     public static final CharacterAttributes PALADIN_STATS =
-            new CharacterAttributes(100, 10, 5, 5, 5, 10, 1.5f, 0, 3, 6);
+            new CharacterAttributes(100, 0, 5, 5, 5, 10, 1.5f, 0, 3, 6);
 
     public static final CharacterAttributes ENEMY_STATS =
             new CharacterAttributes(50, 0, 2, 5, 2, 2, 1, 0, 3, 5);
 
     public static final CharacterAttributes SCOUT_STATS =
-            new CharacterAttributes(80, 4, 15, 5, 5, 8, 1.0f, 10, 7, 10);
+            new CharacterAttributes(80, 0, 15, 5, 5, 8, 1.0f, 10, 7, 10);
 
     public static final CharacterAttributes MUTANT_STATS =
-            new CharacterAttributes(100, 5, 8, 5, 10, 10, 2.0f, 5, 1, 11);
+            new CharacterAttributes(100, 0, 8, 5, 10, 10, 2.0f, 5, 1, 11);
 
     public static final CharacterAttributes FRAGILE_ENEMY_STATS =
-            new CharacterAttributes(30, 1, 1, 5, 1, 1, 0.5f, 0, 2, 5);
+            new CharacterAttributes(30, 0, 1, 5, 1, 1, 0.5f, 0, 2, 5);
 
     // =====================
     // WEAPONS
@@ -84,6 +85,7 @@ public class GameData {
 
     public static final OffensiveSkill basicAttack = new BasicAttack();
     public static final OffensiveSkill selfAttack = new SelfAttack();
+    public static final OffensiveSkill radStrike = new RadiationStrike();
     public static final DefensiveSkill guard = new Guard();
     public static final DefensiveSkill evade = new Evade();
     public static final DefensiveSkill counter = new Counter();
@@ -93,7 +95,7 @@ public class GameData {
     // =====================
 
     public static final CharacterSkills paladinSkills = new CharacterSkills(
-            List.of(basicAttack), guard
+            List.of(basicAttack,radStrike), guard
     );
 
     public static final CharacterSkills enemySkills = new CharacterSkills(
