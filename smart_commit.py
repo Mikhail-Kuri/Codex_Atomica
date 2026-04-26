@@ -1,10 +1,28 @@
 import os
 import sys
+import subprocess
 
 def check_quit(value):
     if value.strip().lower() == "q":
         print("\n👋 Quitter le script...")
         sys.exit(0)
+
+def get_current_branch():
+    return subprocess.check_output(
+        "git rev-parse --abbrev-ref HEAD",
+        shell=True
+    ).decode().strip()
+
+def has_upstream():
+    try:
+        subprocess.check_output(
+            "git rev-parse --abbrev-ref --symbolic-full-name @{u}",
+            shell=True,
+            stderr=subprocess.DEVNULL
+        )
+        return True
+    except subprocess.CalledProcessError:
+        return False
 
 # ---------------------------
 # 1. TYPE MENU
@@ -60,8 +78,15 @@ os.system(f'git commit -m "{commit_message}"')
 # 6. PUSH OPTIONAL
 # ---------------------------
 if push_choice == "y":
-    print("🚀 pushing...")
-    os.system("git push")
+    branch = get_current_branch()
+
+    if has_upstream():
+        print("🚀 pushing...")
+        os.system("git push")
+    else:
+        print(f"🚀 first push → setting upstream to origin/{branch}...")
+        os.system(f"git push --set-upstream origin {branch}")
+
     print("✅ pushed!")
 else:
     print("⏸️ no push")
