@@ -19,26 +19,15 @@ public class CombatEventFactory {
             case SELF_DAMAGE ->
                     new CombatEvent(type, source, source, value);
 
-            case DEFENSE_PREPARED ->
+            case DEFENSE_PREPARED, TURN_STARTED, TURN_ENDED ->
                     new CombatEvent(type, source, source, 0);
 
-            case ATTACK_MISSED ->
+            case ATTACK_MISSED, ENEMY_DEFEATED, ALLY_DEFEATED ->
                     new CombatEvent(type, source, target, 0);
 
             case ATTACK_BLOCKED ->
                     new CombatEvent(type, target, source, 0);
 
-            case ENEMY_DEFEATED ->
-                    new CombatEvent(type, source, target, 0);
-
-            case ALLY_DEFEATED ->
-                    new CombatEvent(type, source, target, 0);
-
-            case TURN_STARTED ->
-                    new CombatEvent(type, source, source, 0);
-
-            case TURN_ENDED ->
-                    new CombatEvent(type, source, source, 0);
         };
     }
 }

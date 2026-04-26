@@ -21,7 +21,7 @@ public class RadiationStrike extends OffensiveSkill {
     }
 
     @Override
-    public List<CombatEvent> execute(Character source, Character target, List<CombatEventType> events) {
-        return resolve(source, target, events);
+    public List<CombatEvent> execute(Character source, Character target) {
+        return resolve(source, target);
     }
 }

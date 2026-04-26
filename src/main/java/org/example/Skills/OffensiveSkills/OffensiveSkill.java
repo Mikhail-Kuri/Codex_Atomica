@@ -36,7 +36,7 @@ public abstract class OffensiveSkill {
         this.combatEventTypesList = combatEventTypesList;
     }
 
-    public List<CombatEvent> resolve(Character source, Character target, List<CombatEventType> combatEventTypesList) {
+    public List<CombatEvent> resolve(Character source, Character target) {
         List<CombatEvent> events = new ArrayList<>();
 
         if (source == null || target == null) return events;
@@ -49,7 +49,7 @@ public abstract class OffensiveSkill {
 
         int damage = calculateDamage(source, target);
 
-        for (CombatEventType type : combatEventTypesList) {
+        for (CombatEventType type : this.combatEventTypesList) {
             events.add(CombatEventFactory.create(type, source, target, damage));
         }
 
@@ -107,7 +107,7 @@ public abstract class OffensiveSkill {
         return name;
     }
 
-    public abstract List<CombatEvent> execute(Character source, Character target, List<CombatEventType> combatEventTypesList);
+    public abstract List<CombatEvent> execute(Character source, Character target);
 
     public List<CombatEventType> getCombatEventTypesList() {
         return combatEventTypesList;

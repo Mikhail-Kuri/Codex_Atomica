@@ -20,8 +20,8 @@ public class BasicAttack extends OffensiveSkill {
     }
 
     @Override
-    public List<CombatEvent> execute(Character source, Character target, List<CombatEventType> combatEventTypesList) {
-        return resolve(source, target, combatEventTypesList);
+    public List<CombatEvent> execute(Character source, Character target) {
+        return resolve(source, target);
     }
 
 }

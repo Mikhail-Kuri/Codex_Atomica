@@ -17,13 +17,13 @@ public class SelfAttack extends OffensiveSkill {
         super(
                 "Attaque de base de soi",
                 TargetType.ANY, List.of(ScalingType.STRENGTH),
-                List.of(CombatEventType.SELF_DAMAGE,CombatEventType.DAMAGE_DEALT));
+                List.of(CombatEventType.SELF_DAMAGE, CombatEventType.DAMAGE_DEALT));
     }
 
 
     @Override
-    public List<CombatEvent> execute(Character source, Character target, List<CombatEventType> combatEventTypesList) {
-        return resolve(source, target, combatEventTypesList);
+    public List<CombatEvent> execute(Character source, Character target) {
+        return resolve(source, target);
     }
 }
 

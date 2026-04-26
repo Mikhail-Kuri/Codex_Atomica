@@ -25,7 +25,7 @@ public class OffensiveAction extends Action {
             return List.of();
         }
         System.out.println();
-        return skill.execute(source, target,skill.getCombatEventTypesList());
+        return skill.execute(source, target);
     }
 
     @Override
