@@ -10,18 +10,18 @@ import org.example.gameplay.combat.CombatEventType;
 import java.util.List;
 import java.util.Set;
 
+public class RadiationStrike extends OffensiveSkill {
 
-public class BasicAttack extends OffensiveSkill {
+    private int basePower = 11;
 
-    private int basePower = 0;
-
-    public BasicAttack() {
+    public RadiationStrike() {
         super(
-                "1",
+                "2",
                 TargetType.ENEMY,
-                List.of(ScalingType.STRENGTH, ScalingType.WEAPON),
-                List.of(CombatEventType.DAMAGE_DEALT),
-                Set.of(DamageType.PHYSICAL)
+                List.of(ScalingType.STRENGTH, ScalingType.SKILL),
+                List.of(
+                        CombatEventType.DAMAGE_DEALT
+                ), Set.of(DamageType.RADIATION, DamageType.PHYSICAL)
         );
     }
 
@@ -39,4 +39,3 @@ public class BasicAttack extends OffensiveSkill {
         this.basePower = basePower;
     }
 }
-

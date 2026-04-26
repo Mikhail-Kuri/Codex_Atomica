@@ -1,9 +1,6 @@
 package org.example.Skills.OffensiveSkills;
 
-import org.example.Skills.Scaling.AttributeScaling;
-import org.example.Skills.Scaling.DamageContext;
-import org.example.Skills.Scaling.DamageScaling;
-import org.example.Skills.Scaling.ScalingType;
+import org.example.Skills.Scaling.*;
 import org.example.Skills.Targeting.TargetType;
 import org.example.core.character.Character;
 import org.example.gameplay.combat.CombatEvent;
@@ -12,31 +9,35 @@ import org.example.gameplay.combat.CombatEventType;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 
-public abstract class OffensiveSkill {
+public abstract class OffensiveSkill implements DamageSource {
 
     protected String name;
     protected TargetType targetType;
     protected List<ScalingType> scalingTypes;
-    protected List<DamageScaling> scalings;
+    protected List<DamageScaling> damageScaling;
     protected List<CombatEventType> combatEventTypesList;
+    protected Set<DamageType> damageTypes;
 
     public OffensiveSkill(String name,
                           TargetType targetType,
                           List<ScalingType> scalingTypes,
-                          List<CombatEventType> combatEventTypesList
+                          List<CombatEventType> combatEventTypesList,
+                          Set<DamageType> damageTypes
     ) {
         this.name = name;
         this.targetType = targetType;
         this.scalingTypes = scalingTypes;
-        this.scalings = scalingTypes.stream()
+        this.damageScaling = scalingTypes.stream()
                 .map(this::toScaling)
                 .toList();
         this.combatEventTypesList = combatEventTypesList;
+        this.damageTypes = damageTypes;
     }
 
-    public List<CombatEvent> resolve(Character source, Character target, List<CombatEventType> combatEventTypesList) {
+    public List<CombatEvent> resolve(Character source, Character target) {
         List<CombatEvent> events = new ArrayList<>();
 
         if (source == null || target == null) return events;
@@ -49,8 +50,8 @@ public abstract class OffensiveSkill {
 
         int damage = calculateDamage(source, target);
 
-        for (CombatEventType type : combatEventTypesList) {
-            events.add(CombatEventFactory.create(type, source, target, damage));
+        for (CombatEventType type : this.combatEventTypesList) {
+            events.add(CombatEventFactory.create(type, source, target, this.damageTypes,damage));
         }
 
         return events;
@@ -75,8 +76,9 @@ public abstract class OffensiveSkill {
 
         float raw = 0;
 
-        for (DamageScaling scaling : scalings) {
-            raw += scaling.compute(source, target);
+        for (DamageScaling scaling : damageScaling) {
+            float computedMps = scaling.compute(source, target);
+            raw += computedMps;
         }
 
         DamageContext context = new DamageContext();
@@ -86,7 +88,6 @@ public abstract class OffensiveSkill {
 
         float modified = applyMental(context);
 
-        System.out.println("💥 " + name + " inflige " + modified + " dégâts bruts à " + target.getName());
 
         return Math.max(0,
                 Math.round(modified) - target.getAttributes().vigor
@@ -108,7 +109,12 @@ public abstract class OffensiveSkill {
         return name;
     }
 
-    public abstract List<CombatEvent> execute(Character source, Character target, List<CombatEventType> combatEventTypesList);
+    @Override
+    public Set<DamageType> getDamageTypes() {
+        return damageTypes;
+    }
+
+    public abstract List<CombatEvent> execute(Character source, Character target);
 
     public List<CombatEventType> getCombatEventTypesList() {
         return combatEventTypesList;

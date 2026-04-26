@@ -8,5 +8,6 @@ public enum CombatEventType {
     ENEMY_DEFEATED,
     ALLY_DEFEATED,
     TURN_STARTED,
+    SELF_DAMAGE,
     TURN_ENDED
 }

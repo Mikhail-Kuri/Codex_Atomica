@@ -1,6 +1,6 @@
-package org.example.Weapons;
+package org.example.Skills.Scaling;
 
-public enum WeaponRange {
+public enum RangeScaling {
     MELEE("Mêlée"),
     SHORT("Courte"),
     MEDIUM("Moyenne"),
@@ -8,7 +8,7 @@ public enum WeaponRange {
 
     private final String displayName;
 
-    WeaponRange(String displayName) {
+    RangeScaling(String displayName) {
         this.displayName = displayName;
     }
 

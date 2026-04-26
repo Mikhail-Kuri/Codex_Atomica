@@ -6,6 +6,7 @@ import org.example.Skills.OffensiveSkills.OffensiveSkill;
 import org.example.Weapons.Weapon;
 import org.example.core.character.Attributes.*;
 import org.example.core.character.Attributes.arsenal.*;
+import org.example.core.character.loggs.CharacterLoggedEvents;
 import org.example.gameplay.mental.MentalState;
 
 import java.util.List;
@@ -18,6 +19,7 @@ public class Character {
     private final CharacterAttributes stats;
     private final CharacterEquipment equipment;
     private final CharacterSkills skills;
+    private CharacterLoggedEvents loggedEvents;
 
     public Character(
             CharacterProfile profile,
@@ -30,6 +32,7 @@ public class Character {
         this.stats = stats;
         this.equipment = equipment;
         this.skills = skills;
+        this.loggedEvents = new CharacterLoggedEvents();
 
         this.state.init(stats,profile);
 
@@ -180,6 +183,14 @@ public class Character {
 
     public MentalState getMentalState() {
         return state.getMentalState();
+    }
+
+    public OffensiveSkill getCurrentlyUsedOffensiveSkill(){
+        return this.loggedEvents.getCurrentlyUsedOffensiveSkill();
+    }
+
+    public void setCurrentlyUsedOffensiveSkill(OffensiveSkill currentSkill){
+        this.loggedEvents.setCurrentlyUsedOffensiveSkill(currentSkill);
     }
 
     public void die() {

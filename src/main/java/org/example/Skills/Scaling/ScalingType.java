@@ -11,6 +11,13 @@ public enum ScalingType {
         }
     },
 
+    SKILL{
+        @Override
+        public float compute(Character source, Character target) {
+            return source.getCurrentlyUsedOffensiveSkill().getBasePower();
+        }
+    },
+
     STRENGTH {
         public float compute(Character source, Character target) {
             return source.getAttributes().strength * 1.5f;

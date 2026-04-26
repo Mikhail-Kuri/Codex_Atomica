@@ -1,16 +1,20 @@
 package org.example.Weapons;
 
+import org.example.Skills.Scaling.DamageSource;
+import org.example.Skills.Scaling.DamageType;
+import org.example.Skills.Scaling.RangeScaling;
+
 import java.util.Set;
 
-public  class Weapon {
+public  class Weapon implements DamageSource {
 
     protected String name;
     protected int basePower;
     protected Set<DamageType> damageTypes;
-    protected WeaponRange range;
+    protected RangeScaling range;
     //private String modelPath; // Chemin vers le modèle 3D de l'arme
 
-    public Weapon(String name, int basePower, Set<DamageType> damageTypes, WeaponRange range,String modelPath) {
+    public Weapon(String name, int basePower, Set<DamageType> damageTypes, RangeScaling range, String modelPath) {
         this.name = name;
         this.basePower = basePower;
         this.damageTypes = damageTypes;
@@ -25,19 +29,21 @@ public  class Weapon {
         
     }
 
+    @Override
+    public Set<DamageType> getDamageTypes() {
+        return damageTypes;
+    }
+
     public String getName() {
         return name;
     }
 
-    public Set<DamageType> getDamageTypes() {
-        return damageTypes;
-    }
 
     public int getBasePower() {
         return basePower;
     }
 
-    public WeaponRange getRange() {
+    public RangeScaling getRange() {
         return range;
     }
 

@@ -29,5 +29,4 @@ public class CharacterSkills {
         this.currentDefense = defensiveSkill;
     }
 
-
 }
