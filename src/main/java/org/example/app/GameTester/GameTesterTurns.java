@@ -18,6 +18,7 @@ public class GameTesterTurns {
 
         Character paladin = GameData.createPaladin();
         Character enemy = GameData.createEnemy();
+        enemy.getState().setCurrentHP(100000);
 
         TurnManager tm = new TurnManager();
 
