@@ -82,11 +82,13 @@ public class EventSystem {
 
         defender.takeDamage(finalDamage, attacker);
 
-        applyDamageTypeEffects(defender, event.damageTypes());
+        
 
         int after = defender.getCurrentHP();
 
         if (before == after) return counterTriggered;
+
+        applyDamageTypeEffects(defender, event.damageTypes());
 
         checkDeath(queue, event, defender, attacker, before, after, dead);
 
