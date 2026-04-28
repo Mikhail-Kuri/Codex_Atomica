@@ -21,7 +21,7 @@ public class BasicAttack extends OffensiveSkill {
                 TargetType.ENEMY,
                 List.of(ScalingType.STRENGTH, ScalingType.WEAPON),
                 List.of(CombatEventType.DAMAGE_DEALT),
-                Set.of(DamageType.PHYSICAL)
+                Set.of(DamageType.PHYSICAL,DamageType.FIRE)
         );
     }
 

@@ -4,7 +4,10 @@ import java.util.*;
 
 import org.example.Skills.DefensiveSkills.Counter;
 import org.example.Skills.Scaling.DamageResolver;
+import org.example.Skills.Scaling.DamageType;
 import org.example.core.character.Character;
+import org.example.effects.StatusEffect;
+import org.example.effects.StatusEffectFactory;
 
 public class EventSystem {
 
@@ -79,6 +82,8 @@ public class EventSystem {
 
         defender.takeDamage(finalDamage, attacker);
 
+        applyDamageTypeEffects(defender, event.damageTypes());
+
         int after = defender.getCurrentHP();
 
         if (before == after) return counterTriggered;
@@ -96,6 +101,18 @@ public class EventSystem {
                 .onEvent(event.type(), defender, attacker);
 
         return counterTriggered;
+    }
+
+    private void applyDamageTypeEffects(Character defender, Set<DamageType> damageTypes) {
+        List<StatusEffect> effects =
+                StatusEffectFactory.fromDamageTypes(damageTypes);
+
+        for (StatusEffect effect : effects) {
+            defender.applyStatusEffect(effect);
+        }
+
+        System.out.println(defender.getName() + " subit les effetssssss : " +
+                effects.stream().map(StatusEffect::getName).toList());
     }
 
     private boolean handleDamageDealt(CombatEvent event,

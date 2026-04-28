@@ -1,7 +1,11 @@
 package org.example.core.character.Attributes;
 
+import org.example.effects.StatusEffect;
 import org.example.gameplay.mental.MentalState;
 import org.example.gameplay.mental.MentalStateType;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class CharacterState {
 
@@ -11,12 +15,14 @@ public class CharacterState {
     private boolean isAlive;
     private MentalState mentalState;
     private int pendingCounterDamage = 0;
+    private List<StatusEffect> statusEffects = new ArrayList<>();
 
 
     public CharacterState() {
         this.isDefending = false;
         this.isAlive = true;
         this.currentSanity = 0;
+
     }
 
     public void init(CharacterAttributes stats, CharacterProfile profile) {
@@ -80,6 +86,22 @@ public class CharacterState {
 
     public void clearPendingCounterDamage() {
         this.pendingCounterDamage = 0;
+    }
+
+    public void setMentalState(MentalState mentalState) {
+        this.mentalState = mentalState;
+    }
+
+    public List<StatusEffect> getStatusEffects() {
+        return statusEffects;
+    }
+
+    public void setStatusEffects(List<StatusEffect> statusEffects) {
+        this.statusEffects = statusEffects;
+    }
+
+    public void addStatusEffect(StatusEffect effect) {
+        this.statusEffects.add(effect);
     }
 }
 

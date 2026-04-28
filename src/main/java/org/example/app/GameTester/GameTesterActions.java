@@ -286,12 +286,16 @@ public class GameTesterActions {
     public static void runAllTests() {
         runTestAttaque1();
         runTestAttaque2();
+        runTestAttaque3();
         runTestGarde1();
         testEsquive1();
         runTestCounter1();
         runTestMortality();
         runSelfDamageTest();
+        runRadStrikeTest();
         runDamageCheckWithSelfType();
+        runTestAttaqueWithResistances();
+        runTestAttaqueWithResistances2();
     }
 
     public static OffensiveSkill getOffensiveSkillByName(Character character, String name) {

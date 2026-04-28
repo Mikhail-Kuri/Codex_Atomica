@@ -7,6 +7,7 @@ import org.example.Weapons.Weapon;
 import org.example.core.character.Attributes.*;
 import org.example.core.character.Attributes.arsenal.*;
 import org.example.core.character.loggs.CharacterLoggedEvents;
+import org.example.effects.StatusEffect;
 import org.example.gameplay.mental.MentalState;
 
 import java.util.List;
@@ -96,6 +97,10 @@ public class Character {
         }
 
         return Math.max(0, amount - stats.vigor);
+    }
+
+    public void applyStatusEffect(StatusEffect effect) {
+        state.addStatusEffect(effect);
     }
 
     // =====================

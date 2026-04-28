@@ -25,10 +25,29 @@ public class GameTesterTurns {
         tm.runCombatLoop(List.of(paladin, enemy));
     }
 
+    public static void runTestStatusEffects() {
+        Character paladin = GameData.createPaladin();
+        Character enemy = GameData.createEnemy();
+
+        TurnManager tm = new TurnManager();
+
+        tm.addAction(
+                new OffensiveAction(paladin, enemy, paladin.getDefaultOffensiveSkill())
+        );
+
+        tm.addAction(
+                new DefensiveAction(enemy, paladin, enemy.getCurrentDefense())
+        );
+
+        tm.resolveCurrentTurn();
+
+        printStats(List.of(paladin, enemy));
+    }
+
     public static void runAllTests() {
     }
 
     public static void main(String[] args) {
-        runTestMultiTurnCombat();
+        runTestStatusEffects();
     }
 }
