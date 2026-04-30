@@ -113,7 +113,7 @@ public class EventSystem {
             defender.applyStatusEffect(effect);
         }
 
-        System.out.println(defender.getName() + " subit les effetssssss : " +
+        System.out.println(defender.getName() + " subit les effets : " +
                 effects.stream().map(StatusEffect::getName).toList());
     }
 

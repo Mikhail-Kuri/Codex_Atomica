@@ -58,11 +58,11 @@ public class GameData {
                     5, 3, 8,resistancesPaladin);
 
     public static final CharacterAttributes ENEMY_STATS =
-            new CharacterAttributes(50, 0, 15, 5, 2, 2, 1, 100,
+            new CharacterAttributes(50, 0, 5, 5, 2, 2, 1, 3,
                     3, 5,resistancesEnemy);
 
     public static final CharacterAttributes SCOUT_STATS =
-            new CharacterAttributes(80, 0, 100, 5, 5, 8, 1.0f, 7,
+            new CharacterAttributes(80, 0, 12, 5, 5, 8, 1.0f, 7,
                     7, 10,resistancesScout);
 
     public static final CharacterAttributes MUTANT_STATS =

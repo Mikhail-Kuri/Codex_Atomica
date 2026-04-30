@@ -53,7 +53,7 @@ public abstract class OffensiveSkill implements DamageSource {
         for (CombatEventType type : this.combatEventTypesList) {
             events.add(CombatEventFactory.create(type, source, target, this.damageTypes,damage));
         }
-
+        source.setCurrentlyUsedOffensiveSkill(null);
         return events;
     }
 
