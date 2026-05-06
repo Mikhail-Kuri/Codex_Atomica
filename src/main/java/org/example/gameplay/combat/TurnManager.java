@@ -7,6 +7,7 @@ import java.util.*;
 
 import org.example.Skills.Actions.OffensiveAction;
 import org.example.core.character.Character;
+import org.example.effects.StatusEffect;
 
 import static org.example.app.GameTester.PrintStuff.printStats;
 
@@ -92,12 +93,22 @@ public class TurnManager {
 
             resolveCurrentTurn();
 
+            applyEndOfTurnEffects(characters);
+
             printStats(characters);
 
             checkEndCondition(characters);
         }
 
         System.out.println("🏁 Combat terminé !");
+    }
+
+    private void applyEndOfTurnEffects(List<Character> characters) {
+        for (Character character : characters) {
+            for (StatusEffect effect : character.getState().getStatusEffects()) {
+                effect.onTurnEnd(character);
+            }
+        }
     }
 
     private void autoPlanActions(List<Character> characters) {

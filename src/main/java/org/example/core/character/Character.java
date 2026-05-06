@@ -76,8 +76,12 @@ public class Character {
 
         int finalDamage = computeFinalDamage(amount, attacker);
 
+        String source = (attacker != null)
+                ? attacker.getName()
+                : "un effet de statut";
+
         System.out.println(getName() + " subit " + finalDamage +
-                " dégâts de la part de " + attacker.getName());
+                " dégâts de " + source);
 
         state.reduceHP(finalDamage);
 

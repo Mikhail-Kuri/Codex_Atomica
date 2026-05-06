@@ -84,6 +84,6 @@ public class GameTesterTurns {
     }
 
     public static void main(String[] args) {
-        runTestStatusEffectsMultiTurn();
+        runTestMultiTurnCombat();
     }
 }
