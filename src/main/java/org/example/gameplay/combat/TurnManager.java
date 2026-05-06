@@ -59,6 +59,22 @@ public class TurnManager {
             combatEngine.execute(action);
         }
 
+        //Aller chercher les stastus a appliquer a la fin du tour et les appliquer
+        Set<Character> involvedCharacters = new HashSet<>();
+        for (Action action : ordered) {
+            involvedCharacters.add(action.getSource());
+            if (action.getTarget() != null) {
+                involvedCharacters.add(action.getTarget());
+            }
+        }
+
+
+        System.out.println("\n🔁 Application des effets de fin de tour :");
+        System.out.println(
+                involvedCharacters.stream()
+                        .flatMap(c -> c.getState().getStatusEffects().stream())
+                        .toList()
+        );
         plannedActions.clear();
 
         System.out.println("⚔️ === FIN DU TOUR " + turnNumber + " ===\n");

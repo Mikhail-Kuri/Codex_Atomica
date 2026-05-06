@@ -16,6 +16,14 @@ public abstract class StatusEffect {
         return name;
     }
 
+    public int getDuration() {
+        return duration;
+    }
+
+    public void refreshDuration(int newDuration) {
+        this.duration = newDuration;
+    }
+
     public boolean isExpired() {
         return duration <= 0;
     }
@@ -26,5 +34,13 @@ public abstract class StatusEffect {
     // appelé à la fin du tour
     public void onTurnEnd(Character target) {
         duration--;
+    }
+
+    @Override
+    public String toString() {
+        return "StatusEffect{" +
+                "name='" + name + '\'' +
+                ", duration=" + duration +
+                '}';
     }
 }

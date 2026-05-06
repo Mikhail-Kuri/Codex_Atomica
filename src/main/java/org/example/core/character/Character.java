@@ -99,8 +99,20 @@ public class Character {
         return Math.max(0, amount - stats.vigor);
     }
 
-    public void applyStatusEffect(StatusEffect effect) {
-        state.addStatusEffect(effect);
+    public void applyStatusEffect(StatusEffect newEffect) {
+
+        for (StatusEffect existing : state.getStatusEffects()) {
+
+            if (existing.getClass().equals(newEffect.getClass())) {
+
+                existing.refreshDuration(
+                        existing.getDuration() + newEffect.getDuration()
+                );
+                return;
+            }
+        }
+
+        state.getStatusEffects().add(newEffect);
     }
 
     // =====================

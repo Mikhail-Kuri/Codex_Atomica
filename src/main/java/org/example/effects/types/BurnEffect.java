@@ -20,4 +20,13 @@ public class BurnEffect extends StatusEffect {
 
         super.onTurnEnd(target); // réduit la durée
     }
+
+    @Override
+    public String toString() {
+        return "BurnEffect{" +
+                "name='" + name + '\'' +
+                "damagePerTurn=" + damagePerTurn +
+                ", duration=" + duration +
+                '}';
+    }
 }

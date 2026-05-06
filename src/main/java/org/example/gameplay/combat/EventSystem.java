@@ -106,6 +106,7 @@ public class EventSystem {
     }
 
     private void applyDamageTypeEffects(Character defender, Set<DamageType> damageTypes) {
+
         List<StatusEffect> effects =
                 StatusEffectFactory.fromDamageTypes(damageTypes);
 
@@ -114,7 +115,9 @@ public class EventSystem {
         }
 
         System.out.println(defender.getName() + " subit les effets : " +
-                effects.stream().map(StatusEffect::getName).toList());
+                effects.stream()
+                        .map(StatusEffect::getName)
+                        .toList());
     }
 
     private boolean handleDamageDealt(CombatEvent event,
