@@ -21,7 +21,7 @@ public class DefensiveAction extends Action {
 
     @Override
     public List<CombatEvent> execute() {
-
+        // here we need to add logic for anableing the defense, on self or ally
         source.prepareDefense();
         return skill.execute(source,skill.getCombatEventTypesList());
     }
