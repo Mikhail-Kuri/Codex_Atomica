@@ -129,63 +129,39 @@ public class GameData {
     public static final DefensiveSkill counter = new Counter();
 
     // =====================
-    // Character Skills
-    // =====================
-
-    public static final CharacterSkills paladinSkills = new CharacterSkills(
-            List.of(basicAttack,radStrike), guard
-    );
-
-    public static final CharacterSkills enemySkills = new CharacterSkills(
-            List.of(basicAttack), evade
-    );
-
-    public static final CharacterSkills scoutSkills = new CharacterSkills(
-            List.of(basicAttack), evade
-    );
-
-    public static final CharacterSkills mutantSkills = new CharacterSkills(
-            List.of(basicAttack,selfAttack), counter
-    );
-
-    public static final CharacterSkills fragileEnemySkills = new CharacterSkills(
-            List.of(basicAttack), evade
-    );
-
-    // =====================
-    // Character Equipment
-    // =====================
-
-    public static final CharacterEquipment paladinEquipment = new CharacterEquipment(SWORD);
-    public static final CharacterEquipment enemyEquipment = new CharacterEquipment(SWORD);
-    public static final CharacterEquipment scoutEquipment = new CharacterEquipment(RUSTY_SWORD);
-
-    // =====================
-    // Character States
-    // =====================
-
-
-    // =====================
     // FACTORY METHODS
     // =====================
+    // CharacterSkills et CharacterEquipment changent pendant la partie
+    // (setCurrentDefense, equipWeapon) : chaque personnage reçoit donc
+    // ses propres instances, jamais des objets statiques partagés.
 
     public static Character createPaladin() {
-        return new Character(paladinProfile, PALADIN_STATS, paladinEquipment, paladinSkills);
+        return new Character(paladinProfile, PALADIN_STATS,
+                new CharacterEquipment(SWORD),
+                new CharacterSkills(List.of(basicAttack, radStrike), guard));
     }
 
     public static Character createEnemy() {
-        return new Character(enemyProfile, ENEMY_STATS, enemyEquipment, enemySkills);
+        return new Character(enemyProfile, ENEMY_STATS,
+                new CharacterEquipment(SWORD),
+                new CharacterSkills(List.of(basicAttack), evade));
     }
 
     public static Character createScout() {
-        return new Character(scoutProfile, SCOUT_STATS, scoutEquipment, scoutSkills);
+        return new Character(scoutProfile, SCOUT_STATS,
+                new CharacterEquipment(RUSTY_SWORD),
+                new CharacterSkills(List.of(basicAttack), evade));
     }
 
     public static Character createMutant() {
-        return new Character(mutantProfile, MUTANT_STATS, paladinEquipment, mutantSkills);
+        return new Character(mutantProfile, MUTANT_STATS,
+                new CharacterEquipment(SWORD),
+                new CharacterSkills(List.of(basicAttack, selfAttack), counter));
     }
 
     public static Character createFragile() {
-        return new Character(fragileEnemyProfile, FRAGILE_ENEMY_STATS, enemyEquipment, fragileEnemySkills);
+        return new Character(fragileEnemyProfile, FRAGILE_ENEMY_STATS,
+                new CharacterEquipment(SWORD),
+                new CharacterSkills(List.of(basicAttack), evade));
     }
 }

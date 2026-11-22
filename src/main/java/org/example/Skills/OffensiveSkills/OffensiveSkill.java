@@ -88,10 +88,9 @@ public abstract class OffensiveSkill implements DamageSource {
 
         float modified = applyMental(context);
 
-
-        return Math.max(0,
-                Math.round(modified) - target.getAttributes().vigor
-        );
+        // La Vigueur du défenseur est appliquée dans Character.takeDamage
+        // (ou remplacée par sa compétence défensive), pas ici.
+        return Math.max(0, Math.round(modified));
     }
 
     private float applyMental(DamageContext ctx) {

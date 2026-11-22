@@ -103,11 +103,20 @@ public class TurnManager {
         System.out.println("🏁 Combat terminé !");
     }
 
-    private void applyEndOfTurnEffects(List<Character> characters) {
+    /**
+     * Déclenche onTurnEnd de chaque effet de statut, puis retire les effets expirés.
+     * Visibilité package (pas private) pour pouvoir être testée.
+     */
+    void applyEndOfTurnEffects(List<Character> characters) {
         for (Character character : characters) {
-            for (StatusEffect effect : character.getState().getStatusEffects()) {
+            List<StatusEffect> effects = character.getState().getStatusEffects();
+
+            // Copie : un effet peut modifier la liste pendant son onTurnEnd
+            for (StatusEffect effect : new ArrayList<>(effects)) {
                 effect.onTurnEnd(character);
             }
+
+            effects.removeIf(StatusEffect::isExpired);
         }
     }
 

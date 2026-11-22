@@ -193,18 +193,11 @@ public class EventSystem {
         defender.getState().setPendingCounterDamage(0);
 
 
+        // handleDamageDealt crée lui-même le DAMAGE_RECEIVED correspondant
         queue.add(new CombatEvent(
                 CombatEventType.DAMAGE_DEALT,
                 defender,
                 attacker,
-                event.damageTypes(),
-                dmg
-        ));
-
-        queue.add(new CombatEvent(
-                CombatEventType.DAMAGE_RECEIVED,
-                attacker,
-                defender,
                 event.damageTypes(),
                 dmg
         ));
