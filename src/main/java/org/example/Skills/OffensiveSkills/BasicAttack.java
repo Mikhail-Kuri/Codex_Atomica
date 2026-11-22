@@ -17,7 +17,7 @@ public class BasicAttack extends OffensiveSkill {
 
     public BasicAttack() {
         super(
-                "1",
+                "Attaque",
                 TargetType.ENEMY,
                 List.of(ScalingType.STRENGTH, ScalingType.WEAPON),
                 List.of(CombatEventType.DAMAGE_DEALT),

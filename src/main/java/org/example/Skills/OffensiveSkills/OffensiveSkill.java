@@ -107,6 +107,11 @@ public abstract class OffensiveSkill implements DamageSource {
         return name;
     }
 
+    /** Qui cette compétence peut viser (ennemi, soi-même, n'importe qui…). */
+    public TargetType getTargetType() {
+        return targetType;
+    }
+
     @Override
     public Set<DamageType> getDamageTypes() {
         return damageTypes;

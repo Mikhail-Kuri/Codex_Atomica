@@ -19,7 +19,7 @@ public class SelfAttack extends OffensiveSkill {
 
     public SelfAttack() {
         super(
-                "3",
+                "Frappe sacrificielle",
                 TargetType.ANY, List.of(ScalingType.STRENGTH),
                 List.of(CombatEventType.SELF_DAMAGE, CombatEventType.DAMAGE_DEALT),
                 Set.of(DamageType.PHYSICAL));
