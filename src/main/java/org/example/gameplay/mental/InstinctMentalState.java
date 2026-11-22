@@ -1,17 +1,12 @@
 package org.example.gameplay.mental;
 
 import org.example.gameplay.combat.CombatEventType;
-import org.example.core.character.Character;
-
-import static org.example.app.GameTester.PrintStuff.printMentalStateEvent;
-
 
 public class InstinctMentalState extends AbstractMentalState {
 
     @Override
-    public void onEvent(CombatEventType event, Character self, Character source) {
-
-        int delta = switch (event) {
+    protected int deltaFor(CombatEventType event) {
+        return switch (event) {
             case DAMAGE_DEALT -> 2;
             case DAMAGE_RECEIVED -> 1;
             case ALLY_DEFEATED -> 3;
@@ -19,10 +14,5 @@ public class InstinctMentalState extends AbstractMentalState {
             case DEFENSE_PREPARED -> -1;
             default -> 1;
         };
-
-        value += delta;
-
-        clamp();
-        printMentalStateEvent(event, self, source, delta, value);
     }
 }
