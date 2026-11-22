@@ -3,8 +3,6 @@ package org.example.gameplay.mental;
 import org.example.gameplay.combat.CombatEventType;
 import org.example.core.character.Character;
 
-import static org.example.app.GameTester.PrintStuff.printMentalStateEvent;
-
 public abstract class AbstractMentalState implements MentalState {
 
     protected int value;
@@ -16,18 +14,18 @@ public abstract class AbstractMentalState implements MentalState {
     protected abstract int deltaFor(CombatEventType event);
 
     @Override
-    public void onEvent(CombatEventType event, Character self, Character source) {
-        onEvent(event, self, source, 1.0);
+    public int onEvent(CombatEventType event, Character self, Character source) {
+        return onEvent(event, self, source, 1.0);
     }
 
     @Override
-    public void onEvent(CombatEventType event, Character self, Character source, double gainScale) {
-        int delta = (int) (deltaFor(event) * gainScale);
+    public int onEvent(CombatEventType event, Character self, Character source, double gainScale) {
+        int before = value;
 
-        value += delta;
-
+        value += (int) (deltaFor(event) * gainScale);
         clamp();
-        printMentalStateEvent(event, self, source, delta, value);
+
+        return value - before;
     }
 
     @Override

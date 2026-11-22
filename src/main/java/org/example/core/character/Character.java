@@ -71,23 +71,17 @@ public class Character {
      * Reçoit un coup d'un attaquant. Passe par la défense active si le personnage
      * défend (et la consomme), sinon soustrait la Vigueur.
      *
+     * N'écrit rien : c'est le combat qui annonce le résultat dans le journal.
+     *
      * @return les dégâts infligés, et si la défense les a réduits
      */
     public DamageResult takeDamage(int amount, Character attacker) {
 
         if (!isAlive()) {
-            System.out.println(getName() + " est déjà hors de combat !");
             return DamageResult.NONE;
         }
 
         DamageResult result = computeFinalDamage(amount, attacker);
-
-        String source = (attacker != null)
-                ? attacker.getName()
-                : "un effet de statut";
-
-        System.out.println(getName() + " subit " + result.damage() +
-                " dégâts de " + source);
 
         applyHpLoss(result.damage());
         return result;
@@ -104,9 +98,6 @@ public class Character {
             return;
         }
 
-        System.out.println(getName() + " subit " + amount +
-                " dégâts de " + effect.getName());
-
         applyHpLoss(amount);
     }
 
@@ -115,8 +106,6 @@ public class Character {
 
         if (!isAlive()) {
             die();
-        } else {
-            System.out.println(getName() + " HP restants : " + getCurrentHP());
         }
     }
 
@@ -154,7 +143,6 @@ public class Character {
     // =====================
 
     public void prepareDefense() {
-        System.out.println(getName() + " se prépare à défendre !");
         state.setDefending(true);
     }
 
@@ -229,6 +217,7 @@ public class Character {
                 : ThreadLocalRandom.current().nextInt(min, max + 1);
     }
 
+    /** Affichage de débogage pour les GameTester ; n'est jamais appelé par la logique du combat. */
     public void printStats() {
         System.out.println("\n===== STATS DE " + getName() + " =====");
 
@@ -266,6 +255,5 @@ public class Character {
     public void die() {
         state.setAlive(false);
         state.setCurrentHP(0);
-        System.out.println("💀 " + getName() + " est mort.");
     }
 }

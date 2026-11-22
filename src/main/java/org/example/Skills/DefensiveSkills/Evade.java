@@ -30,15 +30,8 @@ public class Evade extends DefensiveSkill {
 
         int roll = random.nextInt(101);
 
-        if (roll <= dodgeChance) {
-            System.out.println("[ACTION: ESQUIVE] " + owner.getName() +
-                    " réalise une pirouette parfaite ! (Roll: " + roll + "/" + dodgeChance + ")");
-            return 0;
-        } else {
-            System.out.println("[ACTION: ÉCHEC] " + owner.getName() +
-                    " tente d'esquiver mais échoue ! (Roll: " + roll + "/" + dodgeChance + ")");
-            return rawDamage;
-        }
+        // Réussite : 0 dégât, le combat annonce l'esquive dans le journal
+        return (roll <= dodgeChance) ? 0 : rawDamage;
     }
 
 
