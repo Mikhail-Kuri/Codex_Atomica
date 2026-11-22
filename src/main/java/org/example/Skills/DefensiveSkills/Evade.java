@@ -46,9 +46,4 @@ public class Evade extends DefensiveSkill {
     public List<CombatEvent> execute(Character source, List<CombatEventType> combatEventTypesList) {
         return resolve(source, combatEventTypesList);
     }
-
-    @Override
-    public List<CombatEventType> getCombatEventTypesList() {
-        return List.of();
-    }
 }

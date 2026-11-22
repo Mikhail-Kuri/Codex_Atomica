@@ -26,11 +26,11 @@ class StatusEffectExpiryTest {
         target.applyStatusEffect(new BurnEffect(BURN_DAMAGE, BURN_DURATION));
         TurnManager turnManager = new TurnManager();
 
-        turnManager.applyEndOfTurnEffects(List.of(target));
+        turnManager.endTurn(List.of(target));
         assertEquals(1, target.getState().getStatusEffects().size(),
                 "Après le tour 1, la brûlure doit encore être active");
 
-        turnManager.applyEndOfTurnEffects(List.of(target));
+        turnManager.endTurn(List.of(target));
         assertEquals(0, target.getState().getStatusEffects().size(),
                 "Après le tour 2, la brûlure doit avoir expiré");
     }
@@ -43,11 +43,11 @@ class StatusEffectExpiryTest {
         TurnManager turnManager = new TurnManager();
 
         for (int turn = 0; turn < BURN_DURATION; turn++) {
-            turnManager.applyEndOfTurnEffects(List.of(target));
+            turnManager.endTurn(List.of(target));
         }
         int hpAfterBurn = target.getCurrentHP();
 
-        turnManager.applyEndOfTurnEffects(List.of(target));
+        turnManager.endTurn(List.of(target));
 
         assertEquals(hpAfterBurn, target.getCurrentHP());
     }

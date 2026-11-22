@@ -30,9 +30,25 @@ public class TurnManager {
         this.resolver = new ActionOrderResolver();
     }
 
-    public void addAction(Action action) {
+    /**
+     * Planifie une action pour ce tour.
+     * Refusée si le personnage a épuisé son budget d'actions
+     * ({@link Character#getActionsPerTurn()}), ou s'il défend déjà ce tour.
+     *
+     * @return true si l'action a été acceptée
+     */
+    public boolean addAction(Action action) {
 
         Character source = action.getSource();
+
+        long alreadyPlanned = plannedActions.stream()
+                .filter(a -> a.getSource().equals(source))
+                .count();
+
+        if (alreadyPlanned >= source.getActionsPerTurn()) {
+            System.out.println(source.getName() + " n'a plus d'action ce tour !");
+            return false;
+        }
 
         boolean alreadyDefending =
                 source.isDefending() ||
@@ -44,10 +60,11 @@ public class TurnManager {
 
         if (action.isDefenseAction() && alreadyDefending) {
             System.out.println(source.getName() + " défend déjà !");
-            return;
+            return false;
         }
 
         plannedActions.add(action);
+        return true;
     }
 
     public void resolveCurrentTurn() {
@@ -93,7 +110,7 @@ public class TurnManager {
 
             resolveCurrentTurn();
 
-            applyEndOfTurnEffects(characters);
+            endTurn(characters);
 
             printStats(characters);
 
@@ -104,10 +121,20 @@ public class TurnManager {
     }
 
     /**
-     * Déclenche onTurnEnd de chaque effet de statut, puis retire les effets expirés.
-     * Visibilité package (pas private) pour pouvoir être testée.
+     * Termine le tour : applique les effets de statut, retire ceux qui ont expiré,
+     * et met fin aux défenses (une défense ne dure qu'un tour).
+     * À appeler après {@link #resolveCurrentTurn()}, avec tous les personnages du combat.
      */
-    void applyEndOfTurnEffects(List<Character> characters) {
+    public void endTurn(List<Character> characters) {
+        applyEndOfTurnEffects(characters);
+
+        for (Character character : characters) {
+            character.endDefense();
+        }
+    }
+
+    /** Déclenche onTurnEnd de chaque effet de statut, puis retire les effets expirés. */
+    private void applyEndOfTurnEffects(List<Character> characters) {
         for (Character character : characters) {
             List<StatusEffect> effects = character.getState().getStatusEffects();
 

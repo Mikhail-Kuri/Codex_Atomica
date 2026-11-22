@@ -14,9 +14,7 @@ public class BleedEffect extends StatusEffect {
 
     @Override
     public void onTurnEnd(Character target) {
-        System.out.println(target.getName() + " subit " + damagePerTurn + " dégâts de bleed");
-
-        target.takeDamage(damagePerTurn, null);
+        target.takeStatusDamage(damagePerTurn, this);
 
         super.onTurnEnd(target); // réduit la durée
     }

@@ -67,23 +67,51 @@ public class Character {
     // COMBAT
     // =====================
 
-    public void takeDamage(int amount, Character attacker) {
+    /**
+     * Reçoit un coup d'un attaquant. Passe par la défense active si le personnage
+     * défend (et la consomme), sinon soustrait la Vigueur.
+     *
+     * @return les dégâts infligés, et si la défense les a réduits
+     */
+    public DamageResult takeDamage(int amount, Character attacker) {
 
         if (!isAlive()) {
             System.out.println(getName() + " est déjà hors de combat !");
-            return;
+            return DamageResult.NONE;
         }
 
-        int finalDamage = computeFinalDamage(amount, attacker);
+        DamageResult result = computeFinalDamage(amount, attacker);
 
         String source = (attacker != null)
                 ? attacker.getName()
                 : "un effet de statut";
 
-        System.out.println(getName() + " subit " + finalDamage +
+        System.out.println(getName() + " subit " + result.damage() +
                 " dégâts de " + source);
 
-        state.reduceHP(finalDamage);
+        applyHpLoss(result.damage());
+        return result;
+    }
+
+    /**
+     * Reçoit les dégâts de fin de tour d'un effet de statut (brûlure, saignement…).
+     * Ne passe ni par la défense ni par la Vigueur, et ne consomme pas la défense.
+     * C'est le point d'entrée où brancher plus tard les immunités et résistances aux effets.
+     */
+    public void takeStatusDamage(int amount, StatusEffect effect) {
+
+        if (!isAlive()) {
+            return;
+        }
+
+        System.out.println(getName() + " subit " + amount +
+                " dégâts de " + effect.getName());
+
+        applyHpLoss(amount);
+    }
+
+    private void applyHpLoss(int amount) {
+        state.reduceHP(amount);
 
         if (!isAlive()) {
             die();
@@ -92,15 +120,17 @@ public class Character {
         }
     }
 
-    private int computeFinalDamage(int amount, Character attacker) {
+    private DamageResult computeFinalDamage(int amount, Character attacker) {
+
+        int undefended = Math.max(0, amount - stats.vigor);
 
         if (state.isDefending() && getCurrentDefense() != null) {
             int dmg = getCurrentDefense().onDamageTaken(amount, this, attacker);
             state.setDefending(false);
-            return dmg;
+            return new DamageResult(dmg, dmg < undefended);
         }
 
-        return Math.max(0, amount - stats.vigor);
+        return new DamageResult(undefended, false);
     }
 
     public void applyStatusEffect(StatusEffect newEffect) {
@@ -130,6 +160,25 @@ public class Character {
 
     public boolean isDefending() {
         return state.isDefending();
+    }
+
+    /** Met fin à la défense et à toute riposte en attente. Appelé en fin de tour. */
+    public void endDefense() {
+        state.setDefending(false);
+        state.clearPendingCounterDamage();
+    }
+
+    // =====================
+    // TURN
+    // =====================
+
+    /**
+     * Nombre d'actions que ce personnage peut planifier par tour.
+     * 1 pour tout le monde aujourd'hui ; un passif ou une compétence
+     * (personnage très rapide, « +1 action ») pourra l'augmenter.
+     */
+    public int getActionsPerTurn() {
+        return 1;
     }
 
     public DefensiveSkill getCurrentDefense() {

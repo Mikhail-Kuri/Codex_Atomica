@@ -38,9 +38,4 @@ public class Guard extends DefensiveSkill {
         return resolve(source, combatEventTypesList);
     }
 
-    @Override
-    public List<CombatEventType> getCombatEventTypesList() {
-        return List.of();
-    }
-
 }

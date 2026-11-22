@@ -6,10 +6,14 @@ import org.example.Skills.DefensiveSkills.Counter;
 import org.example.Skills.Scaling.DamageResolver;
 import org.example.Skills.Scaling.DamageType;
 import org.example.core.character.Character;
+import org.example.core.character.DamageResult;
 import org.example.effects.StatusEffect;
 import org.example.effects.StatusEffectFactory;
 
 public class EventSystem {
+
+    /** Part du gain mental de l'attaquant quand une défense a réduit son coup. */
+    private static final double MITIGATED_HIT_GAIN = 0.5;
 
     public void process(List<CombatEvent> events,
                         Character source,
@@ -80,11 +84,13 @@ public class EventSystem {
                 event.damageTypes()
         );
 
-        defender.takeDamage(finalDamage, attacker);
-
-        
+        DamageResult result = defender.takeDamage(finalDamage, attacker);
 
         int after = defender.getCurrentHP();
+
+        if (event.type() == CombatEventType.DAMAGE_RECEIVED) {
+            rewardAttacker(attacker, defender, before - after, result);
+        }
 
         if (before == after) return counterTriggered;
 
@@ -127,10 +133,8 @@ public class EventSystem {
         Character defender = event.target();
         int damage = event.value();
 
-
-        // 🧠 mental state trigger (attacker side)
-        attacker.getMentalState()
-                .onEvent(event.type(), attacker, defender);
+        // Le gain mental de l'attaquant est donné après les dégâts
+        // (voir rewardAttacker), selon que le coup est passé ou non.
 
         // 🔁 CREATE the actual damage event
         queue.add(new CombatEvent(
@@ -142,6 +146,23 @@ public class EventSystem {
         ));
 
         return false;
+    }
+
+    /**
+     * Ressource de l'attaquant : gain complet si le coup passe, réduit si une
+     * défense l'a atténué, aucun gain s'il n'a fait perdre aucun PV.
+     */
+    private void rewardAttacker(Character attacker,
+                                Character defender,
+                                int hpLost,
+                                DamageResult result) {
+
+        if (hpLost <= 0) return;
+
+        double gainScale = result.mitigatedByDefense() ? MITIGATED_HIT_GAIN : 1.0;
+
+        attacker.getMentalState()
+                .onEvent(CombatEventType.DAMAGE_DEALT, attacker, defender, gainScale);
     }
 
     // ---------------- DEATH ----------------
