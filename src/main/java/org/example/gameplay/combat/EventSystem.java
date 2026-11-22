@@ -33,8 +33,12 @@ public class EventSystem {
                         Character target) {
 
         if (events.isEmpty()) {
-            String who = (source != null) ? source.getName() : "Une action";
-            log.info(who + " : action sans effet (cible invalide ou hors de combat).");
+            if (source != null && !source.isAlive()) {
+                log.info(source.getName() + " est hors de combat et ne peut pas agir.");
+            } else {
+                String who = (source != null) ? source.getName() : "Une action";
+                log.info(who + " : action sans effet (cible invalide ou hors de combat).");
+            }
             return;
         }
 

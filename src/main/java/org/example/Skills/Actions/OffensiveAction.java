@@ -35,6 +35,11 @@ public class OffensiveAction extends Action {
     }
 
 
+    /** La compétence utilisée par cette action. */
+    public OffensiveSkill getSkill() {
+        return skill;
+    }
+
     public int getPriority() {
         return priority;
     }
