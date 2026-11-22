@@ -44,8 +44,7 @@ public abstract class OffensiveSkill implements DamageSource {
         if (!source.isAlive() || !target.isAlive()) return events;
 
         if (!isValidTarget(source, target)) {
-            System.out.println("❌ Cible invalide pour " + name);
-            return events;
+            return events; // vide : le combat annonce une action sans effet
         }
 
         int damage = calculateDamage(source, target);

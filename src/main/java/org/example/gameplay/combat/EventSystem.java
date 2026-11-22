@@ -9,15 +9,34 @@ import org.example.core.character.Character;
 import org.example.core.character.DamageResult;
 import org.example.effects.StatusEffect;
 import org.example.effects.StatusEffectFactory;
+import org.example.gameplay.log.CombatLog;
 
 public class EventSystem {
 
     /** Part du gain mental de l'attaquant quand une défense a réduit son coup. */
     private static final double MITIGATED_HIT_GAIN = 0.5;
 
+    private final CombatLog log;
+
+    /** @param log où annoncer ce qui se passe pendant le combat */
+    public EventSystem(CombatLog log) {
+        this.log = log;
+    }
+
+    /** Système d'événements sans journal. */
+    public EventSystem() {
+        this(CombatLog.SILENT);
+    }
+
     public void process(List<CombatEvent> events,
                         Character source,
                         Character target) {
+
+        if (events.isEmpty()) {
+            String who = (source != null) ? source.getName() : "Une action";
+            log.info(who + " : action sans effet (cible invalide ou hors de combat).");
+            return;
+        }
 
         Queue<CombatEvent> queue = new LinkedList<>(events);
         boolean counterTriggered = false;
@@ -76,17 +95,21 @@ public class EventSystem {
         Character attacker = event.target();
 
         int before = defender.getCurrentHP();
+        boolean wasDefending = defender.isDefending() && defender.getCurrentDefense() != null;
 
         int finalDamage = DamageResolver.resolve(
                 event.value(),
                 attacker,
                 defender,
-                event.damageTypes()
+                event.damageTypes(),
+                log
         );
 
         DamageResult result = defender.takeDamage(finalDamage, attacker);
 
         int after = defender.getCurrentHP();
+
+        reportHit(defender, attacker, before, after, wasDefending, result);
 
         if (event.type() == CombatEventType.DAMAGE_RECEIVED) {
             rewardAttacker(attacker, defender, before - after, result);
@@ -105,10 +128,54 @@ public class EventSystem {
             return true;
         }
 
-        defender.getMentalState()
-                .onEvent(event.type(), defender, attacker);
+        applyMental(defender, event.type(), attacker, 1.0);
 
         return counterTriggered;
+    }
+
+    /** Annonce au joueur le résultat d'un coup : défense, dégâts, PV restants. */
+    private void reportHit(Character defender,
+                           Character attacker,
+                           int before,
+                           int after,
+                           boolean wasDefending,
+                           DamageResult result) {
+
+        String defense = wasDefending ? defender.getCurrentDefense().getName() : null;
+
+        if (wasDefending && result.damage() == 0) {
+            log.info("🛡 " + defender.getName() + " annule le coup de "
+                    + attacker.getName() + " (" + defense + ") !");
+            return;
+        }
+
+        if (wasDefending && result.mitigatedByDefense()) {
+            log.info("🛡 " + defender.getName() + " réduit le coup (" + defense + ").");
+        }
+
+        if (before == after) {
+            log.info(defender.getName() + " ne subit aucun dégât de " + attacker.getName() + ".");
+            return;
+        }
+
+        log.info(defender.getName() + " subit " + (before - after) + " dégâts de "
+                + attacker.getName() + " (" + after + "/"
+                + defender.getAttributes().getVitality() + " PV)");
+    }
+
+    /** Applique une variation d'état mental et la note en debug. */
+    private void applyMental(Character self,
+                             CombatEventType type,
+                             Character source,
+                             double gainScale) {
+
+        int delta = self.getMentalState().onEvent(type, self, source, gainScale);
+
+        if (delta != 0) {
+            log.debug("🧠 " + self.getName() + " : état mental "
+                    + (delta > 0 ? "+" : "") + delta + " (" + type + ") → "
+                    + self.getMentalState().getValue());
+        }
     }
 
     private void applyDamageTypeEffects(Character defender, Set<DamageType> damageTypes) {
@@ -120,10 +187,10 @@ public class EventSystem {
             defender.applyStatusEffect(effect);
         }
 
-        System.out.println(defender.getName() + " subit les effets : " +
-                effects.stream()
-                        .map(StatusEffect::getName)
-                        .toList());
+        if (!effects.isEmpty()) {
+            log.info(defender.getName() + " est affecté par : " +
+                    String.join(", ", effects.stream().map(StatusEffect::getName).toList()));
+        }
     }
 
     private boolean handleDamageDealt(CombatEvent event,
@@ -161,8 +228,7 @@ public class EventSystem {
 
         double gainScale = result.mitigatedByDefense() ? MITIGATED_HIT_GAIN : 1.0;
 
-        attacker.getMentalState()
-                .onEvent(CombatEventType.DAMAGE_DEALT, attacker, defender, gainScale);
+        applyMental(attacker, CombatEventType.DAMAGE_DEALT, defender, gainScale);
     }
 
     // ---------------- DEATH ----------------
@@ -178,6 +244,7 @@ public class EventSystem {
         if (!(before > 0 && after <= 0)) return;
 
         dead.add(defender);
+        log.info("💀 " + defender.getName() + " est mort.");
 
         queue.add(new CombatEvent(
                 CombatEventType.ENEMY_DEFEATED,
@@ -213,6 +280,7 @@ public class EventSystem {
 
         defender.getState().setPendingCounterDamage(0);
 
+        log.info("↩ " + defender.getName() + " contre-attaque !");
 
         // handleDamageDealt crée lui-même le DAMAGE_RECEIVED correspondant
         queue.add(new CombatEvent(
@@ -227,9 +295,7 @@ public class EventSystem {
     // ---------------- STATES ----------------
 
     private boolean handleEnemyDefeated(CombatEvent event) {
-        event.source()
-                .getMentalState()
-                .onEvent(event.type(), event.source(), event.target());
+        applyMental(event.source(), event.type(), event.target(), 1.0);
         return false;
     }
 
@@ -238,9 +304,13 @@ public class EventSystem {
     }
 
     private boolean handleDefensePrepared(CombatEvent event) {
-        event.source()
-                .getMentalState()
-                .onEvent(event.type(), event.source(), event.target());
+        Character defender = event.source();
+        String defense = (defender.getCurrentDefense() != null)
+                ? defender.getCurrentDefense().getName()
+                : "défense";
+
+        log.info("🛡 " + defender.getName() + " se met en garde (" + defense + ").");
+        applyMental(defender, event.type(), event.target(), 1.0);
         return false;
     }
 

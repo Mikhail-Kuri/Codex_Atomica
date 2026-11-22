@@ -8,26 +8,33 @@ import java.util.*;
 import org.example.Skills.Actions.OffensiveAction;
 import org.example.core.character.Character;
 import org.example.effects.StatusEffect;
-
-import static org.example.app.GameTester.PrintStuff.printStats;
+import org.example.gameplay.log.CombatLog;
+import org.example.gameplay.log.ConsoleCombatLog;
 
 public class TurnManager {
 
     private final List<Action> plannedActions = new ArrayList<>();
     private final CombatEngine combatEngine;
     private final ActionOrderResolver resolver;
+    private final CombatLog log;
     private int turnNumber = 1;
     private boolean combatEnded = false;
 
 
-    public TurnManager(CombatEngine combatEngine, ActionOrderResolver resolver) {
+    public TurnManager(CombatEngine combatEngine, ActionOrderResolver resolver, CombatLog log) {
         this.combatEngine = combatEngine;
         this.resolver = resolver;
+        this.log = log;
     }
 
+    /** Combat qui écrit dans ce journal. */
+    public TurnManager(CombatLog log) {
+        this(new CombatEngine(new EventSystem(log)), new ActionOrderResolver(), log);
+    }
+
+    /** Combat qui écrit dans la console, détail des calculs compris (mode développeur). */
     public TurnManager() {
-        this.combatEngine = new CombatEngine(new EventSystem());
-        this.resolver = new ActionOrderResolver();
+        this(new ConsoleCombatLog(true));
     }
 
     /**
@@ -46,7 +53,7 @@ public class TurnManager {
                 .count();
 
         if (alreadyPlanned >= source.getActionsPerTurn()) {
-            System.out.println(source.getName() + " n'a plus d'action ce tour !");
+            log.info(source.getName() + " n'a plus d'action ce tour !");
             return false;
         }
 
@@ -59,7 +66,7 @@ public class TurnManager {
                                 );
 
         if (action.isDefenseAction() && alreadyDefending) {
-            System.out.println(source.getName() + " défend déjà !");
+            log.info(source.getName() + " défend déjà !");
             return false;
         }
 
@@ -69,7 +76,7 @@ public class TurnManager {
 
     public void resolveCurrentTurn() {
 
-        System.out.println("\n⚔️ === TOUR " + turnNumber + " ===");
+        log.info("\n⚔️ === TOUR " + turnNumber + " ===");
 
         List<Action> ordered = resolver.sort(plannedActions);
 
@@ -77,26 +84,7 @@ public class TurnManager {
             combatEngine.execute(action);
         }
 
-        //Aller chercher les stastus a appliquer a la fin du tour et les appliquer
-        Set<Character> involvedCharacters = new HashSet<>();
-        for (Action action : ordered) {
-            involvedCharacters.add(action.getSource());
-            if (action.getTarget() != null) {
-                involvedCharacters.add(action.getTarget());
-            }
-        }
-
-
-        System.out.println("\n🔁 Application des effets de fin de tour :");
-        System.out.println(
-                involvedCharacters.stream()
-                        .flatMap(c -> c.getState().getStatusEffects().stream())
-                        .toList()
-        );
         plannedActions.clear();
-
-        System.out.println("⚔️ === FIN DU TOUR " + turnNumber + " ===\n");
-
         turnNumber++;
     }
 
@@ -104,20 +92,26 @@ public class TurnManager {
 
         while (!combatEnded) {
 
-            System.out.println(">>> Préparation des actions (Tour " + turnNumber + ")");
-
             autoPlanActions(characters);
 
             resolveCurrentTurn();
 
             endTurn(characters);
 
-            printStats(characters);
+            log.info(hpSummary(characters));
 
             checkEndCondition(characters);
         }
 
-        System.out.println("🏁 Combat terminé !");
+        log.info("🏁 Combat terminé !");
+    }
+
+    /** Une ligne avec les PV de chacun, ex. « Paladin 71/120 PV · Gnoll 8/50 PV ». */
+    private static String hpSummary(List<Character> characters) {
+        return String.join(" · ", characters.stream()
+                .map(c -> c.getName() + " " + c.getCurrentHP() + "/"
+                        + c.getAttributes().getVitality() + " PV")
+                .toList());
     }
 
     /**
@@ -140,9 +134,27 @@ public class TurnManager {
 
             // Copie : un effet peut modifier la liste pendant son onTurnEnd
             for (StatusEffect effect : new ArrayList<>(effects)) {
+                boolean wasAlive = character.isAlive();
+                int before = character.getCurrentHP();
+
                 effect.onTurnEnd(character);
+
+                int lost = before - character.getCurrentHP();
+                if (lost > 0) {
+                    log.info(character.getName() + " subit " + lost + " dégâts de "
+                            + effect.getName() + " (" + character.getCurrentHP() + "/"
+                            + character.getAttributes().getVitality() + " PV)");
+                }
+                if (wasAlive && !character.isAlive()) {
+                    log.info("💀 " + character.getName() + " est mort.");
+                }
             }
 
+            for (StatusEffect effect : effects) {
+                if (effect.isExpired()) {
+                    log.debug(effect.getName() + " se dissipe sur " + character.getName());
+                }
+            }
             effects.removeIf(StatusEffect::isExpired);
         }
     }

@@ -20,8 +20,8 @@ public class OffensiveAction extends Action {
     @Override
     public List<CombatEvent> execute() {
 
+        // Aucun événement = action sans effet ; le combat l'annonce dans le journal
         if (source == null || target == null) {
-            System.out.println("Source ou cible est null. Action annulée.");
             return List.of();
         }
 

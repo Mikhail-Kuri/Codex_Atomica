@@ -1,41 +1,47 @@
 package org.example.Skills.Scaling;
 
 import org.example.core.character.Character;
+import org.example.gameplay.log.CombatLog;
 
 import java.util.Set;
 
 
 public class DamageResolver {
 
+    /** Applique les résistances du défenseur, sans rien journaliser. */
     public static int resolve(
             int baseDamage,
             Character attacker,
             Character defender,
             Set<DamageType> damageTypes
     ) {
+        return resolve(baseDamage, attacker, defender, damageTypes, CombatLog.SILENT);
+    }
 
-        System.out.println("\n⚔️ === DAMAGE RESOLUTION ===");
-        System.out.println("Attacker: " + attacker.getName());
-        System.out.println("Defender: " + defender.getName());
-        System.out.println("Base damage: " + baseDamage);
-        System.out.println("Damage types: " + damageTypes);
+    /**
+     * Applique les résistances du défenseur à chaque type de dégât.
+     * Le détail du calcul est écrit dans le journal en debug.
+     */
+    public static int resolve(
+            int baseDamage,
+            Character attacker,
+            Character defender,
+            Set<DamageType> damageTypes,
+            CombatLog log
+    ) {
 
         float multiplier = 1.0f;
 
         for (DamageType type : damageTypes) {
             float res = defender.getAttributes().getResistance(type);
-
-            System.out.println("→ " + type + " resistance: " + res);
-
+            log.debug(defender.getName() + " : résistance " + type + " × " + res);
             multiplier *= res;
         }
 
-        System.out.println("Final multiplier: " + multiplier);
-
         int finalDamage = Math.max(0, Math.round(baseDamage * multiplier));
 
-        System.out.println("FINAL DAMAGE: " + finalDamage);
-        System.out.println("================================\n");
+        log.debug(attacker.getName() + " → " + defender.getName() + " : "
+                + baseDamage + " de base × " + multiplier + " = " + finalDamage);
 
         return finalDamage;
     }
