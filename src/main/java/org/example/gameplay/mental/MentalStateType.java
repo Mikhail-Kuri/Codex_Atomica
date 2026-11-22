@@ -14,11 +14,10 @@ public enum MentalStateType {
         public MentalState create() { return new HonourMentalState();}
         
     },
-    CORRUPTION{
-        public MentalState create() { return new CorruptionMentalState();}
+    INSTINCT {
+        public MentalState create() { return new InstinctMentalState();}
     };
 
     public abstract MentalState create();
-
 
 }

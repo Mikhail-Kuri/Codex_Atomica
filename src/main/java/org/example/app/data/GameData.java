@@ -101,7 +101,7 @@ public class GameData {
     );
 
     public static final CharacterProfile enemyProfile = new CharacterProfile(
-            "Gnoll Irradié", MentalStateType.CORRUPTION
+            "Gnoll Irradié", MentalStateType.INSTINCT
     );
 
     public static final CharacterProfile scoutProfile = new CharacterProfile(

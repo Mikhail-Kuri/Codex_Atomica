@@ -6,7 +6,7 @@ import org.example.core.character.Character;
 import static org.example.app.GameTester.PrintStuff.printMentalStateEvent;
 
 
-public class CorruptionMentalState extends AbstractMentalState {
+public class InstinctMentalState extends AbstractMentalState {
 
     @Override
     public void onEvent(CombatEventType event, Character self, Character source) {
