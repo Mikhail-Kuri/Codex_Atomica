@@ -80,7 +80,8 @@ class DuelTest {
     @DisplayName("Un choix refusé (2e défense du tour) est redemandé")
     void refusedChoiceIsAskedAgain() {
         Character rogue = TestCharacters.withActionsPerTurn(2, GameData.evade);
-        Character enemy = GameData.createEnemy();
+        // Guard sans Vigueur : la cible ne peut pas esquiver au hasard, le coup passe toujours
+        Character enemy = TestCharacters.create(0, 0, GameData.guard);
         AtomicInteger asked = new AtomicInteger();
         // Défend aux 2 premiers appels (le 2e est refusé), puis attaque
         ActionChooser chooser = (self, opponent) -> asked.incrementAndGet() <= 2
