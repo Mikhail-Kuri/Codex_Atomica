@@ -34,3 +34,22 @@ src/main/resources/application-prod.properties
 
 .env
 
+# Fichiers verrous Office (créés quand un .docx/.xlsx est ouvert)
+~$*
+
+# IntelliJ (en plus de .idea/)
+*.iml
+
+# Fichiers système
+Thumbs.db
+desktop.ini
+.DS_Store
+
+# Fichier généré par le devcontainer (postCreateCommand)
+TEMP.md
+
+# Claude Code Game Studios : état local, propre à ce PC
+production/session-state/
+production/session-logs/
+.claude/worktrees/
+.claude/settings.local.json
