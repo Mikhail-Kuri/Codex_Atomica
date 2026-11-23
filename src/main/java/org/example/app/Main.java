@@ -44,11 +44,11 @@ public class Main {
         BufferedReader in = new BufferedReader(new InputStreamReader(System.in, StandardCharsets.UTF_8));
         ConsoleInput input = new ConsoleInput(in, out);
 
-        out.println("=== CODEX ATOMICA : combat d'entraînement ===");
+        out.println("=== CODEX ATOMICA: training duel ===");
 
         try {
-            Character player = pickFighter("Choisis ton personnage :", input, out);
-            Character enemy = pickFighter("Choisis ton adversaire :", input, out);
+            Character player = pickFighter("Choose your fighter:", input, out);
+            Character enemy = pickFighter("Choose your opponent:", input, out);
 
             Duel duel = new Duel(
                     player,
@@ -62,7 +62,7 @@ public class Main {
             out.println(announce(duel.run()));
         } catch (InputClosedException e) {
             out.println();
-            out.println("Partie interrompue.");
+            out.println("Game interrupted.");
         }
     }
 
@@ -78,9 +78,9 @@ public class Main {
 
     private static String announce(DuelOutcome outcome) {
         return switch (outcome) {
-            case PLAYER_WON -> "🏆 Victoire !";
-            case ENEMY_WON -> "☠ Défaite…";
-            case DRAW -> "🤝 Match nul.";
+            case PLAYER_WON -> "🏆 Victory!";
+            case ENEMY_WON -> "☠ Defeat…";
+            case DRAW -> "🤝 Draw.";
         };
     }
 }

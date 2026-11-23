@@ -4,6 +4,6 @@ package org.example.app.console;
 public class InputClosedException extends RuntimeException {
 
     public InputClosedException() {
-        super("L'entrée du joueur est terminée.");
+        super("Player input has ended.");
     }
 }

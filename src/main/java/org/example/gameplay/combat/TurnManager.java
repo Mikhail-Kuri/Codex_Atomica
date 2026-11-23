@@ -53,7 +53,7 @@ public class TurnManager {
                 .count();
 
         if (alreadyPlanned >= source.getActionsPerTurn()) {
-            log.info(source.getName() + " n'a plus d'action ce tour !");
+            log.info(source.getName() + " has no actions left this turn!");
             return false;
         }
 
@@ -66,7 +66,7 @@ public class TurnManager {
                                 );
 
         if (action.isDefenseAction() && alreadyDefending) {
-            log.info(source.getName() + " défend déjà !");
+            log.info(source.getName() + " is already defending!");
             return false;
         }
 
@@ -76,7 +76,7 @@ public class TurnManager {
 
     public void resolveCurrentTurn() {
 
-        log.info("\n⚔️ === TOUR " + turnNumber + " ===");
+        log.info("\n⚔️ === TURN " + turnNumber + " ===");
 
         List<Action> ordered = resolver.sort(plannedActions);
 
@@ -103,14 +103,14 @@ public class TurnManager {
             checkEndCondition(characters);
         }
 
-        log.info("🏁 Combat terminé !");
+        log.info("🏁 Combat over!");
     }
 
     /** Une ligne avec les PV de chacun, ex. « Paladin 71/120 PV · Gnoll 8/50 PV ». */
     private static String hpSummary(List<Character> characters) {
         return String.join(" · ", characters.stream()
                 .map(c -> c.getName() + " " + c.getCurrentHP() + "/"
-                        + c.getAttributes().getVitality() + " PV")
+                        + c.getAttributes().getVitality() + " HP")
                 .toList());
     }
 
@@ -141,18 +141,18 @@ public class TurnManager {
 
                 int lost = before - character.getCurrentHP();
                 if (lost > 0) {
-                    log.info(character.getName() + " subit " + lost + " dégâts de "
+                    log.info(character.getName() + " takes " + lost + " damage from "
                             + effect.getName() + " (" + character.getCurrentHP() + "/"
-                            + character.getAttributes().getVitality() + " PV)");
+                            + character.getAttributes().getVitality() + " HP)");
                 }
                 if (wasAlive && !character.isAlive()) {
-                    log.info("💀 " + character.getName() + " est mort.");
+                    log.info("💀 " + character.getName() + " has fallen.");
                 }
             }
 
             for (StatusEffect effect : effects) {
                 if (effect.isExpired()) {
-                    log.debug(effect.getName() + " se dissipe sur " + character.getName());
+                    log.debug(effect.getName() + " wears off " + character.getName());
                 }
             }
             effects.removeIf(StatusEffect::isExpired);

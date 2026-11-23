@@ -34,10 +34,10 @@ public class EventSystem {
 
         if (events.isEmpty()) {
             if (source != null && !source.isAlive()) {
-                log.info(source.getName() + " est hors de combat et ne peut pas agir.");
+                log.info(source.getName() + " is out of combat and cannot act.");
             } else {
-                String who = (source != null) ? source.getName() : "Une action";
-                log.info(who + " : action sans effet (cible invalide ou hors de combat).");
+                String who = (source != null) ? source.getName() : "An action";
+                log.info(who + ": action had no effect (invalid or defeated target).");
             }
             return;
         }
@@ -148,23 +148,23 @@ public class EventSystem {
         String defense = wasDefending ? defender.getCurrentDefense().getName() : null;
 
         if (wasDefending && result.damage() == 0) {
-            log.info("🛡 " + defender.getName() + " annule le coup de "
-                    + attacker.getName() + " (" + defense + ") !");
+            log.info("🛡 " + defender.getName() + " negates "
+                    + attacker.getName() + "'s hit (" + defense + ")!");
             return;
         }
 
         if (wasDefending && result.mitigatedByDefense()) {
-            log.info("🛡 " + defender.getName() + " réduit le coup (" + defense + ").");
+            log.info("🛡 " + defender.getName() + " softens the hit (" + defense + ").");
         }
 
         if (before == after) {
-            log.info(defender.getName() + " ne subit aucun dégât de " + attacker.getName() + ".");
+            log.info(defender.getName() + " takes no damage from " + attacker.getName() + ".");
             return;
         }
 
-        log.info(defender.getName() + " subit " + (before - after) + " dégâts de "
+        log.info(defender.getName() + " takes " + (before - after) + " damage from "
                 + attacker.getName() + " (" + after + "/"
-                + defender.getAttributes().getVitality() + " PV)");
+                + defender.getAttributes().getVitality() + " HP)");
     }
 
     /** Applique une variation d'état mental et la note en debug. */
@@ -176,7 +176,7 @@ public class EventSystem {
         int delta = self.getMentalState().onEvent(type, self, source, gainScale);
 
         if (delta != 0) {
-            log.debug("🧠 " + self.getName() + " : état mental "
+            log.debug("🧠 " + self.getName() + ": mental "
                     + (delta > 0 ? "+" : "") + delta + " (" + type + ") → "
                     + self.getMentalState().getValue());
         }
@@ -192,7 +192,7 @@ public class EventSystem {
         }
 
         if (!effects.isEmpty()) {
-            log.info(defender.getName() + " est affecté par : " +
+            log.info(defender.getName() + " is afflicted by: " +
                     String.join(", ", effects.stream().map(StatusEffect::getName).toList()));
         }
     }
@@ -248,7 +248,7 @@ public class EventSystem {
         if (!(before > 0 && after <= 0)) return;
 
         dead.add(defender);
-        log.info("💀 " + defender.getName() + " est mort.");
+        log.info("💀 " + defender.getName() + " has fallen.");
 
         queue.add(new CombatEvent(
                 CombatEventType.ENEMY_DEFEATED,
@@ -284,7 +284,7 @@ public class EventSystem {
 
         defender.getState().setPendingCounterDamage(0);
 
-        log.info("↩ " + defender.getName() + " contre-attaque !");
+        log.info("↩ " + defender.getName() + " counterattacks!");
 
         // handleDamageDealt crée lui-même le DAMAGE_RECEIVED correspondant
         queue.add(new CombatEvent(
@@ -311,9 +311,9 @@ public class EventSystem {
         Character defender = event.source();
         String defense = (defender.getCurrentDefense() != null)
                 ? defender.getCurrentDefense().getName()
-                : "défense";
+                : "defense";
 
-        log.info("🛡 " + defender.getName() + " se met en garde (" + defense + ").");
+        log.info("🛡 " + defender.getName() + " takes a defensive stance (" + defense + ").");
         applyMental(defender, event.type(), event.target(), 1.0);
         return false;
     }

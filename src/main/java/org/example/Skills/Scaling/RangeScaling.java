@@ -1,10 +1,10 @@
 package org.example.Skills.Scaling;
 
 public enum RangeScaling {
-    MELEE("Mêlée"),
-    SHORT("Courte"),
-    MEDIUM("Moyenne"),
-    LONG("Longue");
+    MELEE("Melee"),
+    SHORT("Short"),
+    MEDIUM("Medium"),
+    LONG("Long");
 
     private final String displayName;
 

@@ -10,8 +10,8 @@ public class CharacterSkills {
     private DefensiveSkill currentDefense;
 
     public CharacterSkills (List<OffensiveSkill> initialOffensives, DefensiveSkill initialDefensive) {
-        if (initialOffensives == null) throw new IllegalArgumentException("Un personnage doit avoir au moins une skill offensive !");
-        if (initialDefensive == null) throw new IllegalArgumentException("Un personnage doit avoir une skill de défense !");
+        if (initialOffensives == null) throw new IllegalArgumentException("A character needs at least one offensive skill!");
+        if (initialDefensive == null) throw new IllegalArgumentException("A character needs a defensive skill!");
 
         this.offensiveSkills = initialOffensives;
         this.currentDefense = initialDefensive;

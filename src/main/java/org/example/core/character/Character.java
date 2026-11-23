@@ -219,16 +219,16 @@ public class Character {
 
     /** Affichage de débogage pour les GameTester ; n'est jamais appelé par la logique du combat. */
     public void printStats() {
-        System.out.println("\n===== STATS DE " + getName() + " =====");
+        System.out.println("\n===== STATS: " + getName() + " =====");
 
         System.out.println("HP : " + getCurrentHP() + "/" + stats.vitality);
         System.out.println("Alive : " + isAlive());
 
         System.out.println("Weapon : " +
-                (getEquippedWeapon() != null ? getEquippedWeapon().getName() : "Aucune"));
+                (getEquippedWeapon() != null ? getEquippedWeapon().getName() : "None"));
 
         System.out.println("Defense : " +
-                (getCurrentDefense() != null ? getCurrentDefense().getName() : "Aucune"));
+                (getCurrentDefense() != null ? getCurrentDefense().getName() : "None"));
 
         System.out.println("Vigor : " + stats.vigor);
         System.out.println("Resonance : " + stats.resonance);
