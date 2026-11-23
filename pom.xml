@@ -27,6 +27,13 @@
     </dependencyManagement>
 
     <dependencies>
+        <!-- Lecture des données de jeu (src/main/resources/data/*.json) -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>2.17.2</version>
+        </dependency>
+
         <!-- Tests de régression : src/test/java -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>

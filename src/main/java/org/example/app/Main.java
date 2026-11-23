@@ -17,7 +17,7 @@ import java.io.PrintStream;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Random;
-import java.util.function.Supplier;
+import java.util.stream.Stream;
 
 /**
  * Lance un combat 1 contre 1 en console : choix du personnage, de l'adversaire, puis combat.
@@ -31,15 +31,12 @@ public class Main {
     /** Limite de sécurité : au-delà, le combat est déclaré nul. */
     private static final int MAX_TURNS = 50;
 
-    private record Fighter(String name, Supplier<Character> factory) {}
-
-    private static final List<Fighter> FIGHTERS = List.of(
-            new Fighter("Paladin du Noyau", GameData::createPaladin),
-            new Fighter("Gnoll Irradié", GameData::createEnemy),
-            new Fighter("Éclaireur Mutant", GameData::createScout),
-            new Fighter("Mutant Électrique", GameData::createMutant),
-            new Fighter("Rat Mutant", GameData::createFragile)
-    );
+    /** Héros puis ennemis, dans l'ordre des fichiers classes.json et enemies.json. */
+    private static List<String> fighterIds() {
+        return Stream.concat(
+                GameData.CONTENT.classIds().stream(),
+                GameData.CONTENT.enemyIds().stream()).toList();
+    }
 
     public static void main(String[] args) {
         boolean debug = List.of(args).contains("--debug");
@@ -70,12 +67,13 @@ public class Main {
     }
 
     private static Character pickFighter(String title, ConsoleInput input, PrintStream out) {
+        List<String> ids = fighterIds();
         out.println();
         out.println(title);
-        for (int i = 0; i < FIGHTERS.size(); i++) {
-            out.println("  " + (i + 1) + ". " + FIGHTERS.get(i).name());
+        for (int i = 0; i < ids.size(); i++) {
+            out.println("  " + (i + 1) + ". " + GameData.CONTENT.nameOf(ids.get(i)));
         }
-        return FIGHTERS.get(input.readChoice(FIGHTERS.size()) - 1).factory().get();
+        return GameData.CONTENT.create(ids.get(input.readChoice(ids.size()) - 1));
     }
 
     private static String announce(DuelOutcome outcome) {

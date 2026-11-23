@@ -1,0 +1,29 @@
+[
+  {
+    "id": "iron_sword",
+    "name": "Iron Sword",
+    "slot": "MAIN_HAND",
+    "itemLevel": 1,
+    "requiredLevel": 1,
+    "rarity": "COMMON",
+    "weapon": { "basePower": 35, "damageTypes": ["PHYSICAL"], "range": "MELEE" }
+  },
+  {
+    "id": "rusty_iron_sword",
+    "name": "Rusty Iron Sword",
+    "slot": "MAIN_HAND",
+    "itemLevel": 1,
+    "requiredLevel": 1,
+    "rarity": "COMMON",
+    "weapon": { "basePower": 25, "damageTypes": ["SLASHING"], "range": "MELEE" }
+  },
+  {
+    "id": "plasma_rifle",
+    "name": "Plasma Rifle",
+    "slot": "MAIN_HAND",
+    "itemLevel": 1,
+    "requiredLevel": 1,
+    "rarity": "UNCOMMON",
+    "weapon": { "basePower": 60, "damageTypes": ["ENERGY"], "range": "LONG" }
+  }
+]

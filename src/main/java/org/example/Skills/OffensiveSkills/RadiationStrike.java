@@ -16,7 +16,7 @@ public class RadiationStrike extends OffensiveSkill {
 
     public RadiationStrike() {
         super(
-                "Frappe radioactive",
+                "Radiation Strike",
                 TargetType.ENEMY,
                 List.of(ScalingType.STRENGTH, ScalingType.SKILL),
                 List.of(

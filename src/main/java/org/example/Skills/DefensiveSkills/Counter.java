@@ -13,7 +13,7 @@ import java.util.List;
 public class Counter extends DefensiveSkill {
 
     public Counter() {
-        super("Contre",
+        super("Counter",
                 TargetType.SELF,
                 List.of(ScalingType.VIGOR),
                 List.of(CombatEventType.DEFENSE_PREPARED)
