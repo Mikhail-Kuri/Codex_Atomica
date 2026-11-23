@@ -1,5 +1,6 @@
 package org.example.progression;
 
+import org.example.app.data.GameData;
 import org.example.core.character.Character;
 import org.example.data.GameContent;
 import org.example.data.GameContentLoader;
@@ -10,6 +11,7 @@ import org.junit.jupiter.api.Test;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /** Gain d'XP et montée de niveau : règles 1 à 4 et formules S1, S2, X1. */
 class ProgressionTest {
@@ -124,6 +126,16 @@ class ProgressionTest {
 
         assertEquals(2, fixed.getLevel());
         assertEquals(vitality, fixed.getAttributes().getVitality());
+    }
+
+    @Test
+    @DisplayName("Les vraies données : un héros de niveau 30 est plus fort qu'au niveau 1")
+    void realHeroesGrowWithLevel() {
+        Character level1 = GameData.CONTENT.create(GameData.PALADIN, 1);
+        Character level30 = GameData.CONTENT.create(GameData.PALADIN, 30);
+
+        assertTrue(level30.getAttributes().getVitality() > level1.getAttributes().getVitality());
+        assertTrue(level30.getAttributes().getVigor() > level1.getAttributes().getVigor());
     }
 
     @Test
