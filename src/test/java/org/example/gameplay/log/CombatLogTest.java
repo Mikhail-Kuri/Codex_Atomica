@@ -63,7 +63,7 @@ class CombatLogTest {
         turnManager.addAction(attack(paladin, enemy));
         turnManager.resolveCurrentTurn();
 
-        assertTrue(log.infoContains(enemy.getName() + " subit"));
+        assertTrue(log.infoContains(enemy.getName() + " takes"));
     }
 
     @Test
@@ -77,8 +77,8 @@ class CombatLogTest {
         turnManager.addAction(attack(paladin, enemy));
         turnManager.resolveCurrentTurn();
 
-        assertTrue(log.debugContains("résistance"));
-        assertFalse(log.infoContains("résistance"));
+        assertTrue(log.debugContains("resistance"));
+        assertFalse(log.infoContains("resistance"));
     }
 
     @Test
@@ -105,7 +105,7 @@ class CombatLogTest {
         turnManager.resolveCurrentTurn();
 
         assertFalse(rat.isAlive());
-        assertTrue(log.infoContains(rat.getName() + " est mort"));
+        assertTrue(log.infoContains(rat.getName() + " has fallen"));
     }
 
     @Test
@@ -119,7 +119,7 @@ class CombatLogTest {
         turnManager.addAction(attack(paladin, enemy));
         turnManager.addAction(attack(paladin, enemy));
 
-        assertTrue(log.infoContains(paladin.getName() + " n'a plus d'action"));
+        assertTrue(log.infoContains(paladin.getName() + " has no actions left"));
     }
 
     private static OffensiveAction attack(Character source, Character target) {

@@ -43,7 +43,7 @@ public class ConsoleInput {
                 // saisie non numérique : on redemande
             }
 
-            out.println("Choix invalide : tape un numéro entre 1 et " + max + ".");
+            out.println("Invalid choice: type a number between 1 and " + max + ".");
         }
     }
 

@@ -27,7 +27,7 @@ public class SimpleAiChooser implements ActionChooser {
      */
     public SimpleAiChooser(double defendChance, Random random) {
         if (defendChance < 0 || defendChance > 1) {
-            throw new IllegalArgumentException("defendChance doit être entre 0 et 1");
+            throw new IllegalArgumentException("defendChance must be between 0 and 1");
         }
         this.defendChance = defendChance;
         this.random = random;

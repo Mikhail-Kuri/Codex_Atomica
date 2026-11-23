@@ -14,7 +14,7 @@ public class Evade extends DefensiveSkill {
 
     public Evade() {
         super(
-                "Esquive",
+                "Evade",
                 TargetType.SELF,
                 List.of(ScalingType.AGILITY),
                 List.of(CombatEventType.DEFENSE_PREPARED));

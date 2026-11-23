@@ -17,7 +17,7 @@ import java.io.PrintStream;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Random;
-import java.util.function.Supplier;
+import java.util.stream.Stream;
 
 /**
  * Lance un combat 1 contre 1 en console : choix du personnage, de l'adversaire, puis combat.
@@ -31,15 +31,12 @@ public class Main {
     /** Limite de sécurité : au-delà, le combat est déclaré nul. */
     private static final int MAX_TURNS = 50;
 
-    private record Fighter(String name, Supplier<Character> factory) {}
-
-    private static final List<Fighter> FIGHTERS = List.of(
-            new Fighter("Paladin du Noyau", GameData::createPaladin),
-            new Fighter("Gnoll Irradié", GameData::createEnemy),
-            new Fighter("Éclaireur Mutant", GameData::createScout),
-            new Fighter("Mutant Électrique", GameData::createMutant),
-            new Fighter("Rat Mutant", GameData::createFragile)
-    );
+    /** Héros puis ennemis, dans l'ordre des fichiers classes.json et enemies.json. */
+    private static List<String> fighterIds() {
+        return Stream.concat(
+                GameData.CONTENT.classIds().stream(),
+                GameData.CONTENT.enemyIds().stream()).toList();
+    }
 
     public static void main(String[] args) {
         boolean debug = List.of(args).contains("--debug");
@@ -47,11 +44,11 @@ public class Main {
         BufferedReader in = new BufferedReader(new InputStreamReader(System.in, StandardCharsets.UTF_8));
         ConsoleInput input = new ConsoleInput(in, out);
 
-        out.println("=== CODEX ATOMICA : combat d'entraînement ===");
+        out.println("=== CODEX ATOMICA: training duel ===");
 
         try {
-            Character player = pickFighter("Choisis ton personnage :", input, out);
-            Character enemy = pickFighter("Choisis ton adversaire :", input, out);
+            Character player = pickFighter("Choose your fighter:", input, out);
+            Character enemy = pickFighter("Choose your opponent:", input, out);
 
             Duel duel = new Duel(
                     player,
@@ -65,24 +62,25 @@ public class Main {
             out.println(announce(duel.run()));
         } catch (InputClosedException e) {
             out.println();
-            out.println("Partie interrompue.");
+            out.println("Game interrupted.");
         }
     }
 
     private static Character pickFighter(String title, ConsoleInput input, PrintStream out) {
+        List<String> ids = fighterIds();
         out.println();
         out.println(title);
-        for (int i = 0; i < FIGHTERS.size(); i++) {
-            out.println("  " + (i + 1) + ". " + FIGHTERS.get(i).name());
+        for (int i = 0; i < ids.size(); i++) {
+            out.println("  " + (i + 1) + ". " + GameData.CONTENT.nameOf(ids.get(i)));
         }
-        return FIGHTERS.get(input.readChoice(FIGHTERS.size()) - 1).factory().get();
+        return GameData.CONTENT.create(ids.get(input.readChoice(ids.size()) - 1));
     }
 
     private static String announce(DuelOutcome outcome) {
         return switch (outcome) {
-            case PLAYER_WON -> "🏆 Victoire !";
-            case ENEMY_WON -> "☠ Défaite…";
-            case DRAW -> "🤝 Match nul.";
+            case PLAYER_WON -> "🏆 Victory!";
+            case ENEMY_WON -> "☠ Defeat…";
+            case DRAW -> "🤝 Draw.";
         };
     }
 }

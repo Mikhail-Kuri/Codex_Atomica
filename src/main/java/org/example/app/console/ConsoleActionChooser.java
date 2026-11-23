@@ -34,7 +34,7 @@ public class ConsoleActionChooser implements ActionChooser {
         out.println(statusLine(self));
         out.println(statusLine(opponent));
         out.println();
-        out.println("Que fait " + self.getName() + " ?");
+        out.println("What will " + self.getName() + " do?");
 
         List<OffensiveSkill> skills = self.getOffensiveSkills();
         for (int i = 0; i < skills.size(); i++) {
@@ -44,7 +44,7 @@ public class ConsoleActionChooser implements ActionChooser {
         int defenseOption = skills.size() + 1;
         boolean canDefend = self.getCurrentDefense() != null;
         if (canDefend) {
-            out.println("  " + defenseOption + ". Défendre (" + self.getCurrentDefense().getName() + ")");
+            out.println("  " + defenseOption + ". Defend (" + self.getCurrentDefense().getName() + ")");
         }
 
         int maxOption = canDefend ? defenseOption : skills.size();
@@ -59,12 +59,12 @@ public class ConsoleActionChooser implements ActionChooser {
         return new OffensiveAction(self, target, skill);
     }
 
-    /** Ex. « Paladin du Noyau  71/120 PV  · mental +3  · Burn (2) ». */
+    /** Ex. « Core Paladin  71/120 HP  · mental +3  · Burn (2) ». */
     private static String statusLine(Character c) {
         StringBuilder line = new StringBuilder()
                 .append(c.getName())
                 .append("  ").append(c.getCurrentHP()).append("/")
-                .append(c.getAttributes().getVitality()).append(" PV")
+                .append(c.getAttributes().getVitality()).append(" HP")
                 .append("  · mental ").append(signed(c.getMentalState().getValue()));
 
         for (StatusEffect effect : c.getState().getStatusEffects()) {

@@ -34,14 +34,14 @@ public class DamageResolver {
 
         for (DamageType type : damageTypes) {
             float res = defender.getAttributes().getResistance(type);
-            log.debug(defender.getName() + " : résistance " + type + " × " + res);
+            log.debug(defender.getName() + ": " + type + " resistance × " + res);
             multiplier *= res;
         }
 
         int finalDamage = Math.max(0, Math.round(baseDamage * multiplier));
 
-        log.debug(attacker.getName() + " → " + defender.getName() + " : "
-                + baseDamage + " de base × " + multiplier + " = " + finalDamage);
+        log.debug(attacker.getName() + " → " + defender.getName() + ": "
+                + baseDamage + " base × " + multiplier + " = " + finalDamage);
 
         return finalDamage;
     }

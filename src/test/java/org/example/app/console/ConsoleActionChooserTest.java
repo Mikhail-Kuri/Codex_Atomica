@@ -53,7 +53,7 @@ class ConsoleActionChooserTest {
         Action action = chooser("x\n9\n1\n").choose(paladin, GameData.createEnemy());
 
         assertEquals(paladin.getDefaultOffensiveSkill(), ((OffensiveAction) action).getSkill());
-        assertTrue(printed().contains("invalide"));
+        assertTrue(printed().contains("Invalid choice"));
     }
 
     @Test
