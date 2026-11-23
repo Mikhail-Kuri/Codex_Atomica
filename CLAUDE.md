@@ -3,13 +3,16 @@
 Indie game development managed through 49 coordinated Claude Code subagents.
 Each agent owns a specific domain, enforcing separation of concerns and quality.
 
+> **Codex Atomica — read `docs/PROJECT.md` first.** Compact brief (~1,600 tokens):
+> code map, combat and progression rules as coded, data files, conventions, known gaps.
+
 ## Technology Stack
 
-- **Engine**: [CHOOSE: Web / Godot 4 / Unity / Unreal Engine 5]
-- **Language**: [CHOOSE: TypeScript / GDScript / C# / C++ / Blueprint]
-- **Version Control**: Git with trunk-based development
-- **Build System**: [SPECIFY after choosing engine]
-- **Asset Pipeline**: [SPECIFY after choosing engine]
+- **Engine**: None yet — Java console prototype of the game logic; port to Godot or Unity (C#) planned
+- **Language**: Java 21
+- **Version Control**: Git — `feature/…` and `fix/…` branches merged into `main` with `--no-ff`
+- **Build System**: Maven (`pom.xml`; JUnit 5, Jackson)
+- **Asset Pipeline**: None yet — game data in `src/main/resources/data/*.json`
 
 > **Note**: Engine-specialist agents exist for Godot, Unity, and Unreal with
 > dedicated sub-specialists. Use the set matching your engine.
