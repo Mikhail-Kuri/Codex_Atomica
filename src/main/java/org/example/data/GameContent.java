@@ -8,6 +8,7 @@ import org.example.core.character.Attributes.CharacterProfile;
 import org.example.core.character.Attributes.arsenal.CharacterEquipment;
 import org.example.core.character.Attributes.arsenal.CharacterSkills;
 import org.example.core.character.Character;
+import org.example.progression.StatProfile;
 
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -53,19 +54,32 @@ public class GameContent {
         return fighter(fighterId).name();
     }
 
-    /** Crée un personnage neuf (niveau 1) à partir d'une classe ou d'un type d'ennemi. */
+    /** Crée un personnage neuf de niveau 1 à partir d'une classe ou d'un type d'ennemi. */
     public Character create(String fighterId) {
+        return create(fighterId, 1);
+    }
+
+    /**
+     * Crée un personnage neuf au niveau donné, PV au maximum.
+     * Ses statistiques suivent la croissance de sa classe ou de son type (formule S1).
+     */
+    public Character create(String fighterId, int level) {
         FighterDef def = fighter(fighterId);
 
         List<OffensiveSkill> offensive = def.skills().stream()
                 .map(skills::offensive)
                 .toList();
 
-        return new Character(
+        Character character = new Character(
                 profileOf(fighterId),
                 attributesOf(fighterId),
                 new CharacterEquipment(weapon(def.weapon())),
-                new CharacterSkills(offensive, skills.defensive(def.defense())));
+                new CharacterSkills(offensive, skills.defensive(def.defense())),
+                new StatProfile(def.baseStats(), def.growth()),
+                def.rank());
+
+        character.applyLevel(level);
+        return character;
     }
 
     /** Statistiques de niveau 1, dans un objet neuf à chaque appel. */

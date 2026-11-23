@@ -10,6 +10,10 @@ import org.example.gameplay.combat.Duel;
 import org.example.gameplay.combat.DuelOutcome;
 import org.example.gameplay.combat.TurnManager;
 import org.example.gameplay.log.ConsoleCombatLog;
+import org.example.progression.CombatXp;
+import org.example.progression.LevelCurve;
+import org.example.progression.LevelUp;
+import org.example.progression.Progression;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -58,11 +62,39 @@ public class Main {
                     new TurnManager(new ConsoleCombatLog(out, debug)),
                     MAX_TURNS);
 
+            DuelOutcome outcome = duel.run();
+
             out.println();
-            out.println(announce(duel.run()));
+            out.println(announce(outcome));
+
+            if (outcome == DuelOutcome.PLAYER_WON) {
+                rewardVictory(player, enemy, out);
+            }
         } catch (InputClosedException e) {
             out.println();
             out.println("Game interrupted.");
+        }
+    }
+
+    /** XP de combat (formules X4 et X6), puis montée de niveau éventuelle. */
+    private static void rewardVictory(Character player, Character enemy, PrintStream out) {
+        CombatXp combatXp = new CombatXp(GameData.TUNING);
+        Progression progression = new Progression(GameData.TUNING);
+
+        long xp = combatXp.forDefeating(player.getLevel(), enemy.getLevel(), enemy.getRank());
+        if (xp == 0) {
+            out.println(enemy.getName() + " is too weak for you: no XP.");
+            return;
+        }
+
+        LevelUp levelUp = progression.grantXp(player, xp);
+        out.println("+" + xp + " XP");
+        if (levelUp.levelsGained() > 0) {
+            out.println("⬆ Level up! " + player.getName() + " is now level " + levelUp.toLevel() + ".");
+        }
+        long remaining = progression.xpToNextLevel(player);
+        if (remaining > 0) {
+            out.println(remaining + " XP to level " + (player.getLevel() + 1) + ".");
         }
     }
 
@@ -73,7 +105,13 @@ public class Main {
         for (int i = 0; i < ids.size(); i++) {
             out.println("  " + (i + 1) + ". " + GameData.CONTENT.nameOf(ids.get(i)));
         }
-        return GameData.CONTENT.create(ids.get(input.readChoice(ids.size()) - 1));
+        String id = ids.get(input.readChoice(ids.size()) - 1);
+
+        int maxLevel = new LevelCurve(GameData.TUNING).maxLevel();
+        out.println("Level (1-" + maxLevel + "):");
+        int level = input.readChoice(maxLevel);
+
+        return GameData.CONTENT.create(id, level);
     }
 
     private static String announce(DuelOutcome outcome) {

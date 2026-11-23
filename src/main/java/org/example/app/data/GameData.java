@@ -9,6 +9,7 @@ import org.example.core.character.Attributes.CharacterProfile;
 import org.example.core.character.Character;
 import org.example.data.GameContent;
 import org.example.data.GameContentLoader;
+import org.example.progression.ProgressionTuning;
 
 import java.util.Map;
 
@@ -22,6 +23,9 @@ public class GameData {
 
     /** Tout le contenu du jeu, chargé et vérifié au démarrage. */
     public static final GameContent CONTENT = GameContentLoader.loadDefault();
+
+    /** Réglages de progression (niveaux, XP), lus dans tuning.json. */
+    public static final ProgressionTuning TUNING = GameContentLoader.loadTuning();
 
     // Identifiants dans les fichiers de données
     public static final String PALADIN = "core_paladin";

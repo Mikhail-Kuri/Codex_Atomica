@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.example.progression.ProgressionTuning;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -22,6 +23,7 @@ public final class GameContentLoader {
     static final String ITEMS_FILE = "items.json";
     static final String CLASSES_FILE = "classes.json";
     static final String ENEMIES_FILE = "enemies.json";
+    static final String TUNING_FILE = "tuning.json";
 
     private static final ObjectMapper MAPPER = new ObjectMapper()
             .enable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
@@ -67,6 +69,57 @@ public final class GameContentLoader {
         }
 
         return new GameContent(items, classes, enemies, skills);
+    }
+
+    /** Charge les réglages de progression depuis /data/tuning.json. */
+    public static ProgressionTuning loadTuning() {
+        return tuningFromJson(readResource(TUNING_FILE));
+    }
+
+    /** Lit et vérifie des réglages de progression fournis directement. */
+    public static ProgressionTuning tuningFromJson(String json) {
+        ProgressionTuning t = parse(TUNING_FILE, json, new TypeReference<>() {});
+
+        if (t.levels() == null || t.xp() == null) {
+            throw new DataException(TUNING_FILE, "needs both 'levels' and 'xp'");
+        }
+        ProgressionTuning.Levels levels = t.levels();
+        if (levels.max() < 1) {
+            throw new DataException(TUNING_FILE, "levels.max must be at least 1");
+        }
+        requireCurve("levels.xpCurve", levels.xpCurve());
+        requireCurve("levels.rewardUnit", levels.rewardUnit());
+
+        if (t.xp().enemyRank() == null) {
+            throw new DataException(TUNING_FILE, "xp.enemyRank is missing");
+        }
+        for (EnemyRank rank : EnemyRank.values()) {
+            Double share = t.xp().enemyRank().get(rank);
+            if (share == null || share < 0) {
+                throw new DataException(TUNING_FILE, "xp.enemyRank." + rank + " must be 0 or more");
+            }
+        }
+
+        ProgressionTuning.LevelGap gap = t.xp().levelGap();
+        if (gap == null) {
+            throw new DataException(TUNING_FILE, "xp.levelGap is missing");
+        }
+        if (gap.grayPerLevels() < 1) {
+            throw new DataException(TUNING_FILE, "xp.levelGap.grayPerLevels must be at least 1");
+        }
+        if (gap.minBeforeGray() < 0 || gap.minBeforeGray() > 1 || gap.lossPerLevel() < 0) {
+            throw new DataException(TUNING_FILE, "xp.levelGap loss values must be between 0 and 1");
+        }
+        if (gap.aboveBonus() < 1) {
+            throw new DataException(TUNING_FILE, "xp.levelGap.aboveBonus must be at least 1");
+        }
+        return t;
+    }
+
+    private static void requireCurve(String name, ProgressionTuning.Curve curve) {
+        if (curve == null || curve.base() <= 0 || curve.exponent() <= 0) {
+            throw new DataException(TUNING_FILE, name + " needs a positive base and exponent");
+        }
     }
 
     // ---------------- VALIDATION ----------------

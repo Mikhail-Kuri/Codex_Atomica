@@ -59,10 +59,11 @@ public class ConsoleActionChooser implements ActionChooser {
         return new OffensiveAction(self, target, skill);
     }
 
-    /** Ex. « Core Paladin  71/120 HP  · mental +3  · Burn (2) ». */
+    /** Ex. « Core Paladin (Lv 12)  71/120 HP  · mental +3  · Burn (2) ». */
     private static String statusLine(Character c) {
         StringBuilder line = new StringBuilder()
                 .append(c.getName())
+                .append(" (Lv ").append(c.getLevel()).append(")")
                 .append("  ").append(c.getCurrentHP()).append("/")
                 .append(c.getAttributes().getVitality()).append(" HP")
                 .append("  · mental ").append(signed(c.getMentalState().getValue()));

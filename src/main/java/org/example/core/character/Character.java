@@ -7,8 +7,10 @@ import org.example.Weapons.Weapon;
 import org.example.core.character.Attributes.*;
 import org.example.core.character.Attributes.arsenal.*;
 import org.example.core.character.loggs.CharacterLoggedEvents;
+import org.example.data.EnemyRank;
 import org.example.effects.StatusEffect;
 import org.example.gameplay.mental.MentalState;
+import org.example.progression.StatProfile;
 
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
@@ -22,11 +24,35 @@ public class Character {
     private final CharacterSkills skills;
     private CharacterLoggedEvents loggedEvents;
 
+    /** Base et croissance des stats ; null pour un personnage aux stats fixes (tests). */
+    private final StatProfile statProfile;
+    /** Rang d'ennemi pour l'XP ; null pour un héros. */
+    private final EnemyRank rank;
+    private int level = 1;
+    private long experience = 0;
+
+    /** Personnage aux statistiques fixes, de niveau 1. */
     public Character(
             CharacterProfile profile,
             CharacterAttributes stats,
             CharacterEquipment equipment,
             CharacterSkills skills) {
+        this(profile, stats, equipment, skills, null, null);
+    }
+
+    /**
+     * Personnage dont les statistiques suivent un profil de croissance par niveau.
+     *
+     * @param statProfile base et croissance (null = stats fixes)
+     * @param rank        rang d'ennemi (null pour un héros)
+     */
+    public Character(
+            CharacterProfile profile,
+            CharacterAttributes stats,
+            CharacterEquipment equipment,
+            CharacterSkills skills,
+            StatProfile statProfile,
+            EnemyRank rank) {
 
         this.state = new CharacterState();
         this.profile = profile;
@@ -34,9 +60,55 @@ public class Character {
         this.equipment = equipment;
         this.skills = skills;
         this.loggedEvents = new CharacterLoggedEvents();
+        this.statProfile = statProfile;
+        this.rank = rank;
 
         this.state.init(stats,profile);
 
+    }
+
+    // =====================
+    // LEVEL
+    // =====================
+
+    public int getLevel() {
+        return level;
+    }
+
+    /** XP accumulée vers le niveau suivant. */
+    public long getExperience() {
+        return experience;
+    }
+
+    public void setExperience(long experience) {
+        this.experience = experience;
+    }
+
+    /** Rang d'ennemi pour l'XP ; {@link EnemyRank#NORMAL} si ce n'est pas un ennemi. */
+    public EnemyRank getRank() {
+        return (rank != null) ? rank : EnemyRank.NORMAL;
+    }
+
+    /**
+     * Passe au niveau donné et recalcule les statistiques (formule S1).
+     * Les PV actuels gardent la même proportion des PV max (formule S2).
+     */
+    public void applyLevel(int newLevel) {
+        if (newLevel < 1) {
+            throw new IllegalArgumentException("Level must be at least 1");
+        }
+        int oldMaxHp = stats.getVitality();
+        this.level = newLevel;
+
+        if (statProfile == null) return;
+
+        statProfile.applyTo(stats, newLevel);
+
+        int newMaxHp = stats.getVitality();
+        if (oldMaxHp > 0 && isAlive()) {
+            int hp = Math.round((float) getCurrentHP() * newMaxHp / oldMaxHp);
+            state.setCurrentHP(Math.max(1, Math.min(newMaxHp, hp)));
+        }
     }
 
     // =====================
