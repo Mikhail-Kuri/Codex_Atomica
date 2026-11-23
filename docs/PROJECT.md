@@ -56,3 +56,4 @@ Stats = base + floor(growth×(L−1)); growth = 10% of base per level for all st
 Burn/Bleed damage does not scale with level · Sacrificial Strike too weak (STR only) · `DuelTest.enemyWinsWhenPlayerFalls` sits at its 5-turn limit · skills/status/mental states to move to JSON · not built: equipment (8 slots, item level), quests, enemy Codex (unknown abilities revealed by use; intents only for known ones), clans, per-personality defense effects, style bonus.
 
 Check `git log` and `git branch` for current state; this file does not track it.
+Plan and pending owner decisions: `docs/NEXT_STEPS.md` (read next; update at session end).

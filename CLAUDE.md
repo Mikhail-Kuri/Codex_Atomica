@@ -5,6 +5,8 @@ Each agent owns a specific domain, enforcing separation of concerns and quality.
 
 > **Codex Atomica — read `docs/PROJECT.md` first.** Compact brief (~1,600 tokens):
 > code map, combat and progression rules as coded, data files, conventions, known gaps.
+> Then read `docs/NEXT_STEPS.md` (plan for the session, decisions awaiting the owner)
+> and update it at the end of the session.
 
 ## Technology Stack
 
