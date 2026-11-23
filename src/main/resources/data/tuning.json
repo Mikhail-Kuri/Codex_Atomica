@@ -1,0 +1,27 @@
+{
+  "levels": {
+    "max": 60,
+    "xpCurve": { "base": 100, "exponent": 1.5 },
+    "rewardUnit": { "base": 65, "exponent": 1.1 }
+  },
+  "xp": {
+    "enemyRank": { "NORMAL": 0.05, "ELITE": 0.15, "BOSS": 0.5 },
+    "levelGap": {
+      "grayOffset": 3,
+      "grayPerLevels": 10,
+      "fullRange": 2,
+      "lossPerLevel": 0.20,
+      "minBeforeGray": 0.20,
+      "aboveBonusFrom": 3,
+      "aboveBonus": 1.20
+    }
+  },
+  "combat": {
+    "evade": {
+      "maxShare": 0.80,
+      "luckPerPoint": 0.005,
+      "minChance": 0.05,
+      "maxChance": 0.75
+    }
+  }
+}

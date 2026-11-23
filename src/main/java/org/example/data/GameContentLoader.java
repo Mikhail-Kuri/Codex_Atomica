@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.example.data.GameTuning;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -22,6 +23,7 @@ public final class GameContentLoader {
     static final String ITEMS_FILE = "items.json";
     static final String CLASSES_FILE = "classes.json";
     static final String ENEMIES_FILE = "enemies.json";
+    static final String TUNING_FILE = "tuning.json";
 
     private static final ObjectMapper MAPPER = new ObjectMapper()
             .enable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
@@ -31,12 +33,19 @@ public final class GameContentLoader {
 
     /** Charge les données du jeu depuis le dossier de ressources /data/. */
     public static GameContent loadDefault() {
-        return fromJson(readResource(ITEMS_FILE), readResource(CLASSES_FILE), readResource(ENEMIES_FILE));
+        return fromJson(readResource(ITEMS_FILE), readResource(CLASSES_FILE),
+                readResource(ENEMIES_FILE), loadTuning());
+    }
+
+    /** Charge et vérifie des données fournies directement, avec les réglages du jeu. */
+    public static GameContent fromJson(String itemsJson, String classesJson, String enemiesJson) {
+        return fromJson(itemsJson, classesJson, enemiesJson, loadTuning());
     }
 
     /** Charge et vérifie des données fournies directement (utile pour les tests). */
-    public static GameContent fromJson(String itemsJson, String classesJson, String enemiesJson) {
-        SkillRegistry skills = new SkillRegistry();
+    public static GameContent fromJson(String itemsJson, String classesJson, String enemiesJson,
+                                       GameTuning tuning) {
+        SkillRegistry skills = new SkillRegistry(tuning);
 
         List<ItemDef> itemList = parse(ITEMS_FILE, itemsJson, new TypeReference<>() {});
         List<FighterDef> classList = parse(CLASSES_FILE, classesJson, new TypeReference<>() {});
@@ -67,6 +76,68 @@ public final class GameContentLoader {
         }
 
         return new GameContent(items, classes, enemies, skills);
+    }
+
+    /** Charge les réglages du jeu depuis /data/tuning.json. */
+    public static GameTuning loadTuning() {
+        return tuningFromJson(readResource(TUNING_FILE));
+    }
+
+    /** Lit et vérifie des réglages du jeu fournis directement. */
+    public static GameTuning tuningFromJson(String json) {
+        GameTuning t = parse(TUNING_FILE, json, new TypeReference<>() {});
+
+        if (t.levels() == null || t.xp() == null) {
+            throw new DataException(TUNING_FILE, "needs both 'levels' and 'xp'");
+        }
+        GameTuning.Levels levels = t.levels();
+        if (levels.max() < 1) {
+            throw new DataException(TUNING_FILE, "levels.max must be at least 1");
+        }
+        requireCurve("levels.xpCurve", levels.xpCurve());
+        requireCurve("levels.rewardUnit", levels.rewardUnit());
+
+        if (t.xp().enemyRank() == null) {
+            throw new DataException(TUNING_FILE, "xp.enemyRank is missing");
+        }
+        for (EnemyRank rank : EnemyRank.values()) {
+            Double share = t.xp().enemyRank().get(rank);
+            if (share == null || share < 0) {
+                throw new DataException(TUNING_FILE, "xp.enemyRank." + rank + " must be 0 or more");
+            }
+        }
+
+        GameTuning.LevelGap gap = t.xp().levelGap();
+        if (gap == null) {
+            throw new DataException(TUNING_FILE, "xp.levelGap is missing");
+        }
+        if (gap.grayPerLevels() < 1) {
+            throw new DataException(TUNING_FILE, "xp.levelGap.grayPerLevels must be at least 1");
+        }
+        if (gap.minBeforeGray() < 0 || gap.minBeforeGray() > 1 || gap.lossPerLevel() < 0) {
+            throw new DataException(TUNING_FILE, "xp.levelGap loss values must be between 0 and 1");
+        }
+        if (gap.aboveBonus() < 1) {
+            throw new DataException(TUNING_FILE, "xp.levelGap.aboveBonus must be at least 1");
+        }
+
+        if (t.combat() == null || t.combat().evade() == null) {
+            throw new DataException(TUNING_FILE, "combat.evade is missing");
+        }
+        GameTuning.Evade evade = t.combat().evade();
+        if (evade.maxShare() <= 0 || evade.maxShare() > 1 || evade.luckPerPoint() < 0) {
+            throw new DataException(TUNING_FILE, "combat.evade.maxShare must be in (0, 1] and luckPerPoint 0 or more");
+        }
+        if (evade.minChance() < 0 || evade.minChance() > evade.maxChance() || evade.maxChance() > 1) {
+            throw new DataException(TUNING_FILE, "combat.evade needs 0 <= minChance <= maxChance <= 1");
+        }
+        return t;
+    }
+
+    private static void requireCurve(String name, GameTuning.Curve curve) {
+        if (curve == null || curve.base() <= 0 || curve.exponent() <= 0) {
+            throw new DataException(TUNING_FILE, name + " needs a positive base and exponent");
+        }
     }
 
     // ---------------- VALIDATION ----------------

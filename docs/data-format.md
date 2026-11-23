@@ -209,8 +209,9 @@ Une seule structure pour toutes les compétences, offensives et défensives.
   { "id": "guard", "name": "Guard", "kind": "DEFENSIVE", "target": "SELF", "priority": 100,
     "defense": { "type": "REDUCE_FLAT", "vigorMultiplier": 2.0, "applyIncomingMental": true } },
 
-  { "id": "evade", "name": "Esquive", "kind": "DEFENSIVE", "target": "SELF", "priority": 100,
-    "defense": { "type": "DODGE", "agilityFactor": 4, "luckFactor": 1, "maxChance": 100 } },
+  { "id": "evade", "name": "Evade", "kind": "DEFENSIVE", "target": "SELF", "priority": 100,
+    "defense": { "type": "DODGE_RELATIVE", "maxShare": 0.80, "luckPerPoint": 0.005,
+                 "minChance": 0.05, "maxChance": 0.75 } },
 
   { "id": "counter", "name": "Contre", "kind": "DEFENSIVE", "target": "SELF", "priority": 100,
     "defense": { "type": "COUNTER", "vigorReductionFactor": 0.5,
@@ -218,6 +219,7 @@ Une seule structure pour toutes les compétences, offensives et défensives.
                  "fallbackWeaponPower": 5 } }
 ]
 ```
+- `DODGE_RELATIVE` (Esquive) : `chance = maxShare × Agi défenseur ÷ (Agi défenseur + Agi attaquant) + luckPerPoint × Chance`, bornée entre `minChance` et `maxChance`. Comme les deux Agilités grandissent avec le niveau, la chance reste stable du niveau 1 au niveau 60. En attendant `skills.json`, ces valeurs vivent dans `tuning.json` (`combat.evade`).
 
 **Briques d'effet** (`effects`, utilisables aussi dans les statuts, les objets et les états mentaux) :
 

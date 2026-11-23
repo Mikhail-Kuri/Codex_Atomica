@@ -5,10 +5,13 @@
     "rank": "NORMAL",
     "mentalState": "INSTINCT",
     "baseStats": {
-      "VITALITY": 50, "VIGOR": 0, "AGILITY": 5, "STRENGTH": 5, "INTELLIGENCE": 2,
-      "WILLPOWER": 2, "RESONANCE": 1.0, "LUCK": 3, "MIN_SPEED": 3, "MAX_SPEED": 5
+      "VITALITY": 140, "VIGOR": 3, "AGILITY": 5, "STRENGTH": 5, "INTELLIGENCE": 2,
+      "WILLPOWER": 2, "RESONANCE": 1.1, "LUCK": 3, "MIN_SPEED": 3, "MAX_SPEED": 5
     },
-    "growth": {},
+    "growth": {
+      "VITALITY": 14, "VIGOR": 0.3, "AGILITY": 0.5, "STRENGTH": 0.5, "INTELLIGENCE": 0.2,
+      "WILLPOWER": 0.2, "RESONANCE": 0.11
+    },
     "resistances": { "PHYSICAL": 0.8, "SLASHING": 0.9, "RADIATION": 1.2 },
     "skills": ["attack"],
     "defense": "evade",
@@ -20,10 +23,13 @@
     "rank": "NORMAL",
     "mentalState": "HONOUR",
     "baseStats": {
-      "VITALITY": 30, "VIGOR": 0, "AGILITY": 1, "STRENGTH": 5, "INTELLIGENCE": 1,
-      "WILLPOWER": 1, "RESONANCE": 0.5, "LUCK": 0, "MIN_SPEED": 2, "MAX_SPEED": 5
+      "VITALITY": 60, "VIGOR": 1, "AGILITY": 1, "STRENGTH": 4, "INTELLIGENCE": 1,
+      "WILLPOWER": 1, "RESONANCE": 0.8, "LUCK": 0, "MIN_SPEED": 2, "MAX_SPEED": 5
     },
-    "growth": {},
+    "growth": {
+      "VITALITY": 6, "VIGOR": 0.1, "AGILITY": 0.1, "STRENGTH": 0.4, "INTELLIGENCE": 0.1,
+      "WILLPOWER": 0.1, "RESONANCE": 0.08
+    },
     "resistances": { "PHYSICAL": 1.5, "SLASHING": 1.8, "RADIATION": 2.0 },
     "skills": ["attack"],
     "defense": "evade",
