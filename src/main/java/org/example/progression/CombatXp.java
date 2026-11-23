@@ -1,5 +1,7 @@
 package org.example.progression;
 
+import org.example.data.GameTuning;
+
 import org.example.data.EnemyRank;
 
 /**
@@ -8,23 +10,23 @@ import org.example.data.EnemyRank;
  */
 public class CombatXp {
 
-    private final ProgressionTuning tuning;
+    private final GameTuning tuning;
     private final LevelCurve curve;
 
-    public CombatXp(ProgressionTuning tuning) {
+    public CombatXp(GameTuning tuning) {
         this.tuning = tuning;
         this.curve = new LevelCurve(tuning);
     }
 
     /** Niveau sous lequel un ennemi est « gris » et ne rapporte plus rien. */
     public int grayThreshold(int playerLevel) {
-        ProgressionTuning.LevelGap gap = tuning.xp().levelGap();
+        GameTuning.LevelGap gap = tuning.xp().levelGap();
         return playerLevel - (gap.grayOffset() + playerLevel / gap.grayPerLevels());
     }
 
     /** X4 : multiplicateur selon l'écart entre l'ennemi et le joueur. */
     public double levelGapModifier(int playerLevel, int enemyLevel) {
-        ProgressionTuning.LevelGap gap = tuning.xp().levelGap();
+        GameTuning.LevelGap gap = tuning.xp().levelGap();
 
         if (enemyLevel < grayThreshold(playerLevel)) return 0.0;
 

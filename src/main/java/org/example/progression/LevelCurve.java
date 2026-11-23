@@ -1,11 +1,13 @@
 package org.example.progression;
 
+import org.example.data.GameTuning;
+
 /** Courbes de niveau : XP demandée (X1) et unité de récompense (X2). */
 public class LevelCurve {
 
-    private final ProgressionTuning.Levels levels;
+    private final GameTuning.Levels levels;
 
-    public LevelCurve(ProgressionTuning tuning) {
+    public LevelCurve(GameTuning tuning) {
         this.levels = tuning.levels();
     }
 

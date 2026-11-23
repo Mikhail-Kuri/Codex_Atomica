@@ -1,5 +1,7 @@
 package org.example.progression;
 
+import org.example.data.GameTuning;
+
 import org.example.app.data.GameData;
 import org.example.core.character.Character;
 import org.example.data.GameContent;
@@ -38,7 +40,7 @@ class ProgressionTest {
                 "resistances": {}, "skills": ["attack"], "defense": "guard", "weapon": "blade" } ]
             """;
 
-    private final ProgressionTuning tuning = GameContentLoader.loadTuning();
+    private final GameTuning tuning = GameContentLoader.loadTuning();
     private final LevelCurve curve = new LevelCurve(tuning);
     private final Progression progression = new Progression(tuning);
     private final GameContent content = GameContentLoader.fromJson(ITEMS, CLASSES, "[]");

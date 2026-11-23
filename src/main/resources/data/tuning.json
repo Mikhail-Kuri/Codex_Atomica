@@ -15,5 +15,13 @@
       "aboveBonusFrom": 3,
       "aboveBonus": 1.20
     }
+  },
+  "combat": {
+    "evade": {
+      "maxShare": 0.80,
+      "luckPerPoint": 0.005,
+      "minChance": 0.05,
+      "maxChance": 0.75
+    }
   }
 }

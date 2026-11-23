@@ -1,5 +1,7 @@
 package org.example.progression;
 
+import org.example.data.GameTuning;
+
 import org.example.data.EnemyRank;
 import org.example.data.GameContentLoader;
 import org.junit.jupiter.api.DisplayName;
@@ -13,7 +15,7 @@ class CombatXpTest {
     private static final int PLAYER_LEVEL = 20;
     private static final double EPSILON = 1e-9;
 
-    private final ProgressionTuning tuning = GameContentLoader.loadTuning();
+    private final GameTuning tuning = GameContentLoader.loadTuning();
     private final CombatXp xp = new CombatXp(tuning);
     private final LevelCurve curve = new LevelCurve(tuning);
 

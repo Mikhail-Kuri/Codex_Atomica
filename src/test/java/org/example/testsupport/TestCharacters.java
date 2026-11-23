@@ -1,6 +1,7 @@
 package org.example.testsupport;
 
 import org.example.Skills.DefensiveSkills.DefensiveSkill;
+import org.example.Skills.DefensiveSkills.Evade;
 import org.example.app.data.GameData;
 import org.example.core.character.Attributes.CharacterAttributes;
 import org.example.core.character.Attributes.arsenal.CharacterEquipment;
@@ -16,8 +17,9 @@ public final class TestCharacters {
     /** Assez de PV pour qu'aucun test ne tue le personnage par accident. */
     public static final int TANKY_HP = 1000;
 
-    /** Agilité qui donne 100 % d'esquive (agilité × 4 ≥ 100). */
-    public static final int ALWAYS_DODGE_AGILITY = 25;
+    /** Esquive dont le jet réussit toujours (hasard truqué à 0). */
+    public static final DefensiveSkill ALWAYS_DODGE =
+            new Evade(GameData.TUNING.combat().evade(), new FixedRandom(0.0));
 
     private TestCharacters() {}
 

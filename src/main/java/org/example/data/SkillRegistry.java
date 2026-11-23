@@ -10,6 +10,7 @@ import org.example.Skills.OffensiveSkills.RadiationStrike;
 import org.example.Skills.OffensiveSkills.SelfAttack;
 
 import java.util.Map;
+import java.util.Random;
 import java.util.Set;
 
 /**
@@ -25,11 +26,16 @@ public class SkillRegistry {
             "sacrificial_strike", new SelfAttack()
     );
 
-    private final Map<String, DefensiveSkill> defensive = Map.of(
-            "guard", new Guard(),
-            "evade", new Evade(),
-            "counter", new Counter()
-    );
+    private final Map<String, DefensiveSkill> defensive;
+
+    /** @param tuning réglages des formules de combat (Esquive…) */
+    public SkillRegistry(GameTuning tuning) {
+        this.defensive = Map.of(
+                "guard", new Guard(),
+                "evade", new Evade(tuning.combat().evade(), new Random()),
+                "counter", new Counter()
+        );
+    }
 
     public boolean hasOffensive(String id) {
         return offensive.containsKey(id);

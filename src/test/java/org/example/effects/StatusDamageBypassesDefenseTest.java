@@ -24,7 +24,7 @@ class StatusDamageBypassesDefenseTest {
     @Test
     @DisplayName("Bug : une Esquive pouvait esquiver sa propre brûlure")
     void burnIsNotDodged() {
-        Character dodger = TestCharacters.create(0, TestCharacters.ALWAYS_DODGE_AGILITY, GameData.evade);
+        Character dodger = TestCharacters.create(0, 0, TestCharacters.ALWAYS_DODGE);
         dodger.prepareDefense();
         int hpBefore = dodger.getCurrentHP();
 

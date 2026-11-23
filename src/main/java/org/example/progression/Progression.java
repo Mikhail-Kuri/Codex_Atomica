@@ -1,5 +1,7 @@
 package org.example.progression;
 
+import org.example.data.GameTuning;
+
 import org.example.core.character.Character;
 
 /**
@@ -11,7 +13,7 @@ public class Progression {
 
     private final LevelCurve curve;
 
-    public Progression(ProgressionTuning tuning) {
+    public Progression(GameTuning tuning) {
         this.curve = new LevelCurve(tuning);
     }
 

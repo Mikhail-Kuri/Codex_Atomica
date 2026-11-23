@@ -9,7 +9,7 @@
       "WILLPOWER": 2, "RESONANCE": 1.1, "LUCK": 3, "MIN_SPEED": 3, "MAX_SPEED": 5
     },
     "growth": {
-      "VITALITY": 14, "VIGOR": 0.3, "STRENGTH": 0.5, "INTELLIGENCE": 0.2,
+      "VITALITY": 14, "VIGOR": 0.3, "AGILITY": 0.5, "STRENGTH": 0.5, "INTELLIGENCE": 0.2,
       "WILLPOWER": 0.2, "RESONANCE": 0.11
     },
     "resistances": { "PHYSICAL": 0.8, "SLASHING": 0.9, "RADIATION": 1.2 },
@@ -27,7 +27,7 @@
       "WILLPOWER": 1, "RESONANCE": 0.8, "LUCK": 0, "MIN_SPEED": 2, "MAX_SPEED": 5
     },
     "growth": {
-      "VITALITY": 6, "VIGOR": 0.1, "STRENGTH": 0.4, "INTELLIGENCE": 0.1,
+      "VITALITY": 6, "VIGOR": 0.1, "AGILITY": 0.1, "STRENGTH": 0.4, "INTELLIGENCE": 0.1,
       "WILLPOWER": 0.1, "RESONANCE": 0.08
     },
     "resistances": { "PHYSICAL": 1.5, "SLASHING": 1.8, "RADIATION": 2.0 },

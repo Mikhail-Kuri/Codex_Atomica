@@ -1,14 +1,13 @@
-package org.example.progression;
-
-import org.example.data.EnemyRank;
+package org.example.data;
 
 import java.util.Map;
 
 /**
- * Réglages de progression lus dans tuning.json.
- * Chaque valeur renvoie à une formule de design/gdd/progression.md.
+ * Réglages globaux du jeu, lus dans tuning.json : progression (niveaux, XP)
+ * et formules de combat. Les valeurs de progression renvoient aux formules
+ * de design/gdd/progression.md.
  */
-public record ProgressionTuning(Levels levels, Xp xp) {
+public record GameTuning(Levels levels, Xp xp, Combat combat) {
 
     /** Niveau maximum, courbe d'XP (X1) et unité de récompense (X2). */
     public record Levels(int max, Curve xpCurve, Curve rewardUnit) {}
@@ -41,4 +40,19 @@ public record ProgressionTuning(Levels levels, Xp xp) {
                            double minBeforeGray,
                            int aboveBonusFrom,
                            double aboveBonus) {}
+
+    /** Formules de combat. */
+    public record Combat(Evade evade) {}
+
+    /**
+     * Esquive relative :
+     * {@code chance = maxShare × agiDéfenseur ÷ (agiDéfenseur + agiAttaquant) + luckPerPoint × chance},
+     * bornée entre minChance et maxChance.
+     *
+     * @param maxShare     chance d'esquive quand l'attaquant n'a aucune Agilité (avant bornes)
+     * @param luckPerPoint bonus par point de Chance du défenseur
+     * @param minChance    plancher : on n'est jamais certain de toucher
+     * @param maxChance    plafond : on n'est jamais intouchable
+     */
+    public record Evade(double maxShare, double luckPerPoint, double minChance, double maxChance) {}
 }

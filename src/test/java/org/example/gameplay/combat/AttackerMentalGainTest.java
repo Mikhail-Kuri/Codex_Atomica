@@ -39,7 +39,7 @@ class AttackerMentalGainTest {
     @Test
     @DisplayName("Bug : un coup esquivé rapportait quand même sa ressource à l'attaquant")
     void dodgedHitGivesNoGain() {
-        Character dodger = TestCharacters.create(0, TestCharacters.ALWAYS_DODGE_AGILITY, GameData.evade);
+        Character dodger = TestCharacters.create(0, 0, TestCharacters.ALWAYS_DODGE);
 
         assertEquals(0, gainAgainst(dodger, true));
     }
